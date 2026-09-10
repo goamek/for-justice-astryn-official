@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enemy AI | For Justice: Astryn</title>
+  <meta name="description" content="How enemies think and react in combat in For Justice: Astryn (to be written).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__brand">For Justice: <span>Astryn</span></a>
+      <nav class="nav__links" id="navLinks">
+        <a href="../overview.html">Overview</a>
+        <a href="mechanic-1.html">Combat &amp; Party</a>
+        <a href="mechanic-2.html">Enemy AI</a>
+        <a href="mechanic-3.html">UI/UX</a>
+        <a href="mechanic-4.html">Writing &amp; Story</a>
+        <a href="mechanic-5.html">Character Art</a>
+        <a href="../future-development.html">Future Development</a>
+        <a>Source Code (coming soon)</a>
+        <a href="../contact.html">Contact</a>
+        <a href="https://garrettoamek.itch.io/for-justice-astryn" class="nav__cta" target="_blank" rel="noopener">Play the Demo (coming soon)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="detail-hero">
+      <div class="detail-hero__inner">
+        <a href="index.html" class="detail-hero__back">← Back to Mechanics</a>
+        <p class="detail-hero__kicker">Mechanics Breakdown · 02</p>
+        <h1 class="detail-hero__title">Enemy AI</h1>
+      </div>
+    </section>
+
+    <section class="detail">
+      <div class="detail__inner">
+        <div class="detail__image-row">
+          <img class="detail__image" src="../assets/game/bossfight.png" alt="A boss fight in For Justice: Astryn">
+        </div>
+        <div class="detail__section">
+          <h2>How It Works</h2>
+          <p>
+            Bosses don't run off a fixed script. Every turn, the AI scores its full move list against every valid target and picks from the strongest options rather than following a scripted rotation. It's a utility AI: each move/target pairing is rated across several weighted factors, combined into a single score, and then scaled by that move's accuracy, so a powerful move that's unlikely to land is worth less than a reliable one. This utility system is boss-specific; everything below describes how a boss thinks, not every enemy on the field.
+          </p>
+        </div>
+
+        <div class="detail__section">
+          <h2>Regular Enemies</h2>
+          <p>
+            Boss encounters are the exception, not the rule. Every other enemy skips the scoring above entirely: it picks a uniformly random living party member to attack, with a uniformly random move from its own move list, no threat, health, or type awareness involved. It's a simple, currently placeholder system, marked as such in the code itself for now. The one rule it still shares with the boss AI is Taunt: if a party member is Taunting, targeting is forced onto them the same way it is for a boss.
+          </p>
+        </div>
+
+        <div class="detail__section">
+          <h2>Weighing Its Options</h2>
+          <p>
+            Every turn opens with a weighted coin flip between two move pools: attacking moves (65% weight) and status moves (35% weight), so the boss doesn't only ever swing for damage. If the chosen pool has no valid moves that turn, it falls back to the other one instead of doing nothing.
+          </p>
+          <p>
+            Attacking moves are scored on four factors: Attack Desire (how much damage the move is likely to deal relative to the target's max HP), Threat (how dangerous that target's own stats look next to the boss's remaining HP), Health Desire (a curve that makes the boss lean more cautious the lower its own HP drops), and Defensive Desire (a similar pull toward safer options under pressure). These combine into a weighted score, with Attack Desire counting most, then get scaled by the move's accuracy. Status moves use a lighter model of their own: baseline credit for actually applying a status or hitting the whole field, a bonus if the target isn't already affected by anything, and a bonus if the target is below 35% HP. A stat-resetting move like Haze gets weighted heavily the instant a party member is sitting on a buff, so the boss reliably punishes stacked buffs instead of ignoring them.
+          </p>
+        </div>
+
+        <div class="detail__section">
+          <h2>Learning As It Fights</h2>
+          <p>
+            The boss doesn't start a fight already knowing what a party member is weak or resistant to. It finds out the same way a player would: by landing hits and watching what happens. Every successful damaging attack feeds a per-target, per-type memory of whether that matchup came back weak, resisted, immune, or neutral, and anything unproven is treated as neutral until it's been tested. That memory is scoped to the current fight, so if the boss changes partway through an encounter, its learned matchups reset.
+          </p>
+        </div>
+
+        <div class="detail__section">
+          <h2>Staying Unpredictable</h2>
+          <p>
+            Rather than always taking the single highest-scoring play, the boss ranks its top three move/target combinations and makes a weighted random pick among them, favoring the strongest option without being fully deterministic. There's one hard override to all of it: if a party member is Taunting, the boss is locked into targeting them, regardless of how any other target scores.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="related-mechanics">
+      <div class="related-mechanics__inner">
+        <p class="related-mechanics__kicker">Explore More Mechanics</p>
+        <div class="related-mechanics__grid">
+          <a href="mechanic-1.html">Combat &amp; Party →</a>
+          <a href="mechanic-3.html">UI/UX →</a>
+          <a href="mechanic-4.html">Writing &amp; Story →</a>
+          <a href="mechanic-5.html">Character Art →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__brand">For Justice: <span>Astryn</span></p>
+      <ul class="footer__links">
+        <li><a href="https://garrettoamek.itch.io/for-justice-astryn" target="_blank" rel="noopener">itch.io</a></li>
+        <li><a>Source Code (coming soon)</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+      <p class="footer__copy">&copy; 2026 For Justice: Astryn. Built with Godot.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
