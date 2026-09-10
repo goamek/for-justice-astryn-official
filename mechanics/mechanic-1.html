@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turn-Based Combat &amp; Party System | For Justice: Astryn</title>
+  <meta name="description" content="How turn-based combat and the party system work in For Justice: Astryn (to be written).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__brand">For Justice: <span>Astryn</span></a>
+      <nav class="nav__links" id="navLinks">
+        <a href="../overview.html">Overview</a>
+        <a href="mechanic-1.html">Combat &amp; Party</a>
+        <a href="mechanic-2.html">Enemy AI</a>
+        <a href="mechanic-3.html">UI/UX</a>
+        <a href="mechanic-4.html">Writing &amp; Story</a>
+        <a href="mechanic-5.html">Character Art</a>
+        <a href="../future-development.html">Future Development</a>
+        <a>Source Code (coming soon)</a>
+        <a href="../contact.html">Contact</a>
+        <a href="https://garrettoamek.itch.io/for-justice-astryn" class="nav__cta" target="_blank" rel="noopener">Play the Demo (coming soon)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="detail-hero">
+      <div class="detail-hero__inner">
+        <a href="index.html" class="detail-hero__back">← Back to Mechanics</a>
+        <p class="detail-hero__kicker">Mechanics Breakdown · 01</p>
+        <h1 class="detail-hero__title">Turn-Based Combat &amp; Party System</h1>
+      </div>
+    </section>
+
+    <section class="detail">
+      <div class="detail__inner">
+        <div class="detail__image-row">
+          <img class="detail__image" src="../assets/game/partyimage.png" alt="The party system in For Justice: Astryn">
+          <img class="detail__image" src="../assets/game/statumoveimage.png" alt="Status move UI in turn-based combat in For Justice: Astryn">
+        </div>
+        <div class="detail__section">
+          <h2>How It Works</h2>
+          <p>
+            Combat is built on the turn-based fundamentals players already know: speed-ordered turns, physical and magic move categories, accuracy and evasion, stat buffs and debuffs, and critical hits. That familiar foundation is what makes the party's signature system land: a coating-and-proc mechanic layered on top to make the party feel connected. One move applies a coating status effect to a target, and a different move (often from a different party member) procs that coating for a bonus payoff.
+          </p>
+          <p>
+            Downpour drenches every combatant on the field in a water coating, and a follow-up Ice-type move like Crystal Needle procs that coating into a full Freeze. The same pattern applies to oil coatings, where a Fire-type move ignites the coating for bonus damage. Building a party is as much about pairing setup moves with the right follow-ups as it is about raw stats.
+          </p>
+        </div>
+
+        <div class="detail__section">
+          <h2>Combat Precision</h2>
+          <p>
+            Stat buffs and debuffs run on stages from -4 to +4, and each stage isn't a flat percentage: the effective multiplier ranges from 0.4x at -4 up to 2.5x at +4 on a curve, so stacking stages further keeps mattering rather than flattening out. Critical hits deal 1.5x damage and also ignore the attacker's own negative attack stage and the defender's positive defense stage, so a crit reliably punches through a stat-debuffed attacker or a buffed-up defender. A move that shares a type with its user gets a same-type attack bonus of 1.5x, and every hit rolls a flat 0.85 to 1.0 damage variance on top of all of that. Provoke is a double-edged status: it boosts damage dealt by 50% and damage taken by 50% at the same time.
+          </p>
+          <p>
+            Mana is party-only. Enemies don't use it at all, and physical moves are always free for everyone; only magic and status moves cost MP. If a party member can't afford anything in their move set, combat force-picks a free move for them with the message "is out of mana and acts on instinct!" rather than letting them stall. Downed party members can be brought back by a revive move, but a defeated enemy is gone for the rest of the fight.
+          </p>
+        </div>
+
+        <div class="detail__section">
+          <h2>Type Matchups</h2>
+          <p>
+            Every move and character has a type. Read across a row to see what that type takes extra or reduced damage from (defense); read down a column to see what that type deals extra or reduced damage to (offense).
+          </p>
+          <div class="type-chart-wrap">
+            <table class="type-chart">
+              <thead>
+                <tr>
+                  <th scope="col">Defender \ Attacker</th>
+                  <th scope="col">Basic</th>
+                  <th scope="col">Fire</th>
+                  <th scope="col">Water</th>
+                  <th scope="col">Plant</th>
+                  <th scope="col">Earth</th>
+                  <th scope="col">Dark</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Basic</th>
+                  <td data-mult="1">1×</td>
+                  <td data-mult="1">1×</td>
+                  <td data-mult="1">1×</td>
+                  <td data-mult="1">1×</td>
+                  <td data-mult="2">2×</td>
+                  <td data-mult="0.25">0.25×</td>
+                </tr>
+                <tr>
+                  <th scope="row">Fire</th>
+                  <td data-mult="1">1×</td>
+                  <td data-mult="1">1×</td>
+                  <td data-mult="2">2×</td>
+                  <td data-mult="0.5">0.5×</td>
+                  <td data-mult="2">2×</td>
+                  <td data-mult="2">2×</td>
+                </tr>
+                <tr>
+                  <th scope="row">Water</th>
+                  <td data-mult="1">1×</td>
+                  <td data-mult="0.5">0.5×</td>
+                  <td data-mult="1">1×</td>
+                  <td data-mult="2">2×</td>
+                  <td data-mult="0.5">0.5×</td>
+                  <td data-mult="2">2×</td>
+                </tr>
+                <tr>
+                  <th scope="row">Plant</th>
+                  <td data-mult="1">1×</td>
+                  <td data-mult="2">2×</td>
+                  <td data-mult="0.5">0.5×</td>
+                  <td data-mult="1">1×</td>
+                  <td data-mult="0.5">0.5×</td>
+                  <td data-mult="2">2×</td>
+                </tr>
+                <tr>
+                  <th scope="row">Earth</th>
+                  <td data-mult="0.5">0.5×</td>
+                  <td data-mult="2">2×</td>
+                  <td data-mult="0.5">0.5×</td>
+                  <td data-mult="0.5">0.5×</td>
+                  <td data-mult="1">1×</td>
+                  <td data-mult="1">1×</td>
+                </tr>
+                <tr>
+                  <th scope="row">Dark</th>
+                  <td data-mult="2">2×</td>
+                  <td data-mult="1">1×</td>
+                  <td data-mult="0.5">0.5×</td>
+                  <td data-mult="0.5">0.5×</td>
+                  <td data-mult="1">1×</td>
+                  <td data-mult="1">1×</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="type-chart__legend">
+            <span><i class="swatch--weak"></i> 2×: super effective / weak to</span>
+            <span><i class="swatch--resist"></i> 0.5×: resisted</span>
+            <span><i class="swatch--immune"></i> 0.25×: heavily resisted</span>
+            <span><i class="swatch--neutral"></i> 1×: neutral</span>
+          </div>
+        </div>
+
+        <div class="detail__section">
+          <h2>Typings</h2>
+          <p>
+            Six primary types anchor the matchup chart above.
+          </p>
+          <div class="type-list">
+            <span class="type-chip">Basic</span>
+            <span class="type-chip">Fire</span>
+            <span class="type-chip">Water</span>
+            <span class="type-chip">Plant</span>
+            <span class="type-chip">Earth</span>
+            <span class="type-chip">Dark</span>
+          </div>
+          <p>
+            A handful of subtypes add flavor and move variety, but each one resolves to a parent primary type for damage calculations:
+          </p>
+          <ul class="subtype-list">
+            <li><strong>Ice</strong> → Water</li>
+            <li><strong>Electric</strong> → Fire</li>
+            <li><strong>Leaf</strong> → Plant</li>
+            <li><strong>Wood</strong> → Plant</li>
+            <li><strong>Rock</strong> → Earth</li>
+            <li><strong>Ground</strong> → Earth</li>
+            <li><strong>Poison</strong> → Dark</li>
+            <li><strong>Psychic</strong> → Dark</li>
+          </ul>
+        </div>
+
+        <div class="detail__section">
+          <h2>Status Conditions</h2>
+          <dl class="status-list">
+            <div class="status-list__item">
+              <dt>Paralyze</dt>
+              <dd>Halves the paralyzed character's physical attack power, and halves their evasion.</dd>
+            </div>
+            <div class="status-list__item">
+              <dt>Freeze</dt>
+              <dd>Locks the target out of acting at their next turn, and halves their evasion while frozen.</dd>
+            </div>
+            <div class="status-list__item">
+              <dt>Poison</dt>
+              <dd>Deals damage at the start of the target's turn, scaled by the inflicting character's magic power against the target's magic defense.</dd>
+            </div>
+            <div class="status-list__item">
+              <dt>Burn</dt>
+              <dd>Deals damage at the start of the target's turn, using the same scaling as Poison.</dd>
+            </div>
+            <div class="status-list__item">
+              <dt>Provoke</dt>
+              <dd>Increases damage dealt by the provoked character by 50%, and increases damage they take by 50%.</dd>
+            </div>
+            <div class="status-list__item">
+              <dt>Taunt</dt>
+              <dd>Forces the opposing side's offensive moves to target the taunting combatant.</dd>
+            </div>
+            <div class="status-list__item">
+              <dt>Oil Coating</dt>
+              <dd>Fire-type moves against a coated target deal 1.5x damage and ignite the coating away.</dd>
+            </div>
+            <div class="status-list__item">
+              <dt>Water Coating</dt>
+              <dd>Ice-type moves against a coated target trigger Freeze, consuming the coating.</dd>
+            </div>
+            <div class="status-list__item">
+              <dt>Tar Coating</dt>
+              <dd>Halves the coated combatant's effective speed for turn order.</dd>
+            </div>
+            <div class="status-list__item">
+              <dt>Rooted Coating</dt>
+              <dd>Halves the coated combatant's effective speed for turn order.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="related-mechanics">
+      <div class="related-mechanics__inner">
+        <p class="related-mechanics__kicker">Explore More Mechanics</p>
+        <div class="related-mechanics__grid">
+          <a href="mechanic-2.html">Enemy AI →</a>
+          <a href="mechanic-3.html">UI/UX →</a>
+          <a href="mechanic-4.html">Writing &amp; Story →</a>
+          <a href="mechanic-5.html">Character Art →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__brand">For Justice: <span>Astryn</span></p>
+      <ul class="footer__links">
+        <li><a href="https://garrettoamek.itch.io/for-justice-astryn" target="_blank" rel="noopener">itch.io</a></li>
+        <li><a>Source Code (coming soon)</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+      <p class="footer__copy">&copy; 2026 For Justice: Astryn. Built with Godot.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
