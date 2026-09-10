@@ -1,0 +1,36 @@
+[gd_scene load_steps=9 format=3 uid="uid://bcbdf010qliqr"]
+
+[ext_resource type="ArrayMesh" uid="uid://n1oe0kwkr54s" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Objects/SM_Stairs_01.obj" id="1_ler43"]
+[ext_resource type="Texture2D" uid="uid://dqttgldpug05g" path="res://assets/textures/town/T_RPGTown_Defuse.png" id="2_i5t08"]
+[ext_resource type="Texture2D" uid="uid://bkdpb4xuoxhhv" path="res://assets/textures/town/T_RPGTown_Emissive.png" id="3_uww8x"]
+[ext_resource type="Texture2D" uid="uid://bsmh5i8aux5c5" path="res://assets/textures/town/T_RPGTown_Metallic.png" id="4_ix7be"]
+[ext_resource type="Texture2D" uid="uid://c08m5woy0g7cc" path="res://assets/textures/town/T_RPGTown_Normal.png" id="5_t44ov"]
+[ext_resource type="Texture2D" uid="uid://h1dj5fgduexd" path="res://assets/textures/town/T_RPGTown_Roughness.png" id="6_h1ntn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xf7om"]
+transparency = 1
+albedo_texture = ExtResource("2_i5t08")
+metallic = 1.0
+metallic_texture = ExtResource("4_ix7be")
+roughness_texture = ExtResource("6_h1ntn")
+emission_enabled = true
+emission_texture = ExtResource("3_uww8x")
+normal_enabled = true
+normal_texture = ExtResource("5_t44ov")
+texture_filter = 0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ler43"]
+points = PackedVector3Array(-0.5, 0, 1, 0.5, 0, 1, -0.5, 0, -1, 0.5, 0, -1, -0.5, 1, -1, 0.5, 1, -1)
+
+[node name="Stairs" type="Node3D"]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_ler43")
+surface_material_override/0 = SubResource("StandardMaterial3D_xf7om")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.499, 0.1, -1.001)
+shape = SubResource("ConvexPolygonShape3D_ler43")

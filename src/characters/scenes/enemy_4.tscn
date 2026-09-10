@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://3x0k7x6hsn0d"]
+
+[ext_resource type="PackedScene" uid="uid://c6kg6xuvysxig" path="res://src/characters/scenes/bases/enemy.tscn" id="1_1qq4d"]
+[ext_resource type="Resource" uid="uid://dyjnox7agwmje" path="res://src/characters/resources/boss_character_data.tres" id="2_nbi4o"]
+[ext_resource type="Texture2D" uid="uid://bthast6k1qrfd" path="res://icon.svg" id="3_ugchk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wv31n"]
+atlas = ExtResource("3_ugchk")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wv31n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wv31n")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="CharacterBody3D" instance=ExtResource("1_1qq4d")]
+transform = Transform3D(-5, 0, -7.54979e-07, 0, 5, 0, 7.54979e-07, 0, -5, 0, 0, 0)
+data = ExtResource("2_nbi4o")
+
+[node name="AnimatedSprite3D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_wv31n")

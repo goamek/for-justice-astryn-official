@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://dwrh1vo3w3j4p"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_caut"]
+
+[resource]
+script = ExtResource("1_caut")
+move_name = "Cauterize"
+description = "Searing heat cauterizes wounds, healing the user and burning away poison or burn."
+damage = 0
+category = 2
+mana_cost = 3
+crit_chance = 0
+typing = 1
+heal_fraction_of_max_hp = 0.5
+cures_statuses = Array[int]([3, 4])
+ally_target_only = true
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

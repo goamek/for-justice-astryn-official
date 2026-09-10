@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://v2ga06hbi78b"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_aqua"]
+
+[resource]
+script = ExtResource("1_aqua")
+move_name = "Aqua Blast"
+description = "A surging blast of pressurized water slams into the target."
+damage = 8
+category = 1
+mana_cost = 2
+typing = 2
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

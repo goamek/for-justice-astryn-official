@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8f2h5j3n7q1w"]
+
+[ext_resource type="ArrayMesh" uid="uid://dmj45surx4rg4" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Houses/SM_House_03.obj" id="1_h3obj"]
+[ext_resource type="Material" uid="uid://bjxujckeqyxdd" path="res://src/environment/materials/m_env_pack.tres" id="2_h3mat"]
+
+[node name="House3" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_h3obj")
+surface_material_override/0 = ExtResource("2_h3mat")

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://ca4jv0q2tcxlg"]
+
+[ext_resource type="Script" uid="uid://d1t2nnnqk0vrk" path="res://src/level/scripts/main.gd" id="1_jah86"]
+[ext_resource type="PackedScene" uid="uid://oavt1yibrwlw" path="res://src/autoload/scene_transition.tscn" id="2_5otrc"]
+
+[node name="Main Node" type="Node"]
+script = ExtResource("1_jah86")
+
+[node name="World_State_Data" type="Node" parent="."]
+
+[node name="Current_Scene_Container" type="Node" parent="."]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="UI"]
+
+[node name="SceneSwitchTransistion" parent="." instance=ExtResource("2_5otrc")]

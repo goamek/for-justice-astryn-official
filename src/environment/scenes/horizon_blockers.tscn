@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://djerdx3vgn241"]
+
+[ext_resource type="ArrayMesh" uid="uid://ckpqn7yiobbcw" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Houses/SM_House_01.obj" id="1_3m7hh"]
+[ext_resource type="ArrayMesh" uid="uid://cblvr81wbpmjp" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Houses/SM_House_02.obj" id="2_hknsr"]
+[ext_resource type="ArrayMesh" uid="uid://bb232w68h0tl" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Houses/SM_House_05.obj" id="3_bk4dc"]
+[ext_resource type="Material" uid="uid://bjxujckeqyxdd" path="res://src/environment/materials/m_env_pack.tres" id="4_6a4w3"]
+
+[node name="HorizonBlockers" type="Node3D"]
+
+[node name="SkylineHouseA" type="MeshInstance3D" parent="."]
+transform = Transform3D(28, 0, 0, 0, 28, 0, 0, 0, 28, -220, 0, -320)
+mesh = ExtResource("1_3m7hh")
+surface_material_override/0 = ExtResource("4_6a4w3")
+
+[node name="SkylineHouseB" type="MeshInstance3D" parent="."]
+transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, -350)
+mesh = ExtResource("2_hknsr")
+surface_material_override/0 = ExtResource("4_6a4w3")
+
+[node name="SkylineHouseC" type="MeshInstance3D" parent="."]
+transform = Transform3D(26, 0, 0, 0, 26, 0, 0, 0, 26, 240, 0, -380)
+mesh = ExtResource("3_bk4dc")
+surface_material_override/0 = ExtResource("4_6a4w3")

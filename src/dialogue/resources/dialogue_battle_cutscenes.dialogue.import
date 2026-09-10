@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://c8vejea3d68v3"
+path="res://.godot/imported/dialogue_battle_cutscenes.dialogue-33a77ffaac90a488e715037224331854.tres"
+
+[deps]
+
+source_file="res://src/dialogue/resources/dialogue_battle_cutscenes.dialogue"
+dest_files=["res://.godot/imported/dialogue_battle_cutscenes.dialogue-33a77ffaac90a488e715037224331854.tres"]
+
+[params]
+
+defaults=true

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=4 format=3 uid="uid://vqo5i1nv7u71"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_pspit"]
+[ext_resource type="Script" uid="uid://kebvbd4pmfs6" path="res://src/battle/scripts/StatusEffect.gd" id="2_pspit"]
+
+[sub_resource type="Resource" id="Resource_pspit"]
+script = ExtResource("2_pspit")
+effect_name = "poison"
+effect_name_past = "poisoned"
+type = 3
+base_tick_damage = 2.0
+metadata/_custom_type_script = "uid://kebvbd4pmfs6"
+
+[resource]
+script = ExtResource("1_pspit")
+move_name = "Poison Spit"
+description = "Vorkoth hocks a gob of corrosive venom that festers in the wound."
+damage = 0
+category = 2
+crit_chance = 0
+typing = 12
+status_to_inflict = SubResource("Resource_pspit")
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

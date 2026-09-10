@@ -1,0 +1,61 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Texture2D" uid="uid://bthast6k1qrfd" path="res://icon.svg" id="1_icon"]
+[ext_resource type="Script" uid="uid://cldkjmaxgdbvu" path="res://src/characters/scripts/PartyMember.gd" id="2_pmscr"]
+[ext_resource type="Script" path="res://src/characters/scripts/HealthComponent.gd" id="3_hlthc"]
+[ext_resource type="PackedScene" uid="uid://ndfj4s23ilpg" path="res://src/interaction/scenes/interaction_area.tscn" id="4_intar"]
+[ext_resource type="Script" path="res://src/characters/scripts/ManaComponent.gd" id="5_manac"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmtpl"]
+atlas = ExtResource("1_icon")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pmtpl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pmtpl")
+}],
+"loop": true,
+"name": &"Down Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pmtpl"]
+radius = 5.5
+height = 19.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pmtpl"]
+radius = 15.0
+
+[node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("animated_sprite")]
+script = ExtResource("2_pmscr")
+animated_sprite = NodePath("AnimatedSprite3D")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+billboard = 1
+shaded = true
+alpha_cut = 1
+texture_filter = 0
+render_priority = 1
+sprite_frames = SubResource("SpriteFrames_pmtpl")
+animation = &"Down Idle"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_pmtpl")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_hlthc")
+
+[node name="ManaComponent" type="Node" parent="."]
+script = ExtResource("5_manac")
+
+[node name="HeadMarker" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.5, 0)
+
+[node name="InteractionArea" parent="." instance=ExtResource("4_intar")]
+action_name = "talk"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("SphereShape3D_pmtpl")

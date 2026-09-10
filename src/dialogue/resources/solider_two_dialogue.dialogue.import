@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://bbdfwkrj8lwkj"
+path="res://.godot/imported/solider_two_dialogue.dialogue-0ff9e9b888fce265fde8626ed35bc67f.tres"
+
+[deps]
+
+source_file="res://src/dialogue/resources/solider_two_dialogue.dialogue"
+dest_files=["res://.godot/imported/solider_two_dialogue.dialogue-0ff9e9b888fce265fde8626ed35bc67f.tres"]
+
+[params]
+
+defaults=true

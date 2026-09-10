@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://ctewvyp5thtue"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_flash"]
+
+[resource]
+script = ExtResource("1_flash")
+move_name = "Flash Step"
+description = "A burst of speed that makes the user harder to pin down."
+damage = 0
+category = 2
+mana_cost = 2
+crit_chance = 0
+stat_to_change = 6
+stat_change_amount = 1
+self_target_only = true
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

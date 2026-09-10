@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=7 format=3 uid="uid://t1efbxgiustj"]
+
+[ext_resource type="Script" uid="uid://dsmaiuwygo1ku" path="res://src/characters/scripts/CharacterData.gd" id="1_astryn"]
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="2_astryn"]
+[ext_resource type="Resource" uid="uid://bbggj2l7uidny" path="res://src/battle/moves/resources/move_SwiftSlash.tres" id="3_swift"]
+[ext_resource type="Resource" uid="uid://b6nqmwdc22pbl" path="res://src/battle/moves/resources/move_DeadCalm.tres" id="4_calm"]
+[ext_resource type="Resource" uid="uid://tv30k6i46sk0" path="res://src/battle/moves/resources/move_ParaStrike.tres" id="5_para"]
+[ext_resource type="Resource" uid="uid://ctewvyp5thtue" path="res://src/battle/moves/resources/move_FlashStep.tres" id="6_flash"]
+
+[resource]
+script = ExtResource("1_astryn")
+character_name = "Astryn"
+base_max_hp = 60
+base_max_mp = 40
+base_physical_attack = 20
+base_speed = 20
+moves = Array[ExtResource("2_astryn")]([ExtResource("3_swift"), ExtResource("4_calm"), ExtResource("5_para"), ExtResource("6_flash")])
+metadata/_custom_type_script = "uid://dsmaiuwygo1ku"

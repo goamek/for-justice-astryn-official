@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://dc4gni36wstp2"
+path="res://.godot/imported/npc_black_red_dialogue.dialogue-cac8c84ab9d83a802e98fd6a7b06e315.tres"
+
+[deps]
+
+source_file="res://src/dialogue/resources/npc_black_red_dialogue.dialogue"
+dest_files=["res://.godot/imported/npc_black_red_dialogue.dialogue-cac8c84ab9d83a802e98fd6a7b06e315.tres"]
+
+[params]
+
+defaults=true

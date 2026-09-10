@@ -1,0 +1,18 @@
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://bjxujckeqyxdd"]
+
+[ext_resource type="Texture2D" uid="uid://dqttgldpug05g" path="res://assets/textures/town/T_RPGTown_Defuse.png" id="1_mypn5"]
+[ext_resource type="Texture2D" uid="uid://bkdpb4xuoxhhv" path="res://assets/textures/town/T_RPGTown_Emissive.png" id="2_whaby"]
+[ext_resource type="Texture2D" uid="uid://bsmh5i8aux5c5" path="res://assets/textures/town/T_RPGTown_Metallic.png" id="3_ukvax"]
+[ext_resource type="Texture2D" uid="uid://c08m5woy0g7cc" path="res://assets/textures/town/T_RPGTown_Normal.png" id="4_oexqn"]
+[ext_resource type="Texture2D" uid="uid://h1dj5fgduexd" path="res://assets/textures/town/T_RPGTown_Roughness.png" id="5_81v2q"]
+
+[resource]
+albedo_texture = ExtResource("1_mypn5")
+metallic = 1.0
+metallic_texture = ExtResource("3_ukvax")
+roughness_texture = ExtResource("5_81v2q")
+emission_enabled = true
+emission_texture = ExtResource("2_whaby")
+normal_enabled = true
+normal_texture = ExtResource("4_oexqn")
+texture_filter = 0

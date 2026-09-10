@@ -1,0 +1,26 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="ArrayMesh" uid="uid://cis8ex77lyra0" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Objects/SM_BlackSmith_ShopSign_01.obj" id="1_sign"]
+[ext_resource type="Texture2D" uid="uid://dqttgldpug05g" path="res://assets/textures/town/T_RPGTown_Defuse.png" id="2_sign"]
+[ext_resource type="Texture2D" uid="uid://bkdpb4xuoxhhv" path="res://assets/textures/town/T_RPGTown_Emissive.png" id="3_sign"]
+[ext_resource type="Texture2D" uid="uid://bsmh5i8aux5c5" path="res://assets/textures/town/T_RPGTown_Metallic.png" id="4_sign"]
+[ext_resource type="Texture2D" uid="uid://c08m5woy0g7cc" path="res://assets/textures/town/T_RPGTown_Normal.png" id="5_sign"]
+[ext_resource type="Texture2D" uid="uid://h1dj5fgduexd" path="res://assets/textures/town/T_RPGTown_Roughness.png" id="6_sign"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sign"]
+transparency = 1
+albedo_texture = ExtResource("2_sign")
+metallic = 1.0
+metallic_texture = ExtResource("4_sign")
+roughness_texture = ExtResource("6_sign")
+emission_enabled = true
+emission_texture = ExtResource("3_sign")
+normal_enabled = true
+normal_texture = ExtResource("5_sign")
+texture_filter = 0
+
+[node name="StoreSign" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_sign")
+surface_material_override/0 = SubResource("StandardMaterial3D_sign")

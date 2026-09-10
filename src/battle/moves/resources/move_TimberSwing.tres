@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://iibpue0aoaw6"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_timb"]
+
+[resource]
+script = ExtResource("1_timb")
+move_name = "Timber Swing"
+description = "A heavy swing of timber that crashes down on the target."
+damage = 8
+typing = 3
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

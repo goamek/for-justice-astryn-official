@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfq2f5w7xyqtd"]
+
+[ext_resource type="Script" uid="uid://0n0avecdrxmm" path="res://src/level/scripts/scene_loader.gd" id="1_2eysc"]
+[ext_resource type="PackedScene" uid="uid://ndfj4s23ilpg" path="res://src/interaction/interaction_area.tscn" id="1_jq8ib"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2eysc"]
+
+[node name="Sprite3D" type="Sprite3D"]
+script = ExtResource("1_2eysc")
+
+[node name="SceneLoader" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SceneLoader"]
+shape = SubResource("BoxShape3D_2eysc")
+
+[node name="InteractionArea" parent="SceneLoader/CollisionShape3D" instance=ExtResource("1_jq8ib")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SceneLoader/CollisionShape3D/InteractionArea"]
+shape = SubResource("BoxShape3D_2eysc")

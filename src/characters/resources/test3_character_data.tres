@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=7 format=3 uid="uid://cdpoydb8ok2x8"]
+
+[ext_resource type="Script" uid="uid://dsmaiuwygo1ku" path="res://src/characters/scripts/CharacterData.gd" id="1_spero"]
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="2_spero"]
+[ext_resource type="Resource" uid="uid://v2ga06hbi78b" path="res://src/battle/moves/resources/move_AquaBlast.tres" id="3_aqua"]
+[ext_resource type="Resource" uid="uid://dq320hlcr1uox" path="res://src/battle/moves/resources/move_Primer.tres" id="4_prmr"]
+[ext_resource type="Resource" uid="uid://d0un0qclgc8qt" path="res://src/battle/moves/resources/move_Downpour.tres" id="5_down"]
+[ext_resource type="Resource" uid="uid://chr5lujujaiy2" path="res://src/battle/moves/resources/move_Revive.tres" id="6_revive"]
+
+[resource]
+script = ExtResource("1_spero")
+character_name = "Spero"
+base_max_hp = 60
+base_max_mp = 80
+base_magic_attack = 20
+moves = Array[ExtResource("2_spero")]([ExtResource("3_aqua"), ExtResource("4_prmr"), ExtResource("5_down"), ExtResource("6_revive")])
+typing = Array[int]([2])
+metadata/_custom_type_script = "uid://dsmaiuwygo1ku"

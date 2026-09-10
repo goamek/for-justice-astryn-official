@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="ArrayMesh" uid="uid://c5gi8j8unf0xj" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Modular_Tile_Models/SM_ModularWall_05.obj" id="1_wall"]
+[ext_resource type="Material" uid="uid://bbkmcijprxegj" path="res://src/environment/materials/GOODGOODGOODMATERIALOVERRIDE.tres" id="2_wall"]
+
+[node name="Wall" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_wall")
+surface_material_override/0 = ExtResource("2_wall")

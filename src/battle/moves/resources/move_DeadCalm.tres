@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://b6nqmwdc22pbl"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_calm"]
+
+[resource]
+script = ExtResource("1_calm")
+move_name = "Dead Calm"
+description = "The user steadies their breathing, sharpening both their attack and reflexes."
+damage = 0
+category = 2
+mana_cost = 2
+crit_chance = 0
+typing = 2
+stat_to_change = 1
+stat_change_amount = 1
+stat_to_change_2 = 7
+stat_change_amount_2 = 1
+self_target_only = true
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

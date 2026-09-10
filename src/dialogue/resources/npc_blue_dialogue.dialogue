@@ -1,0 +1,14 @@
+~ start
+npcblue: (pacing outside the distributor's storefront, counting coins in hand)
+astryn: You alright?
+npcblue: Hm? Oh. Fine, fine. Just doing math I already know the answer to.
+astryn: What do you mean?
+npcblue: My boy's got the shaking sickness. Medicine's right there behind that counter. Price went up again last week.
+npcblue: Third time this year.
+astryn: ...That's Vorkoth's doing.
+npcblue: Everything here's Vorkoth's doing.
+if QuestManager.talked_to_team["Novius"] == true:
+	Astryn: (Novius said something like this happens all over. Guess now I'm seeing it firsthand.)
+astryn: We're gonna do something about him. Tonight.
+npcblue: (quiet, almost afraid to hope) ...Yeah? Well. Good luck to you, then.
+=> END

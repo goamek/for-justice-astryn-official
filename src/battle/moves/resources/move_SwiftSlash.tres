@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://bbggj2l7uidny"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_swft"]
+
+[resource]
+script = ExtResource("1_swft")
+move_name = "Swift Slash"
+description = "A blindingly fast slash thrown before the target can react."
+damage = 8
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

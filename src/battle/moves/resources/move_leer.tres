@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://ouiky15wvhcp"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_u745y"]
+
+[resource]
+script = ExtResource("1_u745y")
+move_name = "Leer"
+description = "An intimidating glare that rattles the target's nerve, lowering their defense."
+damage = 0
+category = 2
+crit_chance = 0
+stat_to_change = 3
+stat_change_amount = -1
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

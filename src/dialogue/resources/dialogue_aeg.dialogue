@@ -1,0 +1,22 @@
+~ start
+if QuestManager.talked_to_team["Aegrandir"] == true:
+	Aegrandir: Stay safe, star.
+	=> END
+aegrandir: Hey, star. How are you holding up?
+astryn: I’m alright, Aeg. How are you doing?
+aegrandir: Great, great. Haven’t set foot in this province in a long age. Nice to see the townfolk still trucking along, even under a shadow like this.
+astryn: You learn anything new about Vorkoth and his circle?
+aegrandir: Indeed… word is they’ve held power here just shy of five years now. Started off as a savior to these people—must’ve put on a great facade.
+aegrandir: But after a year, the mask slipped. He started pressuring businesses into giving him a cut of their profits. Pay up, or get forced out of the city or into bankruptcy. With no other choice, they had to agree.
+astryn: Fucking jackass, I hate his brand of people.
+aegrandir: Well, it doesn’t stop at extortion; he also imposed steep tariffs on all imported goods. The lifeblood of this city comes from the outer lands—they can’t harvest or grow anything in this soil.
+astryn: So the pig is just hoarding wealth while the city starves.
+aegrandir: ... if we can take him down, hopefully the townspeople can recover; they’ve got it pretty bad right now, Astryn. Truly.
+astryn: ... any info about our duel?
+aegrandir: Yes. Don’t expect him to show up alone. He’ll try to outnumber us.
+astryn: With an ego that fat? No shot he brings more than we got. It'd ruin his rep.
+aegrandir: True, true. We’ll prep for him and a trio of guards, then.
+astryn: Good deal. Thanks, Aeg.
+aegrandir: Stay safe, star.
+do QuestManager.mark_as_talked_to("Aegrandir")
+=> END

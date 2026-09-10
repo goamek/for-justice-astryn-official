@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://co45nbclbcr82"]
+
+[ext_resource type="ArrayMesh" uid="uid://d1nqtnjx67p5k" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Modular_Tile_Models/SM_ModularTile_FloorLrg_01.obj" id="1_1ncdu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bwph8"]
+size = Vector3(1000, 0.1, 1000)
+
+[node name="Frfloor" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+mesh = ExtResource("1_1ncdu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_bwph8")

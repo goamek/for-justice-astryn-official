@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=4 format=3 uid="uid://c08i7048a7xwl"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_5eog1"]
+[ext_resource type="Script" uid="uid://kebvbd4pmfs6" path="res://src/battle/scripts/StatusEffect.gd" id="2_8t665"]
+
+[sub_resource type="Resource" id="Resource_n8pca"]
+script = ExtResource("2_8t665")
+effect_name = "water coating"
+effect_name_past = "coated in water"
+type = 8
+metadata/_custom_type_script = "uid://kebvbd4pmfs6"
+
+[resource]
+script = ExtResource("1_5eog1")
+move_name = "Water Coating"
+description = "Douses the target in water, leaving them primed for a follow-up."
+damage = 0
+category = 2
+crit_chance = 0
+typing = 2
+status_to_inflict = SubResource("Resource_n8pca")
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

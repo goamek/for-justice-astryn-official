@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="ArrayMesh" uid="uid://dky7drf1k1l36" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Modular_Tile_Models/SM_ModularTile_FloorLrg_14.obj" id="1_floorlrg14"]
+[ext_resource type="Material" path="res://src/environment/materials/m_ground_tile.tres" id="2_floorlrg14"]
+
+[node name="FloorTile" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_floorlrg14")
+surface_material_override/0 = ExtResource("2_floorlrg14")

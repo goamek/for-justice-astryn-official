@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/autoload/cinematic_bars.gd" id="1_cbars"]
+
+[node name="CinematicBars" type="CanvasLayer"]
+layer = 90
+script = ExtResource("1_cbars")
+
+[node name="TopBar" type="ColorRect" parent="."]
+mouse_filter = 2
+anchor_right = 1.0
+color = Color(0, 0, 0, 1)
+
+[node name="BottomBar" type="ColorRect" parent="."]
+mouse_filter = 2
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
