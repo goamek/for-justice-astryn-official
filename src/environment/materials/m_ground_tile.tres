@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" uid="uid://dytlgiey0dcj2" path="res://assets/textures/ground/T_StoneTile_01_D.png" id="1_7uxuc"]
+[ext_resource type="Texture2D" uid="uid://c78qmbtku8a87" path="res://assets/textures/ground/T_StoneTile_01_N.png" id="2_ocvpw"]
+
+[resource]
+albedo_texture = ExtResource("1_7uxuc")
+normal_enabled = true
+normal_texture = ExtResource("2_ocvpw")
+uv1_scale = Vector3(10, 10, 10)
+texture_filter = 4

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=5 format=3 uid="uid://smv5i43bcki0"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_p1boss"]
+[ext_resource type="Script" uid="uid://dsmaiuwygo1ku" path="res://src/characters/scripts/CharacterData.gd" id="2_p1boss"]
+[ext_resource type="Resource" uid="uid://2f6nvomo4q3h" path="res://src/battle/moves/resources/move_test_attack.tres" id="3_p1boss"]
+[ext_resource type="Resource" uid="uid://oddhxgrocwjv" path="res://src/battle/moves/resources/move_DoublePunch.tres" id="4_p1boss"]
+
+[resource]
+script = ExtResource("2_p1boss")
+character_name = "Vorkoth"
+base_max_hp = 100
+base_physical_attack = 20
+base_magic_attack = 20
+base_physical_defense = 23
+base_magic_defense = 23
+base_speed = 18
+moves = Array[ExtResource("1_p1boss")]([ExtResource("3_p1boss"), ExtResource("4_p1boss")])
+metadata/_custom_type_script = "uid://dsmaiuwygo1ku"

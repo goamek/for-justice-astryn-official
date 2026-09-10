@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=4 format=3 uid="uid://76t2kx54coy4"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_550gg"]
+[ext_resource type="Script" uid="uid://kebvbd4pmfs6" path="res://src/battle/scripts/StatusEffect.gd" id="2_fbrth"]
+
+[sub_resource type="Resource" id="Resource_fbrth"]
+script = ExtResource("2_fbrth")
+effect_name = "burn"
+effect_name_past = "burned"
+type = 4
+base_tick_damage = 2.0
+metadata/_custom_type_script = "uid://kebvbd4pmfs6"
+
+[resource]
+script = ExtResource("1_550gg")
+move_name = "Fire Breath"
+description = "The user exhales a scorching gout of flame."
+category = 1
+typing = 1
+status_to_inflict = SubResource("Resource_fbrth")
+status_chance = 30
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

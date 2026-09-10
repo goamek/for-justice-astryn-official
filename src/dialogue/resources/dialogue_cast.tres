@@ -1,0 +1,97 @@
+[gd_resource type="Resource" script_class="DialogueCast" load_steps=28 format=3 uid="uid://dog7lu8ynfbfj"]
+
+[ext_resource type="Script" uid="uid://dri8lumsbkyvj" path="res://src/dialogue/scripts/dialogue_cast.gd" id="1_cast"]
+[ext_resource type="Script" uid="uid://lrjs2kxd25gn" path="res://src/dialogue/scripts/dialogue_speaker.gd" id="2_speaker"]
+[ext_resource type="Texture2D" uid="uid://djx5mnjog7pd0" path="res://assets/Sprites/Astryn/portrait.png" id="3_astryn"]
+[ext_resource type="Texture2D" uid="uid://7y771yu5aed6" path="res://assets/Sprites/Vorkoth/portrait1.png" id="4_vorkothp1"]
+[ext_resource type="Texture2D" uid="uid://dtkaiqhoml7cg" path="res://assets/Sprites/Vorkoth/portrait2.png" id="5_vorkothp2"]
+[ext_resource type="Texture2D" uid="uid://263fy5p0v6r6" path="res://assets/Sprites/Spero/portrait.png" id="6_spero"]
+[ext_resource type="Texture2D" uid="uid://c8oypnymeq81c" path="res://assets/Sprites/Novius/portrait.png" id="7_novius"]
+[ext_resource type="Texture2D" uid="uid://bqjboc0o4k6ch" path="res://assets/Sprites/Aegrandir/portrait.png" id="8_aegrandir"]
+[ext_resource type="Texture2D" uid="uid://c6diml5wibn14" path="res://assets/Sprites/NPCGreen/portrait.png" id="9_npcgreen"]
+[ext_resource type="Texture2D" uid="uid://q32nfdbx11pj" path="res://assets/Sprites/NPCBlue/portrait.png" id="10_npcblue"]
+[ext_resource type="Texture2D" uid="uid://ccyimjlwvouu" path="res://assets/Sprites/NPCBlack/portrait.png" id="11_npcblack"]
+[ext_resource type="Texture2D" uid="uid://b45lxusxtno7w" path="res://assets/Sprites/NPCRed/portrait.png" id="12_npcred"]
+[ext_resource type="Texture2D" uid="uid://cvpvhct45a17y" path="res://assets/Sprites/SoliderRed/portrait.png" id="13_p133u"]
+[ext_resource type="Texture2D" uid="uid://bfp30isft6aqj" path="res://assets/Sprites/SoliderBlack/portrait.png" id="14_c50gu"]
+
+[sub_resource type="Resource" id="Speaker_astryn"]
+script = ExtResource("2_speaker")
+speaker_key = "astryn"
+display_name = "Astryn"
+portrait = ExtResource("3_astryn")
+
+[sub_resource type="Resource" id="Speaker_vorkothp1"]
+script = ExtResource("2_speaker")
+speaker_key = "vorkoth_p1"
+display_name = "Vorkoth"
+portrait = ExtResource("4_vorkothp1")
+
+[sub_resource type="Resource" id="Speaker_vorkothp2"]
+script = ExtResource("2_speaker")
+speaker_key = "vorkoth_p2"
+display_name = "Vorkoth"
+portrait = ExtResource("5_vorkothp2")
+
+[sub_resource type="Resource" id="Speaker_spero"]
+script = ExtResource("2_speaker")
+speaker_key = "spero"
+display_name = "Spero"
+portrait = ExtResource("6_spero")
+
+[sub_resource type="Resource" id="Speaker_novius"]
+script = ExtResource("2_speaker")
+speaker_key = "novius"
+display_name = "Novius"
+portrait = ExtResource("7_novius")
+
+[sub_resource type="Resource" id="Speaker_aegrandir"]
+script = ExtResource("2_speaker")
+speaker_key = "aegrandir"
+display_name = "Aegrandir"
+portrait = ExtResource("8_aegrandir")
+
+[sub_resource type="Resource" id="Speaker_npcgreen"]
+script = ExtResource("2_speaker")
+speaker_key = "npcgreen"
+display_name = "Townsperson"
+portrait = ExtResource("9_npcgreen")
+
+[sub_resource type="Resource" id="Speaker_npcblue"]
+script = ExtResource("2_speaker")
+speaker_key = "npcblue"
+display_name = "Townsperson"
+portrait = ExtResource("10_npcblue")
+
+[sub_resource type="Resource" id="Speaker_npcblack"]
+script = ExtResource("2_speaker")
+speaker_key = "npcblack"
+display_name = "Townsperson"
+portrait = ExtResource("11_npcblack")
+
+[sub_resource type="Resource" id="Speaker_npcred"]
+script = ExtResource("2_speaker")
+speaker_key = "npcred"
+display_name = "Townsperson"
+portrait = ExtResource("12_npcred")
+
+[sub_resource type="Resource" id="Speaker_soliderone"]
+script = ExtResource("2_speaker")
+speaker_key = "solider_one"
+display_name = "Soldier"
+portrait = ExtResource("13_p133u")
+
+[sub_resource type="Resource" id="Speaker_solidertwo"]
+script = ExtResource("2_speaker")
+speaker_key = "solider_two"
+display_name = "Soldier"
+portrait = ExtResource("14_c50gu")
+
+[sub_resource type="Resource" id="Speaker_soliderthree"]
+script = ExtResource("2_speaker")
+speaker_key = "solider_three"
+display_name = "Soldier"
+
+[resource]
+script = ExtResource("1_cast")
+speakers = Array[ExtResource("2_speaker")]([SubResource("Speaker_astryn"), SubResource("Speaker_vorkothp1"), SubResource("Speaker_vorkothp2"), SubResource("Speaker_spero"), SubResource("Speaker_novius"), SubResource("Speaker_aegrandir"), SubResource("Speaker_npcgreen"), SubResource("Speaker_npcblue"), SubResource("Speaker_npcblack"), SubResource("Speaker_npcred"), SubResource("Speaker_soliderone"), SubResource("Speaker_solidertwo"), SubResource("Speaker_soliderthree")])

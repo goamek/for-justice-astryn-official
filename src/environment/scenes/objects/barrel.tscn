@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4ktnitkv64kk"]
+
+[ext_resource type="ArrayMesh" uid="uid://bb7q6akjlwrdd" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Objects/SM_Barrel_01.obj" id="1_barrel"]
+[ext_resource type="Material" uid="uid://bbkmcijprxegj" path="res://src/environment/materials/GOODGOODGOODMATERIALOVERRIDE.tres" id="2_64thf"]
+
+[node name="Barrel" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_barrel")
+surface_material_override/0 = ExtResource("2_64thf")

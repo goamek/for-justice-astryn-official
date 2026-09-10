@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://up2o4d4wsj66"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_hgstk"]
+
+[resource]
+script = ExtResource("1_hgstk")
+move_name = "Swords Dance"
+description = "A flourish of blade-work that whips the user into an aggressive frenzy, sharply raising attack."
+damage = 0
+category = 2
+crit_chance = 0
+stat_to_change = 1
+stat_change_amount = 2
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

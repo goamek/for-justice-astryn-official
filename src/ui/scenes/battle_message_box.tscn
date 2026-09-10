@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0lnt2egh6g45"]
+
+[ext_resource type="Script" uid="uid://dt5awgemwllc" path="res://src/ui/scripts/battle_message_box.gd" id="1_1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_msgpanel"]
+bg_color = Color(0.109804, 0.109804, 0.129412, 0.85)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+
+[node name="BattleMessageBox" type="CanvasLayer"]
+script = ExtResource("1_1")
+
+[node name="MessageRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MessagePanel" type="PanelContainer" parent="MessageRoot"]
+layout_mode = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_msgpanel")
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -499.0
+offset_top = -101.0
+offset_right = 501.0016
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MessageRoot/MessagePanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MessageLabel" type="Label" parent="MessageRoot/MessagePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Battle message"
+autowrap_mode = 3
+
+[node name="PromptLabel" type="Label" parent="MessageRoot/MessagePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Space / A: Next"
+horizontal_alignment = 2

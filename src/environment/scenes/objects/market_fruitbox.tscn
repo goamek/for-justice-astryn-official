@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://27phuo2ncl5r"]
+
+[ext_resource type="ArrayMesh" uid="uid://dcyb1kvj6w822" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Objects/SM_Market_Fruitbox_01.obj" id="1_prop"]
+[ext_resource type="Material" uid="uid://bbkmcijprxegj" path="res://src/environment/materials/GOODGOODGOODMATERIALOVERRIDE.tres" id="2_iahm6"]
+
+[node name="MarketFruitbox" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_prop")
+surface_material_override/0 = ExtResource("2_iahm6")

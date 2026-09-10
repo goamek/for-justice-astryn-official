@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://oddhxgrocwjv"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_bi48t"]
+
+[resource]
+script = ExtResource("1_bi48t")
+move_name = "Double Punch"
+description = "A quick one-two combo of jabs thrown in rapid succession."
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

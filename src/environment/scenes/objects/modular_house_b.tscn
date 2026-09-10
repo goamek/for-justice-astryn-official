@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="ArrayMesh" uid="uid://x3lvdipg0f2f" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Modular_Houses/SM_ModularHouse_Base_01.obj" id="1_base"]
+[ext_resource type="ArrayMesh" uid="uid://72c8j1qd4io2" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Modular_Houses/SM_ModularHouse_Mid_01.obj" id="2_mid1"]
+[ext_resource type="ArrayMesh" uid="uid://civpfg62byxg4" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Modular_Houses/SM_ModularHouse_Mid_02.obj" id="3_mid2"]
+[ext_resource type="ArrayMesh" uid="uid://difmrxrx24hh8" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Modular_Houses/SM_ModularHouse_Roof_02.obj" id="4_roof"]
+[ext_resource type="Material" uid="uid://bjxujckeqyxdd" path="res://src/environment/materials/m_env_pack.tres" id="5_mat"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_modularhouseb"]
+size = Vector3(5.03, 7.64, 3.83)
+
+[node name="ModularHouse" type="Node3D"]
+
+[node name="Base" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_base")
+surface_material_override/0 = ExtResource("5_mat")
+
+[node name="Mid1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0, 0)
+mesh = ExtResource("2_mid1")
+surface_material_override/0 = ExtResource("5_mat")
+
+[node name="Mid2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+mesh = ExtResource("3_mid2")
+surface_material_override/0 = ExtResource("5_mat")
+
+[node name="Roof" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0, 0)
+mesh = ExtResource("4_roof")
+surface_material_override/0 = ExtResource("5_mat")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.82, 0)
+shape = SubResource("BoxShape3D_modularhouseb")

@@ -1,0 +1,35 @@
+[gd_scene load_steps=9 format=3 uid="uid://cqgb3o6iurwi7"]
+
+[ext_resource type="ArrayMesh" uid="uid://blknlwahmvhtn" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Objects/SM_Garden_03.obj" id="1_siwb5"]
+[ext_resource type="Texture2D" uid="uid://dqttgldpug05g" path="res://assets/textures/town/T_RPGTown_Defuse.png" id="2_namhl"]
+[ext_resource type="Texture2D" uid="uid://bkdpb4xuoxhhv" path="res://assets/textures/town/T_RPGTown_Emissive.png" id="3_ihss5"]
+[ext_resource type="Texture2D" uid="uid://bsmh5i8aux5c5" path="res://assets/textures/town/T_RPGTown_Metallic.png" id="4_krcgl"]
+[ext_resource type="Texture2D" uid="uid://c08m5woy0g7cc" path="res://assets/textures/town/T_RPGTown_Normal.png" id="5_t1n6q"]
+[ext_resource type="Texture2D" uid="uid://h1dj5fgduexd" path="res://assets/textures/town/T_RPGTown_Roughness.png" id="6_pcmk6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ruwil"]
+transparency = 1
+albedo_texture = ExtResource("2_namhl")
+metallic = 1.0
+metallic_texture = ExtResource("4_krcgl")
+roughness_texture = ExtResource("6_pcmk6")
+emission_enabled = true
+emission_texture = ExtResource("3_ihss5")
+normal_enabled = true
+normal_texture = ExtResource("5_t1n6q")
+texture_filter = 0
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_namhl"]
+data = PackedVector3Array(0, 0, -1, 0, 0, -0.5, 0, 0.5, -1, 0, 0.5, -1, 0, 0, -0.5, 0, 0.5, -0.5, 0, 0, -0.5, 0, 0, 0, 0, 0.5, -0.5, 0, 0.5, -0.5, 0, 0, 0, 0, 0.5, 0, -0.5, 0.5, -0.5, -0.5, 0.5, -1, 0, 0.5, -0.5, 0, 0.5, -0.5, -0.5, 0.5, -1, 0, 0.5, -1, 0, 0, 0, -0.5, 0, 0.27789998, 0, 0.5, 0, 0, 0.5, 0, -0.5, 0, 0.27789998, -0.5, 0.5, 0.27789998, -0.5, 0.5, -1, -0.5, 0.5, -0.5, -1, 0.5, -1, -1, 0.5, -1, -0.5, 0.5, -0.5, -1, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.27789998, -1, 0.5, -0.5, -1, 0.5, -0.5, -0.5, 0.5, 0.27789998, -1, 0.5, 0, -0.5, 0.5, 0.27789998, -0.5, 0.5, -0.5, 0, 0.5, 0, 0, 0.5, 0, -0.5, 0.5, -0.5, 0, 0.5, -0.5, -0.5, 0.5, -1.5, -0.5, 0.5, -2.2779, 0, 0.5, -1.5, 0, 0.5, -1.5, -0.5, 0.5, -2.2779, 0, 0.5, -2, -0.5, 0.5, -1, -0.5, 0.5, -1.5, 0, 0.5, -1, 0, 0.5, -1, -0.5, 0.5, -1.5, 0, 0.5, -1.5, -0.5, 0.5, -1.5, -0.5, 0.5, -1, -1, 0.5, -1.5, -1, 0.5, -1.5, -0.5, 0.5, -1, -1, 0.5, -1, -0.5, 0.5, -2.2779, -0.5, 0.5, -1.5, -1, 0.5, -2, -1, 0.5, -2, -0.5, 0.5, -1.5, -1, 0.5, -1.5, 0, 0, -1.5, 0, 0, -1, 0, 0.5, -1.5, 0, 0.5, -1.5, 0, 0, -1, 0, 0.5, -1, 0, 0, -2, 0, 0, -1.5, 0, 0.5, -2, 0, 0.5, -2, 0, 0, -1.5, 0, 0.5, -1.5, -0.5, 0, 0.27789998, -1, 0, 0, -0.5, 0.5, 0.27789998, -0.5, 0.5, 0.27789998, -1, 0, 0, -1, 0.5, 0, -0.5, 0, -2.2779, 0, 0, -2, -0.5, 0.5, -2.2779, -0.5, 0.5, -2.2779, 0, 0, -2, 0, 0.5, -2, -1, 0, -2, -0.5, 0, -2.2779, -1, 0.5, -2, -1, 0.5, -2, -0.5, 0, -2.2779, -0.5, 0.5, -2.2779, -1, 0, -1.5, -1, 0, -2, -1, 0.5, -1.5, -1, 0.5, -1.5, -1, 0, -2, -1, 0.5, -2, -1, 0, -1, -1, 0, -1.5, -1, 0.5, -1, -1, 0.5, -1, -1, 0, -1.5, -1, 0.5, -1.5, -1, 0.5, -0.5, -1, 0, -1, -1, 0.5, -1, -1, 0, -0.5, -1, 0, -1, -1, 0.5, -0.5, -1, 0, 0, -1, 0, -0.5, -1, 0.5, 0, -1, 0.5, 0, -1, 0, -0.5, -1, 0.5, -0.5)
+
+[node name="Garden" type="Node3D"]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_siwb5")
+surface_material_override/0 = SubResource("StandardMaterial3D_ruwil")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_namhl")

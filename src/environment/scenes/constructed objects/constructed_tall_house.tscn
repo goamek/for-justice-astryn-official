@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0wip13sbjrye"]
+
+[ext_resource type="PackedScene" uid="uid://bjgvf1pts6uth" path="res://src/environment/scenes/objects/tall_house.tscn" id="1_0asmo"]
+[ext_resource type="PackedScene" uid="uid://cl8dg35k0gh4l" path="res://src/environment/scenes/objects/door.tscn" id="2_0sdbm"]
+[ext_resource type="PackedScene" uid="uid://buvilye7rsb7m" path="res://src/environment/scenes/objects/unlit_window.tscn" id="3_l6aph"]
+
+[node name="ConstructedTallHouse" type="Node3D"]
+
+[node name="TallHouse" parent="." instance=ExtResource("1_0asmo")]
+
+[node name="Door" parent="." instance=ExtResource("2_0sdbm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 0, 0)
+
+[node name="UnlitWindow" parent="." instance=ExtResource("3_l6aph")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 2.32, 2.399, 0.838)
+
+[node name="UnlitWindow2" parent="." instance=ExtResource("3_l6aph")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 2.32, 2.399, -0.838)

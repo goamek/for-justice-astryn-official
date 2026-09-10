@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsa1krww5frcq"]
+
+[ext_resource type="ArrayMesh" uid="uid://6ddbnwxettt4" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Modular_Tile_Models/SM_ModularPlatform_02.obj" id="1_aolxy"]
+[ext_resource type="Material" uid="uid://bbkmcijprxegj" path="res://src/environment/materials/GOODGOODGOODMATERIALOVERRIDE.tres" id="2_n2bws"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_n2bws"]
+data = PackedVector3Array(-0.5, 0.0084, 1, -0.5, 0.0084, 0, -0.5, 1.0084, 1, -0.5, 1.0084, 1, -0.5, 0.0084, 0, -0.5, 1.0084, 0, -0.5, 0.0084, 0, -0.5, 0.0084, -1, -0.5, 1.0084, 0, -0.5, 1.0084, 0, -0.5, 0.0084, -1, -0.5, 1.0084, -1, -0.5, 1.0084, 0, -0.5, 1.0084, -1, -0.5, 2.0084, 0, -0.5, 2.0084, 0, -0.5, 1.0084, -1, -0.5, 2.0084, -1, -0.5, 1.0084, 1, -0.5, 1.0084, 0, -0.5, 2.0084, 1, -0.5, 2.0084, 1, -0.5, 1.0084, 0, -0.5, 2.0084, 0, -0.5, 2.0084, 0, 0.5, 2.0084, 0, -0.5, 2.0084, 1, -0.5, 2.0084, 1, 0.5, 2.0084, 0, 0.5, 2.0084, 1, -0.5, 2.0084, -1, 0.5, 2.0084, -1, -0.5, 2.0084, 0, -0.5, 2.0084, 0, 0.5, 2.0084, -1, 0.5, 2.0084, 0, 0.5, 1.0084, 0, 0.5, 1.0084, 1, 0.5, 2.0084, 0, 0.5, 2.0084, 0, 0.5, 1.0084, 1, 0.5, 2.0084, 1, 0.5, 1.0084, -1, 0.5, 1.0084, 0, 0.5, 2.0084, -1, 0.5, 2.0084, -1, 0.5, 1.0084, 0, 0.5, 2.0084, 0, 0.5, 0.0084, 0, 0.5, 0.0084, 1, 0.5, 1.0084, 0, 0.5, 1.0084, 0, 0.5, 0.0084, 1, 0.5, 1.0084, 1, 0.5, 0.0084, -1, 0.5, 0.0084, 0, 0.5, 1.0084, -1, 0.5, 1.0084, -1, 0.5, 0.0084, 0, 0.5, 1.0084, 0)
+
+[node name="Platform2" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_aolxy")
+surface_material_override/0 = ExtResource("2_n2bws")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_n2bws")

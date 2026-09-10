@@ -1,0 +1,16 @@
+~ start
+npcblack: Hey, I read about this strategy that some outsiders were using in battle.
+npcred: Well, spit it out then.
+npcblack: Apparently they took down one of the generals using the weather. One of them summoned a rainstorm, and the other froze the guy - some whack shit!
+npcred: Wow, that's some intense strategy. You know who those folks were?
+npcblack: Nope, all they would say to the newspapermen was "for justice" or something like that.
+astryn: (For justice, huh? Seems word is getting around.)
+npcred: Hah, they think they're some revolutionaries or something; can't wait till they face a big-city general, ain't gonna have the same luck then. Acirema's got the strongest army around!
+npcblack: It might not hurt if they stir the pot a bit; hopefully they'll show up here next.
+npcred: You crazy man, where's your respect for your people!
+npcblack: Shit, them people don't care about us, man.
+npcblack: We both know that…
+astryn: (They come to accept this as their life.)
+astryn: (Damn you, Vorkoth.)
+do speaker.set_interactable(false)
+=> END

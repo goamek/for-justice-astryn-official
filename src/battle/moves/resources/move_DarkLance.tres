@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://diq28wfc0gmwm"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_i73r3"]
+
+[resource]
+script = ExtResource("1_i73r3")
+move_name = "Dark Lance"
+description = "A spear of solidified darkness driven straight through the target."
+typing = 5
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

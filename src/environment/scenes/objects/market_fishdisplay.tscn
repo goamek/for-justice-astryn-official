@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvp6jeb3083bu"]
+
+[ext_resource type="ArrayMesh" uid="uid://36c5ok2ja41y" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Objects/SM_Market_FishDisplay_01.obj" id="1_prop"]
+[ext_resource type="Material" uid="uid://bbkmcijprxegj" path="res://src/environment/materials/GOODGOODGOODMATERIALOVERRIDE.tres" id="2_t6px5"]
+
+[node name="MarketFishDisplay" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_prop")
+surface_material_override/0 = ExtResource("2_t6px5")

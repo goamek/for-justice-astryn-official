@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://byyksk7ykotn2"
+path="res://.godot/imported/dialogue_novius.dialogue-44da62dd6ba587dd1d41b4c1d9124982.tres"
+
+[deps]
+
+source_file="res://src/dialogue/resources/dialogue_novius.dialogue"
+dest_files=["res://.godot/imported/dialogue_novius.dialogue-44da62dd6ba587dd1d41b4c1d9124982.tres"]
+
+[params]
+
+defaults=true

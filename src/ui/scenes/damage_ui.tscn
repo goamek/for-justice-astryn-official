@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://dstkl1fygt0s"]
+
+[ext_resource type="Script" uid="uid://dc4liwf2rcajg" path="res://src/ui/scripts/ui_damage.gd" id="1_h50sd"]
+
+[node name="DamageUI" type="Label3D"]
+pixel_size = 0.001
+no_depth_test = true
+fixed_size = true
+render_priority = 11
+outline_render_priority = 10
+font_size = 64
+script = ExtResource("1_h50sd")

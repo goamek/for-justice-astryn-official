@@ -1,0 +1,27 @@
+[gd_scene load_steps=8 format=3 uid="uid://cp71yeckof73v"]
+
+[ext_resource type="ArrayMesh" uid="uid://8age388naevu" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Foliage/SM_Garden_Grass_04.obj" id="1_lkxna"]
+[ext_resource type="Texture2D" uid="uid://dqttgldpug05g" path="res://assets/textures/town/T_RPGTown_Defuse.png" id="2_chw2p"]
+[ext_resource type="Texture2D" uid="uid://bkdpb4xuoxhhv" path="res://assets/textures/town/T_RPGTown_Emissive.png" id="3_83ul8"]
+[ext_resource type="Texture2D" uid="uid://bsmh5i8aux5c5" path="res://assets/textures/town/T_RPGTown_Metallic.png" id="4_iy3sv"]
+[ext_resource type="Texture2D" uid="uid://c08m5woy0g7cc" path="res://assets/textures/town/T_RPGTown_Normal.png" id="5_f7n1g"]
+[ext_resource type="Texture2D" uid="uid://h1dj5fgduexd" path="res://assets/textures/town/T_RPGTown_Roughness.png" id="6_hatlq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ruwil"]
+transparency = 1
+albedo_texture = ExtResource("2_chw2p")
+metallic = 1.0
+metallic_texture = ExtResource("4_iy3sv")
+roughness_texture = ExtResource("6_hatlq")
+emission_enabled = true
+emission_texture = ExtResource("3_83ul8")
+normal_enabled = true
+normal_texture = ExtResource("5_f7n1g")
+texture_filter = 0
+
+[node name="Grass" type="Node3D"]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_lkxna")
+surface_material_override/0 = SubResource("StandardMaterial3D_ruwil")

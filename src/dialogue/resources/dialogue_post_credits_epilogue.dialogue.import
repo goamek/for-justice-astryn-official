@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://kb552syrclqs"
+path="res://.godot/imported/dialogue_post_credits_epilogue.dialogue-32485752948b417f1935b0cb8a436cfe.tres"
+
+[deps]
+
+source_file="res://src/dialogue/resources/dialogue_post_credits_epilogue.dialogue"
+dest_files=["res://.godot/imported/dialogue_post_credits_epilogue.dialogue-32485752948b417f1935b0cb8a436cfe.tres"]
+
+[params]
+
+defaults=true

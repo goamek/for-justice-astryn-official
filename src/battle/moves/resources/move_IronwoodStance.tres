@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://bqn34w1min2au"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_iron"]
+
+[resource]
+script = ExtResource("1_iron")
+move_name = "Ironwood Stance"
+description = "The user roots into a stance as unshifting as ironwood, bolstering their defense."
+damage = 0
+category = 2
+mana_cost = 2
+crit_chance = 0
+typing = 4
+stat_to_change = 3
+stat_change_amount = 1
+stat_to_change_2 = 4
+stat_change_amount_2 = 1
+self_target_only = true
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=7 format=3 uid="uid://cd32pfi7fslsd"]
+
+[ext_resource type="Script" uid="uid://dsmaiuwygo1ku" path="res://src/characters/scripts/CharacterData.gd" id="1_novius"]
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="2_novius"]
+[ext_resource type="Resource" uid="uid://dwrh1vo3w3j4p" path="res://src/battle/moves/resources/move_Cauterize.tres" id="3_caut"]
+[ext_resource type="Resource" uid="uid://ddirlrr5wddcv" path="res://src/battle/moves/resources/move_CrystalNeedle.tres" id="4_cryst"]
+[ext_resource type="Resource" uid="uid://byyviu2u6pdnu" path="res://src/battle/moves/resources/move_IgniteSlash.tres" id="5_ignt"]
+[ext_resource type="Resource" uid="uid://k02m13fjswtt" path="res://src/battle/moves/resources/move_SealScorch.tres" id="6_scrch"]
+
+[resource]
+script = ExtResource("1_novius")
+character_name = "Novius"
+base_max_hp = 60
+base_max_mp = 50
+base_magic_defense = 20
+moves = Array[ExtResource("2_novius")]([ExtResource("3_caut"), ExtResource("4_cryst"), ExtResource("5_ignt"), ExtResource("6_scrch")])
+typing = Array[int]([1])
+metadata/_custom_type_script = "uid://dsmaiuwygo1ku"

@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://ql6wwrmuqlb"]
+
+[ext_resource type="ArrayMesh" uid="uid://bbw4ouek3k265" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Houses/SM_House_04.obj" id="1_house04"]
+[ext_resource type="Material" uid="uid://bjxujckeqyxdd" path="res://src/environment/materials/m_env_pack.tres" id="2_house04"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_house04"]
+size = Vector3(6.089048, 6.16, 6.948303)
+
+[node name="House" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_house04")
+surface_material_override/0 = ExtResource("2_house04")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25837162, 3.08, -0.24313104)
+shape = SubResource("BoxShape3D_house04")

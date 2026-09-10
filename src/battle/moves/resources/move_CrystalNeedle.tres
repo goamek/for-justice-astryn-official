@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://ddirlrr5wddcv"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_srsj2"]
+
+[resource]
+script = ExtResource("1_srsj2")
+move_name = "Crystal Needle"
+description = "A shard of ice-crystal launched with pinpoint precision."
+damage = 5
+category = 1
+mana_cost = 2
+typing = 2
+subtype = 6
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

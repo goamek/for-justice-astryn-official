@@ -1,0 +1,588 @@
+[gd_scene load_steps=18 format=3 uid="uid://j2vxcy8hcxwf"]
+
+[ext_resource type="Script" uid="uid://dkg3uit7yqhup" path="res://src/ui/scripts/main_menu.gd" id="1_t475i"]
+[ext_resource type="PackedScene" uid="uid://4n8syemt6iep" path="res://src/level/scenes/free_roam.tscn" id="2_xg7my"]
+[ext_resource type="FontFile" uid="uid://c45qqkxks0evn" path="res://assets/fonts/Ferrum-wy99.otf" id="3_wmo1h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7wsp6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t475i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xg7my"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wmo1h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gnv55"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b7svq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wnywc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6yab0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w64ul"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3o5t2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f0reb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gpadA"]
+bg_color = Color(0.2, 0.7, 0.2, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gpadB"]
+bg_color = Color(0.8, 0.2, 0.2, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gpadUnused"]
+bg_color = Color(0.35, 0.35, 0.35, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t475i")
+free_roam_scene = ExtResource("2_xg7my")
+
+[node name="Main Menu Elements" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Main Menu Elements"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ForJustice Label" type="Label" parent="Main Menu Elements"]
+layout_mode = 0
+offset_left = 349.0
+offset_top = 223.0
+offset_right = 758.0
+offset_bottom = 324.0
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 95
+text = "For Justice:"
+
+[node name="Astryn Label" type="Label" parent="Main Menu Elements"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -146.5
+offset_top = -43.5
+offset_right = 196.5
+offset_bottom = 107.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 140
+text = "Astryn"
+horizontal_alignment = 1
+
+[node name="ButtonContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -36.0
+offset_top = -183.0
+offset_right = 14.0
+offset_bottom = -87.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="StartButton" type="Button" parent="ButtonContainer"]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../ControlsButton")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.446777, 0.44677705, 0.44677705, 1)
+theme_override_colors/font_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_colors/font_hover_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_7wsp6")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_t475i")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xg7my")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_wmo1h")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_gnv55")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_b7svq")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_wnywc")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_6yab0")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_w64ul")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_3o5t2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_f0reb")
+text = "start"
+
+[node name="ControlsButton" type="Button" parent="ButtonContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../StartButton")
+focus_neighbor_bottom = NodePath("../CreditsButton")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.446777, 0.44677705, 0.44677705, 1)
+theme_override_colors/font_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_colors/font_hover_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_7wsp6")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_t475i")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xg7my")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_wmo1h")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_gnv55")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_b7svq")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_wnywc")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_6yab0")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_w64ul")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_3o5t2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_f0reb")
+text = "controls"
+
+[node name="CreditsButton" type="Button" parent="ButtonContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../ControlsButton")
+focus_neighbor_bottom = NodePath("../QuitButton")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.446777, 0.44677705, 0.44677705, 1)
+theme_override_colors/font_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_colors/font_hover_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_7wsp6")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_t475i")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xg7my")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_wmo1h")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_gnv55")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_b7svq")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_wnywc")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_6yab0")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_w64ul")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_3o5t2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_f0reb")
+text = "credits"
+
+[node name="QuitButton" type="Button" parent="ButtonContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../CreditsButton")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.446777, 0.44677705, 0.44677705, 1)
+theme_override_colors/font_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_colors/font_hover_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_7wsp6")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_t475i")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xg7my")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_wmo1h")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_gnv55")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_b7svq")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_wnywc")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_6yab0")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_w64ul")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_3o5t2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_f0reb")
+text = "quit"
+
+[node name="FadeOverlay" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ControlsPanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="ControlsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Title" type="Label" parent="ControlsPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 36.0
+offset_right = 200.0
+offset_bottom = 96.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 48
+text = "Controls"
+horizontal_alignment = 1
+
+[node name="ContentColumn" type="VBoxContainer" parent="ControlsPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -340.0
+offset_top = -190.0
+offset_right = 340.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="MovementHeader" type="Label" parent="ControlsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 30
+text = "Movement"
+
+[node name="MoveRow" type="Label" parent="ControlsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Move  —  WASD or Arrow Keys"
+
+[node name="InteractionHeader" type="Label" parent="ControlsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 30
+text = "Interaction"
+
+[node name="InteractRow" type="Label" parent="ControlsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Interact / Talk  —  E or Gamepad A"
+
+[node name="MenusHeader" type="Label" parent="ControlsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 30
+text = "Menus & Dialogue"
+
+[node name="ConfirmRow" type="Label" parent="ControlsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Confirm / Advance  —  Enter, Space, or Gamepad A"
+
+[node name="CancelRow" type="Label" parent="ControlsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Cancel / Back  —  Escape or Gamepad B"
+
+[node name="BattleHeader" type="Label" parent="ControlsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 30
+text = "Battle"
+
+[node name="CycleTargetRow" type="Label" parent="ControlsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Cycle Target  —  Left/Right Arrows or A/D"
+
+[node name="ConfirmTargetRow" type="Label" parent="ControlsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Confirm Target  —  Enter, Space, or Gamepad A"
+
+[node name="CancelTargetRow" type="Label" parent="ControlsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Cancel Target Selection  —  Escape or Gamepad B"
+
+[node name="MoveInfoRow" type="Label" parent="ControlsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Move Info  —  E or Gamepad Y"
+
+[node name="GamepadDiagram" type="Control" parent="ControlsPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 400.0
+offset_top = -80.0
+offset_right = 520.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Heading" type="Label" parent="ControlsPanel/GamepadDiagram"]
+layout_mode = 0
+offset_right = 120.0
+offset_bottom = 24.0
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 16
+text = "Gamepad"
+horizontal_alignment = 1
+
+[node name="YButton" type="PanelContainer" parent="ControlsPanel/GamepadDiagram"]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 30.0
+offset_right = 76.0
+offset_bottom = 62.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gpadUnused")
+
+[node name="Label" type="Label" parent="ControlsPanel/GamepadDiagram/YButton"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Y"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="XButton" type="PanelContainer" parent="ControlsPanel/GamepadDiagram"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 62.0
+offset_right = 44.0
+offset_bottom = 94.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gpadUnused")
+
+[node name="Label" type="Label" parent="ControlsPanel/GamepadDiagram/XButton"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "X"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BButton" type="PanelContainer" parent="ControlsPanel/GamepadDiagram"]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 62.0
+offset_right = 108.0
+offset_bottom = 94.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gpadB")
+
+[node name="Label" type="Label" parent="ControlsPanel/GamepadDiagram/BButton"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AButton" type="PanelContainer" parent="ControlsPanel/GamepadDiagram"]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 94.0
+offset_right = 76.0
+offset_bottom = 126.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gpadA")
+
+[node name="Label" type="Label" parent="ControlsPanel/GamepadDiagram/AButton"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HintLabel" type="Label" parent="ControlsPanel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -70.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "Press Escape to return to the Main Menu"
+horizontal_alignment = 1
+
+[node name="CreditsPanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="CreditsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Title" type="Label" parent="CreditsPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 36.0
+offset_right = 200.0
+offset_bottom = 96.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 48
+text = "Credits"
+horizontal_alignment = 1
+
+[node name="ContentColumn" type="VBoxContainer" parent="CreditsPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -190.0
+offset_right = 260.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="DirectionHeader" type="Label" parent="CreditsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 30
+text = "Game Direction"
+horizontal_alignment = 1
+
+[node name="DirectionRow" type="Label" parent="CreditsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Jordan Placeholder"
+horizontal_alignment = 1
+
+[node name="ProgrammingHeader" type="Label" parent="CreditsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 30
+text = "Programming"
+horizontal_alignment = 1
+
+[node name="ProgrammingRow" type="Label" parent="CreditsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Sam Example  •  Riley Sample"
+horizontal_alignment = 1
+
+[node name="ArtHeader" type="Label" parent="CreditsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 30
+text = "Art & Animation"
+horizontal_alignment = 1
+
+[node name="ArtRow" type="Label" parent="CreditsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Casey Doe"
+horizontal_alignment = 1
+
+[node name="MusicHeader" type="Label" parent="CreditsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 30
+text = "Music & Sound"
+horizontal_alignment = 1
+
+[node name="MusicRow" type="Label" parent="CreditsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Morgan Test"
+horizontal_alignment = 1
+
+[node name="ThanksHeader" type="Label" parent="CreditsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 30
+text = "Special Thanks"
+horizontal_alignment = 1
+
+[node name="ThanksRow" type="Label" parent="CreditsPanel/ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "You, for playing"
+horizontal_alignment = 1
+
+[node name="HintLabel" type="Label" parent="CreditsPanel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -70.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "Press Escape to return to the Main Menu"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="ButtonContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="ButtonContainer/ControlsButton" to="." method="_on_controls_button_pressed"]
+[connection signal="pressed" from="ButtonContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="ButtonContainer/QuitButton" to="." method="_on_quit_button_pressed"]

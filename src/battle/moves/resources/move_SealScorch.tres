@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://k02m13fjswtt"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_scrch"]
+
+[resource]
+script = ExtResource("1_scrch")
+move_name = "Seal Scorch"
+description = "A branding blow searing hot enough to leave a scorched mark."
+damage = 8
+category = 1
+mana_cost = 3
+typing = 1
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

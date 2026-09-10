@@ -1,0 +1,35 @@
+[gd_scene load_steps=9 format=3 uid="uid://bqldfwtvuewun"]
+
+[ext_resource type="ArrayMesh" uid="uid://bc3gr3w0aqgbl" path="res://assets/environment/Pixel_3D_RPG_Town_2.0/Objects/SM_Stairs_Rail_02.obj" id="1_62sjd"]
+[ext_resource type="Texture2D" uid="uid://dqttgldpug05g" path="res://assets/textures/town/T_RPGTown_Defuse.png" id="2_th2yw"]
+[ext_resource type="Texture2D" uid="uid://bkdpb4xuoxhhv" path="res://assets/textures/town/T_RPGTown_Emissive.png" id="3_d7sna"]
+[ext_resource type="Texture2D" uid="uid://bsmh5i8aux5c5" path="res://assets/textures/town/T_RPGTown_Metallic.png" id="4_cmdkc"]
+[ext_resource type="Texture2D" uid="uid://c08m5woy0g7cc" path="res://assets/textures/town/T_RPGTown_Normal.png" id="5_sahmj"]
+[ext_resource type="Texture2D" uid="uid://h1dj5fgduexd" path="res://assets/textures/town/T_RPGTown_Roughness.png" id="6_2hogn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ruwil"]
+transparency = 1
+albedo_texture = ExtResource("2_th2yw")
+metallic = 1.0
+metallic_texture = ExtResource("4_cmdkc")
+roughness_texture = ExtResource("6_2hogn")
+emission_enabled = true
+emission_texture = ExtResource("3_d7sna")
+normal_enabled = true
+normal_texture = ExtResource("5_sahmj")
+texture_filter = 0
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_62sjd"]
+data = PackedVector3Array(-0.2499, 0.25, 0, -0.2499, 0, 0, -0.2499, 0.7542, -1, -0.2499, 0.7542, -1, -0.2499, 0, 0, -0.2499, 0.5042, -1, -0.2499, 0.7542, -1, -0.2499, 0.5042, -1, -0.2499, 1.25, -2, -0.2499, 1.25, -2, -0.2499, 0.5042, -1, -0.2499, 1, -2, 0, 1.25, -2, 0, 0.7542, -1, -0.2499, 1.25, -2, -0.2499, 1.25, -2, 0, 0.7542, -1, -0.2499, 0.7542, -1, 0, 1, -2, 0, 0.5042, -1, 0, 1.25, -2, 0, 1.25, -2, 0, 0.5042, -1, 0, 0.7542, -1, 0, 0.5042, -1, 0, 0, 0, 0, 0.7542, -1, 0, 0.7542, -1, 0, 0, 0, 0, 0.25, 0, 0, 0.7542, -1, 0, 0.25, 0, -0.2499, 0.7542, -1, -0.2499, 0.7542, -1, 0, 0.25, 0, -0.2499, 0.25, 0, 0, 0.25, 0.25, -0.25, 0.25, 0.25, 0, 0.25, 0, 0, 0.25, 0, -0.25, 0.25, 0.25, -0.2499, 0.25, 0, 0, 0, 0, 0, 0, 0.25, 0, 0.25, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0.25, 0.25, -0.25, 0, 0.25, -0.2499, 0, 0, -0.25, 0.25, 0.25, -0.25, 0.25, 0.25, -0.2499, 0, 0, -0.2499, 0.25, 0, 0, 0, 0.25, -0.25, 0, 0.25, 0, 0.25, 0.25, 0, 0.25, 0.25, -0.25, 0, 0.25, -0.25, 0.25, 0.25)
+
+[node name="Grass" type="Node3D"]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_62sjd")
+surface_material_override/0 = SubResource("StandardMaterial3D_ruwil")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_62sjd")

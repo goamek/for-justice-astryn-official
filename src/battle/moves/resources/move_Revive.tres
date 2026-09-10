@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3 uid="uid://chr5lujujaiy2"]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_revive"]
+
+[resource]
+script = ExtResource("1_revive")
+move_name = "Revive"
+description = "A surge of restorative water pulls a fallen ally back onto their feet."
+damage = 0
+category = 2
+mana_cost = 4
+crit_chance = 0
+typing = 2
+heal_fraction_of_max_hp = 0.33
+revives = true
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"
