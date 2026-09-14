@@ -73,7 +73,8 @@ func _close_subpage() -> void:
 
 func _on_start_button_pressed() -> void:
 	print("Switch to Free Roam Scene via Menu")
-	SignalBus.request_scene_change.emit(free_roam_scene)
+	QuestManager.reset_progress()
+	SignalBus.request_scene_change.emit(free_roam_scene, {})
 	AudioController.stop_main_menu_music()
 
 func _on_controls_button_pressed() -> void:

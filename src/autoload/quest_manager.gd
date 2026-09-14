@@ -24,3 +24,12 @@ func mark_npc_talked_to(npc_id: String) -> void:
 
 func can_enter_boss_fight() -> bool:
 	return talked_to_team.values().all(func(val): return val == true)
+
+# Called when starting a brand-new playthrough (main menu's Start button) so a previous
+# session's progress doesn't carry over. Quitting a battle should never call this — quest
+# flags are meant to survive that.
+func reset_progress() -> void:
+	for character_id in talked_to_team.keys():
+		talked_to_team[character_id] = false
+	novius_bonded = false
+	talked_to_npcs.clear()

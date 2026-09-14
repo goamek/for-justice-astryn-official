@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dxae0w5toci2g" path="res://assets/Sprites/SoliderRed/soliderOneAnimRight.png" id="5_aaj4f"]
 [ext_resource type="Script" uid="uid://ci082cesig2h1" path="res://src/characters/scripts/HealthComponent.gd" id="7_7iadi"]
 [ext_resource type="PackedScene" uid="uid://ndfj4s23ilpg" path="res://src/interaction/scenes/interaction_area.tscn" id="8_08hu2"]
-[ext_resource type="Resource" uid="uid://b17jvsq58e1lp" path="res://src/dialogue/resources/solider_one_dialogue.dialogue" id="9_dlgsr1"]
+[ext_resource type="Resource" uid="uid://dlvj6wcjgcdlp" path="res://src/dialogue/resources/solider_one_dialogue.dialogue" id="9_dlgsr1"]
 [ext_resource type="Script" uid="uid://di6s58kihd1vo" path="res://src/characters/scripts/ManaComponent.gd" id="mana_comp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oa576"]

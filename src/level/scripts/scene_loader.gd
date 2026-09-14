@@ -11,7 +11,9 @@ func _ready() -> void:
 func _on_interact():
 	if QuestManager.can_enter_boss_fight():
 		print("Completed the Quest, now entering the boss fight.")
-		SignalBus.request_scene_change.emit(scene_to_load)
-		AudioController.stop_background_music()
+		# Free-roam music keeps playing through the transition and the duel-intro cutscene;
+		# TurnBasedCombat._ready() stops it once the intro resolves, right before battle
+		# music starts.
+		SignalBus.request_scene_change.emit(scene_to_load, {})
 	else:
 		print("Have not completed the quest.")

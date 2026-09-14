@@ -1,11 +1,13 @@
 ~ start
 # Scene: A raised podium in the central square of Levaris. Two soldiers stand at attention beside it, mid-announcement to a gathered crowd. Astryn, Novius, Spero, and Aegrandir stand among the townsfolk.
 
+do cutscene.wait_before_dialogue()
+
 solider_one: —and remember, curfew violations will be handled swiftly and without exception. General Vorkoth's justice is Levaris's peace.
 
 solider_one: Any further business brought before this podium will be heard now, as is custom.
 
-solider_two: (scanning the crowd, eyes landing on the party) You four. You're not from here.
+solider_two: You four. You're not from here.
 
 astryn: Observant.
 
@@ -19,29 +21,33 @@ spero: Didn't you just say any business gets heard? Or was that just for show?
 
 solider_two: Watch your tone, boy.
 
-vorkoth_p1: (voice booming from behind, having appeared on the podium as if from nowhere) Now, now. No need to rattle our guests.
+do vorkoth.play_teleport_in()
 
-spero: (muttering to the team) DAMN, that hairline is nasty...
+do AudioController.play_background_music()
 
-astryn: (elbowing him) Not now.
+vorkoth_p1: Now, now. No need to rattle our guests.
 
-vorkoth_p1: (not quite catching it, but sensing something) ...Something funny, boy?
+spero: DAMN, that hairline is nasty...
 
-spero: (way too innocent) Nope. Just admiring the view.
+astryn: Not now.
+
+vorkoth_p1: ...Something funny, boy?
+
+spero: Nope. Just admiring the view.
 
 vorkoth_p1: Word travels fast when strangers cause a scene in my city. What is it you want with me?
 
-novius: (stepping forward) We traced a medicine distributor here. Every inflated price, every backroom deal — leads straight back to a cut you're taking off the top.
+novius: We traced a medicine distributor here. Every inflated price, every backroom deal — leads straight back to a cut you're taking off the top.
 
-vorkoth_p1: (looking Novius over) And you'd be the expert on medicine, would you?
+vorkoth_p1: And you'd be the expert on medicine, would you?
 
 novius: I used to work the counter myself. I know exactly what a price tag like that does to somebody who can't pay it.
 
-vorkoth_p1: (a short laugh) Touching. Truly. But accusations aren't proof, boy.
+vorkoth_p1: Touching. Truly. But accusations aren't proof, boy.
 
 astryn: We've got enough of both. We're not asking.
 
-vorkoth_p1: (studying her, almost amused) And you're the one bringing me this? Leading these three?
+vorkoth_p1: And you're the one bringing me this? Leading these three?
 
 astryn: I am.
 
@@ -61,7 +67,7 @@ astryn: (to Vorkoth) Fine. Then we'll settle it the old-fashioned way. I challen
 
 solider_one: That's outrageous! You don't get to challenge a general of Acirema like some tavern brawl—
 
-vorkoth_p1: (raising a hand to silence him, studying Astryn for a long moment, then laughing) You. A duel. With me.
+vorkoth_p1: You. A duel. With me.
 
 astryn: Something funny?
 
@@ -69,16 +75,16 @@ vorkoth_p1: I've put down warlords twice your size and half your mouth. I'm tryi
 
 astryn: Guess you'll find out tonight.
 
-vorkoth_p1: (to the crowd, arms wide) You hear this? A girl walks into my city and thinks she's the one to end my rule!
+vorkoth_p1: (to the crowd) You hear this? A girl walks into my city and thinks she's the one to end my rule!
 
 vorkoth_p1: (back to Astryn) Very well. I accept — if only to remind this city, and the rest of Acirema, what happens to those who overestimate themselves.
 
 vorkoth_p1: Tonight. The Pit. Try not to embarrass yourself.
 
+do vorkoth.play_teleport_out()
+
 # Vorkoth vanishes as suddenly as he appeared. The soldiers usher the crowd along. The party is left standing in the square.
 
-spero: Dude just Irish-goodbye'd out of his own podium.
-
-astryn: Let's use the time we've got. Talk to the team, talk around the city. I want to know exactly what we're walking into tonight.
+astryn: Let's use the time we've got. Talk around the city. I want to know exactly what we're walking into tonight.
 
 => END

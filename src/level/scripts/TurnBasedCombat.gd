@@ -4,7 +4,7 @@
 extends Node3D
 class_name TurnBasedCombat
 
-signal combat_ended()
+signal combat_ended(was_quit: bool)
 
 @export var tbc_ui: PlayerActionUI
 
@@ -51,6 +51,7 @@ var enemy4_in = null
 @onready var battle_camera: Camera3D = $BattleCamera
 
 enum CombatState {
+	PRE_BATTLE_CUTSCENE,
 	START_BATTLE,
 	PLAYER_TURN_SELECT,
 	PLAYER_TURN_TARGET,
@@ -59,7 +60,10 @@ enum CombatState {
 	ENEMY_TURN,
 	END_BATTLE
 }
-var current_state: CombatState = CombatState.START_BATTLE
+# _process() is off (see _ready()) for the entire PRE_BATTLE_CUTSCENE state, so this is
+# never actually matched in _process()'s state machine — it just documents what's
+# happening while _play_pre_battle_cutscene() is awaited.
+var current_state: CombatState = CombatState.PRE_BATTLE_CUTSCENE
 
 var player_data: CharacterData = null
 var party_nodes: Array[Node3D] = []
@@ -105,9 +109,13 @@ const SPLASH_DAMAGE_MULTIPLIER: float = 0.33
 # ---- TBC Setup Functions ----
 
 func _ready() -> void:
+	# Off until the pre-battle cutscene resolves below — Godot would otherwise start
+	# calling _process() the moment this node enters the tree, racing START_BATTLE's
+	# spawn/turn logic underneath the cutscene.
+	set_process(false)
+
 	if is_instance_valid(battle_camera):
 		_camera_overview_position = battle_camera.position
-	AudioController.play_battle_music()
 	_hide_player_action_ui()
 	_hide_target_action_ui()
 	SignalBus.boss_action_selected.connect(_on_boss_action_selected)
@@ -122,7 +130,46 @@ func _ready() -> void:
 	SignalBus.battle_started.emit()
 
 	print(player_node.global_position)
+
+	# Spawned before the cutscene below, not after — the duel intro's dialogue has these
+	# actors talking to each other, so they need to already be standing in the arena.
+	_spawn_party()
+	_spawn_enemy()
+
+	# The HP/mana HUD is created by _spawn_party() above, but shouldn't be visible until
+	# combat actually starts — hidden here, shown again once the cutscene ends below.
+	health_bar_canvas.visible = false
+
+	# Base is a no-op (practice fights start immediately, same as always); overridden in
+	# BossTurnBasedCombat to play a pre-fight cutscene before any of this actually starts.
+	@warning_ignore("redundant_await")
+	await _play_pre_battle_cutscene()
+	health_bar_canvas.visible = true
+	AudioController.stop_background_music()
+	AudioController.play_battle_music()
+	change_state(CombatState.START_BATTLE)
 	set_process(true)
+
+func _play_pre_battle_cutscene() -> void:
+	pass
+
+
+## Overrides the editor-assigned enemy/party rosters at runtime. Called by main.gd's
+## switch_scene() right after instantiation, before the first _process() tick spawns them
+## (see CombatState.START_BATTLE) — so this always lands in time. Missing/empty keys leave
+## this scene's own editor-assigned defaults in place, so it can still run standalone.
+func initialize_data(data: Dictionary) -> void:
+	var enemies: Array = data.get("enemies", [])
+	if not enemies.is_empty():
+		enemy1 = enemies[0] if enemies.size() > 0 else null
+		enemy2 = enemies[1] if enemies.size() > 1 else null
+		enemy3 = enemies[2] if enemies.size() > 2 else null
+		enemy4 = enemies[3] if enemies.size() > 3 else null
+	var party: Array = data.get("party", [])
+	if not party.is_empty():
+		party_member2 = party[0] if party.size() > 0 else null
+		party_member3 = party[1] if party.size() > 1 else null
+		party_member4 = party[2] if party.size() > 2 else null
 
 
 func _queue_battle_message(message: String) -> void:
@@ -142,14 +189,17 @@ func _wait_for_battle_messages() -> void:
 
 
 # Pauses battle to play a dialogue cutscene; a null resource is a no-op so trigger points
-# can be wired before dialogue exists.
-func play_cutscene(dialogue_resource: DialogueResource, title: String = "start") -> void:
+# can be wired before dialogue exists. show_bars matches Enemy.gd/PartyMember.gd's own
+# opt-out (CinematicBars honors a "show_cinematic_bars" meta on the resource) so a caller
+# like a mid-battle taunt can skip the letterbox bars without touching CinematicBars itself.
+func play_cutscene(dialogue_resource: DialogueResource, title: String = "start", show_bars: bool = true) -> void:
 	if dialogue_resource == null:
 		return
 	if battle_message_box != null and battle_message_box.has_method("clear_queue"):
 		battle_message_box.clear_queue()
 	_hide_player_action_ui()
 	_hide_target_action_ui()
+	dialogue_resource.set_meta("show_cinematic_bars", show_bars)
 	DialogueManager.show_dialogue_balloon(dialogue_resource, title)
 	await DialogueManager.dialogue_ended
 
@@ -171,6 +221,13 @@ func _spawn_party():
 		var bar = health_bar_prefab.instantiate()
 		health_bar_canvas.add_child(bar)
 		bar.setup(player_node, 0)
+		if partyspawn1:
+			player_node.global_position = partyspawn1.global_position
+			# Character._physics_process() applies a one-time "park in battle position" nudge
+			# the first physics frame it sees a TBC scene, meant for whatever stale free-roam
+			# position it's still sitting at. Since we've already placed it exactly, mark that
+			# nudge as already done so it doesn't fire on top of this and shove it off-mark.
+			player_node.did_move_character = true
 	if party_member2:
 		party2_in = party_member2.instantiate()
 		party2_in.scale = Vector3(0.1, 0.1, 0.1)
@@ -313,13 +370,10 @@ func _debug_turn_end(actor: Node3D) -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("switch scene (for testing)"):
 		AudioController.stop_battle_music()
-		combat_ended.emit()
+		combat_ended.emit(false)
 
 	match current_state:
 		CombatState.START_BATTLE:
-			_spawn_party()
-			_spawn_enemy()
-
 			_calculate_turn_queue()
 			current_turn_actor = turn_queue.pop_front()
 			_refresh_turn_queue_display()
@@ -389,8 +443,9 @@ func _process(_delta: float) -> void:
 				_execute_action_logic()
 
 		CombatState.END_BATTLE:
+			reset_party_battle_modifiers()
 			AudioController.stop_battle_music()
-			combat_ended.emit()
+			combat_ended.emit(false)
 
 # ---- Target Select Functions ----
 
@@ -707,6 +762,11 @@ func _next_turn():
 		change_state(CombatState.END_BATTLE)
 		return
 
+	# Same analyzer note as _resolve_move_hit's defeat handling — the base is a no-op, but
+	# BossTurnBasedCombat's override awaits a dialogue balloon.
+	@warning_ignore("redundant_await")
+	await _check_battle_interruptions()
+
 	if turn_queue.is_empty():
 		if DEBUG_BATTLE_LOGS:
 			print("New Round! Recalculating speeds...")
@@ -791,6 +851,24 @@ func _check_battle_over() -> bool:
 	# party_nodes keeps downed members, so "wiped out" means no one standing, not an empty array.
 	var party_wiped: bool = party_nodes.filter(func(p): return p.current_hp > 0).is_empty()
 	return enemy_nodes.is_empty() or party_wiped
+
+
+# Clears stat stages/statuses picked up during the fight, same as PartyMember's own
+# faint/revive reset. Overridden to a no-op in BossTurnBasedCombat so the real fight's
+# outcome carries forward as it always has; practice fights shouldn't leave buffs/debuffs
+# behind for the player to (accidentally or not) carry into the real fight.
+func reset_party_battle_modifiers() -> void:
+	for node in party_nodes:
+		if node and node.data:
+			node.data.active_statuses.clear()
+			node.data.reset_modifiers()
+
+
+# Checked once per resolved turn (see _next_turn()); overridden in BossTurnBasedCombat to
+# fire story barks off HP thresholds. A no-op here so practice fights (no boss, no Vorkoth
+# dialogue) never try to run this.
+func _check_battle_interruptions() -> void:
+	pass
 
 
 # ---- UI Hide and Show ----

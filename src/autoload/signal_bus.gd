@@ -5,7 +5,7 @@ extends Node
 
 
 @warning_ignore("unused_signal")
-signal request_scene_change(scene: PackedScene)
+signal request_scene_change(scene: PackedScene, data: Dictionary)
 
 @warning_ignore("unused_signal")
 signal get_game_state(party_members: Array, enemy_members: Array, boss_data: CharacterData)

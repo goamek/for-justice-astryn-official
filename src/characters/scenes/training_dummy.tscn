@@ -1,0 +1,106 @@
+[gd_scene load_steps=17 format=3 uid="uid://ddbnooe5wapaq"]
+
+[ext_resource type="PackedScene" uid="uid://c6kg6xuvysxig" path="res://src/characters/scenes/bases/enemy.tscn" id="1_base"]
+[ext_resource type="Resource" uid="uid://x0p3vknye1fa" path="res://src/characters/resources/training_dummy_character_data.tres" id="2_data"]
+[ext_resource type="Texture2D" uid="uid://jxleajbm6gdd" path="res://assets/Sprites/SoliderBlack/SoliderTwoAnimBattle.png" id="3_vdgu4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uigu0"]
+atlas = ExtResource("3_vdgu4")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fbal3"]
+atlas = ExtResource("3_vdgu4")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6v2pg"]
+atlas = ExtResource("3_vdgu4")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vyhxo"]
+atlas = ExtResource("3_vdgu4")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gyu0q"]
+atlas = ExtResource("3_vdgu4")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nhlj1"]
+atlas = ExtResource("3_vdgu4")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0t6bm"]
+atlas = ExtResource("3_vdgu4")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0a7pc"]
+atlas = ExtResource("3_vdgu4")
+region = Rect2(336, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t2a7d"]
+atlas = ExtResource("3_vdgu4")
+region = Rect2(384, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w65iu"]
+atlas = ExtResource("3_vdgu4")
+region = Rect2(432, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ed0l"]
+atlas = ExtResource("3_vdgu4")
+region = Rect2(480, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cj0i8"]
+atlas = ExtResource("3_vdgu4")
+region = Rect2(528, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d6ghi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uigu0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbal3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6v2pg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vyhxo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gyu0q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nhlj1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0t6bm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0a7pc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t2a7d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w65iu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ed0l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cj0i8")
+}],
+"loop": true,
+"name": &"Battle Idle",
+"speed": 5.0
+}]
+
+[node name="CharacterBody3D" instance=ExtResource("1_base")]
+scale = Vector3(0.1, 0.1, 0.1)
+data = ExtResource("2_data")
+
+[node name="AnimatedSprite3D" parent="." index="0"]
+transform = Transform3D(-50, 0, -7.54979e-06, 0, 50, 0, 7.54979e-06, 0, -50, 0, 0, 0)
+sprite_frames = SubResource("SpriteFrames_d6ghi")
+animation = &"Battle Idle"

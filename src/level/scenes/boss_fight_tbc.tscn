@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://byfscxscjax7u"]
+[gd_scene load_steps=62 format=3 uid="uid://byfscxscjax7u"]
 
 [ext_resource type="Script" uid="uid://w65i23h5o7xp" path="res://src/level/scripts/BossTurnBasedCombat.gd" id="1_e636i"]
 [ext_resource type="PackedScene" uid="uid://c3wfp4n01jdvk" path="res://src/characters/scenes/party_member_2.tscn" id="2_6qlvv"]
@@ -14,7 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://bsc2ffgvchyw3" path="res://src/ui/scenes/battle_health_bar.tscn" id="10_6wv1l"]
 [ext_resource type="PackedScene" uid="uid://b7kau0k3y4m1q" path="res://src/ai/scenes/boss_ai_controller.tscn" id="11_8ahkt"]
 [ext_resource type="PackedScene" uid="uid://b0lnt2egh6g45" path="res://src/ui/scenes/battle_message_box.tscn" id="14_6lq3m"]
-[ext_resource type="Resource" uid="uid://c8vejea3d68v3" path="res://src/dialogue/resources/dialogue_battle_cutscenes.dialogue" id="15_pdlg2"]
+[ext_resource type="Resource" uid="uid://60jwsduia5en" path="res://src/dialogue/resources/dialogue_battle_cutscenes.dialogue" id="15_pdlg2"]
+[ext_resource type="Resource" uid="uid://bxqq52t7eiayk" path="res://src/dialogue/resources/dialogue_battle_interruptions.dialogue" id="15_battleinterrupt"]
 [ext_resource type="PackedScene" path="res://src/ui/scenes/turn_queue_display.tscn" id="16_tqd01"]
 [ext_resource type="PackedScene" path="res://src/ui/scenes/move_info_popup.tscn" id="18_infopu"]
 [ext_resource type="PackedScene" uid="uid://m2ytr8vk7fia" path="res://src/ui/scenes/boss_health_bar.tscn" id="19_bhb01"]
@@ -92,10 +93,12 @@ size = Vector3(40, 0.2, 5)
 material = ExtResource("21_stonefloor")
 size = Vector3(5, 0.2, 9)
 
-[node name="TBC" type="Node3D" node_paths=PackedStringArray("boss_health_bar", "boss_phase_two_spawn_point", "tbc_ui", "player_node", "partyspawn1", "partyspawn2", "partyspawn3", "partyspawn4", "spawn1", "spawn2", "spawn3", "spawn4", "battle_message_box", "turn_queue_display", "move_info_popup", "target_info_popup")]
+[node name="TBC2" type="Node3D" node_paths=PackedStringArray("boss_health_bar", "boss_phase_two_spawn_point", "tbc_ui", "player_node", "partyspawn1", "partyspawn2", "partyspawn3", "partyspawn4", "spawn1", "spawn2", "spawn3", "spawn4", "battle_message_box", "turn_queue_display", "move_info_popup", "target_info_popup")]
 script = ExtResource("1_e636i")
 phase_transition_dialogue = ExtResource("15_pdlg2")
 phase_transition_dialogue_title = "vorkoth_transformation"
+duel_intro_dialogue = ExtResource("15_pdlg2")
+battle_interruptions_dialogue = ExtResource("15_battleinterrupt")
 boss_health_bar = NodePath("HealthBarCanvasLayer/BossHealthBar")
 boss_phase_two_spawn_point = NodePath("BossPhaseTwoSpawnPoint")
 tbc_ui = NodePath("Player Action UI Control")
@@ -453,6 +456,60 @@ transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 19, 0, 3)
 [node name="PitFloorTile108" parent="." instance=ExtResource("40_floor08")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 19, 0, 5)
 
+[node name="PitFloorTile109" parent="." instance=ExtResource("40_floor15")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -15, 0, 7)
+
+[node name="PitFloorTile110" parent="." instance=ExtResource("40_floor06")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 7)
+
+[node name="PitFloorTile111" parent="." instance=ExtResource("40_floor13")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -11, 0, 7)
+
+[node name="PitFloorTile112" parent="." instance=ExtResource("40_floor04")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 7)
+
+[node name="PitFloorTile113" parent="." instance=ExtResource("40_floor11")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -7, 0, 7)
+
+[node name="PitFloorTile114" parent="." instance=ExtResource("40_floor02")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 7)
+
+[node name="PitFloorTile115" parent="." instance=ExtResource("40_floor09")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -3, 0, 7)
+
+[node name="PitFloorTile116" parent="." instance=ExtResource("40_floor16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 7)
+
+[node name="PitFloorTile117" parent="." instance=ExtResource("40_floor07")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 1, 0, 7)
+
+[node name="PitFloorTile118" parent="." instance=ExtResource("40_floor14")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 7)
+
+[node name="PitFloorTile119" parent="." instance=ExtResource("40_floor05")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 5, 0, 7)
+
+[node name="PitFloorTile120" parent="." instance=ExtResource("40_floor12")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 7)
+
+[node name="PitFloorTile121" parent="." instance=ExtResource("40_floor03")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 9, 0, 7)
+
+[node name="PitFloorTile122" parent="." instance=ExtResource("40_floor10")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 7)
+
+[node name="PitFloorTile123" parent="." instance=ExtResource("40_floor01")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 13, 0, 7)
+
+[node name="PitFloorTile124" parent="." instance=ExtResource("40_floor08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 7)
+
+[node name="PitFloorTile125" parent="." instance=ExtResource("40_floor15")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 17, 0, 7)
+
+[node name="PitFloorTile126" parent="." instance=ExtResource("40_floor06")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, 7)
+
 [node name="Character" parent="." instance=ExtResource("3_muqeg")]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.5, 1.1, 2)
 
@@ -569,7 +626,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "◄ ►  Cycle target      Confirm      Cancel — back to moves      E / Y — View Status"
+text = "◄ ►  Cycle target      Confirm      F / B — Cancel      E / Y — View Status"
 horizontal_alignment = 1
 vertical_alignment = 1
 
