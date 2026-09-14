@@ -7,13 +7,13 @@ vorkoth_p1: Still standing? How cute.
 => END
 
 ~ vorkoth_to_novius
-vorkoth_p1: Guilt looks good on you, boy. Still trying to make up for all the people you turned away?
+vorkoth_p1: Guilt looks good on you. Still trying to make up for all the people you turned away?
 => END
 
 ~ vorkoth_to_spero
 vorkoth_p1: Watch the temper, boy. Wouldn't want you to get "raided" again.
 spero: (grinning) Says the guy who's been "raided" by his own forehead.
-vorkoth_p1: (a beat, genuinely thrown) ...Excuse me?
+vorkoth_p1: ...Excuse me?
 spero: Nothing! Nothing. Keep swinging, big guy.
 => END
 
@@ -25,39 +25,35 @@ vorkoth_p1: Old man should be tending a garden, not playing soldier.
 vorkoth_p2: A woman giving orders on my battlefield. How novel.
 => END
 
-~ vorkoth_to_astryn_stage2_2
-vorkoth_p2: You should be home playing house, not out here pretending to be a soldier.
-=> END
-
 ~ vorkoth_to_spero_stage2
 vorkoth_p2: Your kind should be grateful I let you come in MY city at all.
-spero: (jaw tight, no jokes this time) Say that again once you're on the ground.
-vorkoth_p2: (bearing down on Spero, sneering) Still can't keep that mouth shut, can you, boy?
-spero: (smirking despite himself) Nah. Especially not when your hairline's doing all the talking for me.
-vorkoth_p2: (monstrous voice cracking with actual indignation) I WILL END YOU FIRST, BOY.
-novius: (deadpan, mid-fight) You really made him say that with a straight face.
+spero: Say that again once you're on the ground.
+vorkoth_p2: Still can't keep that mouth shut, can you, boy?
+spero: Nah. Especially not when your hairline's doing all the talking for me.
+vorkoth_p2: I WILL END YOU FIRST.
+novius: You really made him say that with a straight face.
 spero: Worth it.
 => END
 
 ~ vorkoth_to_aegrandir_stage2
 vorkoth_p2: Ancient and useless. Your people should've died out generations ago.
-aegrandir: (quiet, steady) And yet — here I still am.
+aegrandir: And yet — here I still am.
 => END
 
 ~ vorkoth_to_novius_stage2
-vorkoth_p2: Keep patching them up, boy. Won't matter when I'm done. Guilt doesn't stop a blade.
+vorkoth_p2: Keep patching them up. Won't matter when I'm done. Guilt doesn't stop a blade.
 => END
 
 ~ vorkoth_to_crowd_stage2
 vorkoth_p2: YOU SEE WHAT I'VE HAD TO CARRY, KEEPING ANIMALS LIKE THIS IN LINE?
-NPCCrowdVoice1: (shouting back) That's not what you've been carrying — that's what you've been TAKING from us!
-NPCCrowdVoice2: Get him! Don't let him walk away from this!
+npcgreen: That's not what you've been carrying — that's what you've been TAKING from us!
+npcblue: Get him! Don't let him walk away from this!
 => END
 
-~ vorkoth_to_astryn_stage2_3
+~ vorkoth_to_astryn_stage2_2
 vorkoth_p2: No man in this city would let a woman lead him into battle. Yet here you are, playing general.
 => END
 
-~ vorkoth_to_astryn_stage2_4
+~ vorkoth_to_astryn_stage2_3
 vorkoth_p2: Pathetic, really — that this is what passes for a leader nowadays.
 => END

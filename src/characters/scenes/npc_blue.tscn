@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" uid="uid://cldkjmaxgdbvu" path="res://src/characters/scripts/PartyMember.gd" id="1_rgg44"]
 [ext_resource type="Resource" uid="uid://di0rwgckv3dnl" path="res://src/characters/resources/npc_blue_character_data.tres" id="2_rgg44"]
-[ext_resource type="Resource" uid="uid://diidvq0rh2os" path="res://src/dialogue/resources/npc_blue_dialogue.dialogue" id="3_rgg44"]
+[ext_resource type="Resource" uid="uid://fn2butou6j2c" path="res://src/dialogue/resources/npc_blue_dialogue.dialogue" id="3_rgg44"]
 [ext_resource type="Texture2D" uid="uid://cmtb3bu420y3m" path="res://assets/Sprites/NPCBlue/npcfAnimDown.png" id="4_rgg44"]
 [ext_resource type="Texture2D" uid="uid://dsg4cdhkggvwp" path="res://assets/Sprites/NPCBlue/npcFAnimLeft.png" id="5_kwlyn"]
 [ext_resource type="Texture2D" uid="uid://cnu62mjamlveb" path="res://assets/Sprites/NPCBlue/npcFAnimRight.png" id="6_hxn2u"]
 [ext_resource type="Texture2D" uid="uid://csj4ypr0momne" path="res://assets/Sprites/NPCBlue/npcFAnimUp.png" id="7_rgg44"]
 [ext_resource type="Script" uid="uid://ci082cesig2h1" path="res://src/characters/scripts/HealthComponent.gd" id="8_amsa8"]
-[ext_resource type="Script" path="res://src/characters/scripts/ManaComponent.gd" id="mana_comp"]
 [ext_resource type="PackedScene" uid="uid://ndfj4s23ilpg" path="res://src/interaction/scenes/interaction_area.tscn" id="9_fjviu"]
+[ext_resource type="Script" uid="uid://di6s58kihd1vo" path="res://src/characters/scripts/ManaComponent.gd" id="mana_comp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5ou2e"]
 atlas = ExtResource("4_rgg44")

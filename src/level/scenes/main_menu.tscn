@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://j2vxcy8hcxwf"]
+[gd_scene load_steps=16 format=3 uid="uid://j2vxcy8hcxwf"]
 
 [ext_resource type="Script" uid="uid://dkg3uit7yqhup" path="res://src/ui/scripts/main_menu.gd" id="1_t475i"]
-[ext_resource type="PackedScene" uid="uid://4n8syemt6iep" path="res://src/level/scenes/free_roam.tscn" id="2_xg7my"]
+[ext_resource type="PackedScene" uid="uid://bnnrhjrvj6st1" path="res://src/level/scenes/opening_cutscene.tscn" id="3_opncutscene"]
 [ext_resource type="FontFile" uid="uid://c45qqkxks0evn" path="res://assets/fonts/Ferrum-wy99.otf" id="3_wmo1h"]
+[ext_resource type="PackedScene" path="res://src/ui/scenes/controls_panel.tscn" id="4_controlspanel"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7wsp6"]
 
@@ -26,27 +27,6 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f0reb"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gpadA"]
-bg_color = Color(0.2, 0.7, 0.2, 1)
-corner_radius_top_left = 999
-corner_radius_top_right = 999
-corner_radius_bottom_right = 999
-corner_radius_bottom_left = 999
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gpadB"]
-bg_color = Color(0.8, 0.2, 0.2, 1)
-corner_radius_top_left = 999
-corner_radius_top_right = 999
-corner_radius_bottom_right = 999
-corner_radius_bottom_left = 999
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gpadUnused"]
-bg_color = Color(0.35, 0.35, 0.35, 1)
-corner_radius_top_left = 999
-corner_radius_top_right = 999
-corner_radius_bottom_right = 999
-corner_radius_bottom_left = 999
-
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -55,7 +35,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_t475i")
-free_roam_scene = ExtResource("2_xg7my")
+free_roam_scene = ExtResource("3_opncutscene")
 
 [node name="Main Menu Elements" type="Control" parent="."]
 layout_mode = 1
@@ -221,232 +201,9 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="ControlsPanel" type="Control" parent="."]
+[node name="ControlsPanel" parent="." instance=ExtResource("4_controlspanel")]
 visible = false
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Background" type="ColorRect" parent="ControlsPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="Title" type="Label" parent="ControlsPanel"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -200.0
-offset_top = 36.0
-offset_right = 200.0
-offset_bottom = 96.0
-grow_horizontal = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 48
-text = "Controls"
-horizontal_alignment = 1
-
-[node name="ContentColumn" type="VBoxContainer" parent="ControlsPanel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -340.0
-offset_top = -190.0
-offset_right = 340.0
-offset_bottom = 190.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 10
-
-[node name="MovementHeader" type="Label" parent="ControlsPanel/ContentColumn"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 30
-text = "Movement"
-
-[node name="MoveRow" type="Label" parent="ControlsPanel/ContentColumn"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 18
-text = "Move  —  WASD or Arrow Keys"
-
-[node name="InteractionHeader" type="Label" parent="ControlsPanel/ContentColumn"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 30
-text = "Interaction"
-
-[node name="InteractRow" type="Label" parent="ControlsPanel/ContentColumn"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 18
-text = "Interact / Talk  —  E or Gamepad A"
-
-[node name="MenusHeader" type="Label" parent="ControlsPanel/ContentColumn"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 30
-text = "Menus & Dialogue"
-
-[node name="ConfirmRow" type="Label" parent="ControlsPanel/ContentColumn"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 18
-text = "Confirm / Advance  —  Enter, Space, or Gamepad A"
-
-[node name="CancelRow" type="Label" parent="ControlsPanel/ContentColumn"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 18
-text = "Cancel / Back  —  Escape or Gamepad B"
-
-[node name="BattleHeader" type="Label" parent="ControlsPanel/ContentColumn"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 30
-text = "Battle"
-
-[node name="CycleTargetRow" type="Label" parent="ControlsPanel/ContentColumn"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 18
-text = "Cycle Target  —  Left/Right Arrows or A/D"
-
-[node name="ConfirmTargetRow" type="Label" parent="ControlsPanel/ContentColumn"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 18
-text = "Confirm Target  —  Enter, Space, or Gamepad A"
-
-[node name="CancelTargetRow" type="Label" parent="ControlsPanel/ContentColumn"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 18
-text = "Cancel Target Selection  —  Escape or Gamepad B"
-
-[node name="MoveInfoRow" type="Label" parent="ControlsPanel/ContentColumn"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 18
-text = "Move Info  —  E or Gamepad Y"
-
-[node name="GamepadDiagram" type="Control" parent="ControlsPanel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 400.0
-offset_top = -80.0
-offset_right = 520.0
-offset_bottom = 80.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Heading" type="Label" parent="ControlsPanel/GamepadDiagram"]
-layout_mode = 0
-offset_right = 120.0
-offset_bottom = 24.0
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 16
-text = "Gamepad"
-horizontal_alignment = 1
-
-[node name="YButton" type="PanelContainer" parent="ControlsPanel/GamepadDiagram"]
-layout_mode = 0
-offset_left = 44.0
-offset_top = 30.0
-offset_right = 76.0
-offset_bottom = 62.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_gpadUnused")
-
-[node name="Label" type="Label" parent="ControlsPanel/GamepadDiagram/YButton"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "Y"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="XButton" type="PanelContainer" parent="ControlsPanel/GamepadDiagram"]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 62.0
-offset_right = 44.0
-offset_bottom = 94.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_gpadUnused")
-
-[node name="Label" type="Label" parent="ControlsPanel/GamepadDiagram/XButton"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "X"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="BButton" type="PanelContainer" parent="ControlsPanel/GamepadDiagram"]
-layout_mode = 0
-offset_left = 76.0
-offset_top = 62.0
-offset_right = 108.0
-offset_bottom = 94.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_gpadB")
-
-[node name="Label" type="Label" parent="ControlsPanel/GamepadDiagram/BButton"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "B"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="AButton" type="PanelContainer" parent="ControlsPanel/GamepadDiagram"]
-layout_mode = 0
-offset_left = 44.0
-offset_top = 94.0
-offset_right = 76.0
-offset_bottom = 126.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_gpadA")
-
-[node name="Label" type="Label" parent="ControlsPanel/GamepadDiagram/AButton"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "A"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HintLabel" type="Label" parent="ControlsPanel"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -70.0
-offset_bottom = -30.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_fonts/font = ExtResource("3_wmo1h")
-theme_override_font_sizes/font_size = 15
-theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
-text = "Press Escape to return to the Main Menu"
-horizontal_alignment = 1
 
 [node name="CreditsPanel" type="Control" parent="."]
 visible = false

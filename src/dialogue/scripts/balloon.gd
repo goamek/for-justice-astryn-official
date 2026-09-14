@@ -85,6 +85,10 @@ const BALLOON_PANEL_HEIGHT: float = 219.0
 
 func _ready() -> void:
 	balloon.hide()
+	# CUSTOM: Balloon fills the full screen and is scaled down (see balloon.tscn),
+	# so its pivot must be its own center or it scales toward the top-left corner instead.
+	balloon.pivot_offset = balloon.size / 2
+	balloon.position.y += 50
 	Engine.get_singleton("DialogueManager").mutated.connect(_on_mutated)
 
 	var cast: DialogueCast = load(CAST_PATH)

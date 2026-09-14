@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://m3c4m6qbg6sr"
+path="res://.godot/imported/solider_battle_dialogue.dialogue-e3ca1f11f372732f52ac555a5cbb6f9e.tres"
+
+[deps]
+
+source_file="res://src/dialogue/resources/solider_battle_dialogue.dialogue"
+dest_files=["res://.godot/imported/solider_battle_dialogue.dialogue-e3ca1f11f372732f52ac555a5cbb6f9e.tres"]
+
+[params]
+
+defaults=true

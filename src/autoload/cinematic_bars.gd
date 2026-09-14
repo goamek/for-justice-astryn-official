@@ -22,7 +22,11 @@ func _on_dialogue_started(resource: DialogueResource) -> void:
 	show_bars()
 
 
-func _on_dialogue_ended(_resource: DialogueResource) -> void:
+func _on_dialogue_ended(resource: DialogueResource) -> void:
+	# Opt-out for a scene that wants the bars to stay up past the conversation itself
+	# (e.g. through a scene transition) and will call hide_bars() explicitly when ready.
+	if resource and resource.has_meta("keep_cinematic_bars_on_end") and resource.get_meta("keep_cinematic_bars_on_end"):
+		return
 	hide_bars()
 
 

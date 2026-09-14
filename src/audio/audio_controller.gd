@@ -6,7 +6,7 @@ extends Node
 
 @export var battle_music: AudioStreamPlayer
 
-@export var mute: bool = true
+@export var mute: bool = false
 
 # The battle track battle_music.stream started with, restored at the start of every
 # battle so a boss's phase-2 track from a previous fight doesn't carry over into the next.
@@ -45,6 +45,10 @@ func stop_main_menu_music(fade_duration: float = 0.99):
 
 func play_background_music(fade_duration: float = 0.99):
 	if mute or not background_music:
+		return
+	# Safe to call on an already-playing track (e.g. free roam loading right after the
+	# opening cutscene starts it) — avoids restarting it from 0 mid-loop.
+	if background_music.playing:
 		return
 
 	background_music.volume_db = -15.0
@@ -90,8 +94,9 @@ func _fade_in_battle_music(fade_duration: float) -> void:
 	var tween = create_tween()
 	tween.tween_property(battle_music, "volume_db", -10.0, fade_duration)
 
-## Crossfades battle_music into a boss's phase-2 track as soon as its transition dialogue
-## starts, rather than waiting for the whole transition sequence to finish.
+## Starts a boss's phase-2 track once the phase-2 reveal is fully on screen (the caller
+## already faded phase-1 music out before the scene transition, so this stop_battle_music()
+## call is normally a no-op — kept as a safety net in case that didn't happen).
 ## Bosses without a phase_two_music_loop assigned just keep whatever track is already playing.
 func _on_boss_phase_transition_started(boss: Node3D) -> void:
 	if mute or not battle_music:

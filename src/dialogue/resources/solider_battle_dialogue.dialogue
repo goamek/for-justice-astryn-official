@@ -1,0 +1,14 @@
+~ start
+solider_one: Astryn! Perfect timing.
+solider_one: Would you and your team like to run a practice bout before the real fight?
+- Yes, let's spar! => practice_fight_accept
+- Not right now => practice_fight_decline
+
+~ practice_fight_accept
+solider_one: Good — get your team ready. This one's just for practice, so don't hold back!
+do speaker.start_practice_fight()
+=> END
+
+~ practice_fight_decline
+solider_one: Fair enough. Come find me whenever you want to spar.
+=> END

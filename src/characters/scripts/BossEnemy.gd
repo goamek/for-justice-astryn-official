@@ -54,3 +54,26 @@ func enter_phase_two() -> void:
 	scale = Vector3(0.2, 0.2, 0.2)
 	position.y = 1.0
 	phase = 2
+
+## Blinks the sprite into view a few times before settling fully visible — used for
+## Vorkoth's dramatic reveal in the opening cutscene, where he starts invisible.
+func play_teleport_in() -> void:
+	if animated_sprite == null:
+		return
+	animated_sprite.modulate = Color(1.0, 1.0, 1.0, 0.0)
+	var tween = create_tween().set_loops(4)
+	tween.tween_property(animated_sprite, "modulate:a", 1.0, 0.1)
+	tween.tween_property(animated_sprite, "modulate:a", 0.0, 0.1)
+	await tween.finished
+	animated_sprite.modulate.a = 1.0
+
+## Blinks the sprite out of view a few times before disappearing — the reverse of
+## play_teleport_in(), for Vorkoth's exit at the end of the opening cutscene.
+func play_teleport_out() -> void:
+	if animated_sprite == null:
+		return
+	var tween = create_tween().set_loops(4)
+	tween.tween_property(animated_sprite, "modulate:a", 0.0, 0.1)
+	tween.tween_property(animated_sprite, "modulate:a", 1.0, 0.1)
+	await tween.finished
+	animated_sprite.modulate.a = 0.0

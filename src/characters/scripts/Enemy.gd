@@ -18,6 +18,13 @@ class_name Enemy
 ## Whether CinematicBars (letterboxing) slides in for this conversation; off by default. Can
 ## also be toggled per-section via CinematicBars.show_bars()/hide_bars() from the .dialogue file.
 @export var show_cinematic_bars: bool = false
+## TBC scene to load when start_practice_fight() is called from dialogue; unset for
+## soldiers that don't offer a practice fight.
+@export var practice_fight_scene: PackedScene
+## Enemy roster sent to practice_fight_scene's initialize_data() as data["enemies"].
+@export var practice_enemies: Array[PackedScene] = []
+## Party roster sent to practice_fight_scene's initialize_data() as data["party"].
+@export var practice_party: Array[PackedScene] = []
 @onready var health: HealthComponent = $HealthComponent
 @onready var interaction_area: InteractionArea = get_node_or_null("InteractionArea")
 
@@ -63,6 +70,12 @@ func set_interactable(value: bool) -> void:
 	interactable = value
 	if interaction_area != null:
 		interaction_area.interactable = value
+
+## Callable from a .dialogue file (`do speaker.start_practice_fight()`) to send the player
+## into practice_fight_scene with this soldier's configured roster.
+func start_practice_fight() -> void:
+	SignalBus.request_scene_change.emit(practice_fight_scene, {"enemies": practice_enemies, "party": practice_party})
+	AudioController.stop_background_music()
 
 func take_damage(damage: float) -> float:
 	var was_defeated = health.apply_damage(damage)

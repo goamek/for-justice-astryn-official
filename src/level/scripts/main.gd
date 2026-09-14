@@ -8,12 +8,14 @@ const FREE_ROAM_SCENE = preload("res://src/level/scenes/free_roam.tscn")
 const TBC_SCENE = preload("res://src/level/scenes/boss_fight_tbc.tscn")
 
 @onready var current_scene_container = $Current_Scene_Container
+@onready var pause_menu = $UI/CanvasLayer/PauseMenu
 var current_scene = null
 
 func _ready():
 	SignalBus.request_scene_change.connect(switch_scene)
 	current_scene = MAIN_MENU_SCENE.instantiate()
 	current_scene_container.add_child(current_scene)
+	pause_menu.current_gameplay_scene = current_scene
 
 func switch_scene(new_scene_packed: PackedScene, data = {}):
 	# 1. Fade out
@@ -29,6 +31,7 @@ func switch_scene(new_scene_packed: PackedScene, data = {}):
 
 	current_scene = new_scene_packed.instantiate()
 	current_scene_container.add_child(current_scene)
+	pause_menu.current_gameplay_scene = current_scene
 
 	if current_scene.has_method("initialize_data"):
 		current_scene.initialize_data(data)
@@ -45,5 +48,5 @@ func switch_scene(new_scene_packed: PackedScene, data = {}):
 func _on_start_combat():
 	switch_scene(TBC_SCENE)
 
-func _on_combat_ended():
-	switch_scene(FREE_ROAM_SCENE)
+func _on_combat_ended(was_quit: bool):
+	switch_scene(FREE_ROAM_SCENE, {"return_to_practice_soldier": was_quit})

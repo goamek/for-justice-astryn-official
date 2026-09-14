@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DialogueCast" load_steps=28 format=3 uid="uid://dog7lu8ynfbfj"]
+[gd_resource type="Resource" script_class="DialogueCast" load_steps=29 format=3 uid="uid://dog7lu8ynfbfj"]
 
 [ext_resource type="Script" uid="uid://dri8lumsbkyvj" path="res://src/dialogue/scripts/dialogue_cast.gd" id="1_cast"]
 [ext_resource type="Script" uid="uid://lrjs2kxd25gn" path="res://src/dialogue/scripts/dialogue_speaker.gd" id="2_speaker"]
@@ -92,6 +92,13 @@ script = ExtResource("2_speaker")
 speaker_key = "solider_three"
 display_name = "Soldier"
 
+[sub_resource type="Resource" id="Resource_p133u"]
+script = ExtResource("2_speaker")
+speaker_key = "paanouncer"
+display_name = "PA Announcer"
+portrait = ExtResource("13_p133u")
+metadata/_custom_type_script = "uid://lrjs2kxd25gn"
+
 [resource]
 script = ExtResource("1_cast")
-speakers = Array[ExtResource("2_speaker")]([SubResource("Speaker_astryn"), SubResource("Speaker_vorkothp1"), SubResource("Speaker_vorkothp2"), SubResource("Speaker_spero"), SubResource("Speaker_novius"), SubResource("Speaker_aegrandir"), SubResource("Speaker_npcgreen"), SubResource("Speaker_npcblue"), SubResource("Speaker_npcblack"), SubResource("Speaker_npcred"), SubResource("Speaker_soliderone"), SubResource("Speaker_solidertwo"), SubResource("Speaker_soliderthree")])
+speakers = Array[ExtResource("2_speaker")]([SubResource("Speaker_astryn"), SubResource("Speaker_vorkothp1"), SubResource("Speaker_vorkothp2"), SubResource("Speaker_spero"), SubResource("Speaker_novius"), SubResource("Speaker_aegrandir"), SubResource("Speaker_npcgreen"), SubResource("Speaker_npcblue"), SubResource("Speaker_npcblack"), SubResource("Speaker_npcred"), SubResource("Speaker_soliderone"), SubResource("Speaker_solidertwo"), SubResource("Speaker_soliderthree"), SubResource("Resource_p133u")])

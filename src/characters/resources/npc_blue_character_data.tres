@@ -5,5 +5,5 @@
 
 [resource]
 script = ExtResource("2_radf8")
-character_name = "NPCGreen"
+character_name = "NPCBlue"
 metadata/_custom_type_script = "uid://dsmaiuwygo1ku"

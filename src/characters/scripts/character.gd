@@ -23,6 +23,11 @@ var did_move_character: bool = false
 
 @onready var animated_sprite: AnimatedSprite3D = $AnimatedSprite3D
 
+## Idle direction this character starts in; mirrors Enemy.gd's own idle_animation export
+## for the same reason — the same character scene can rest differently depending on
+## which scene it's placed in (e.g. the opening cutscene vs. normal free roam).
+@export var initial_idle_animation: String = "Idle Down"
+
 # Last non-zero movement direction, used to pick the correct idle animation (X/Z plane).
 var last_direction: Vector2 = Vector2(0, 1) # Represents (right/left, down/up)
 
@@ -53,7 +58,7 @@ signal mana_changed(new_mp)
 
 func _ready():
 	if animated_sprite != null:
-		animated_sprite.play("Idle Down")
+		animated_sprite.play(initial_idle_animation)
 	else:
 		print("ERROR: AnimatedSprite3D node not found at the specified path!")
 

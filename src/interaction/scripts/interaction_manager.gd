@@ -18,7 +18,7 @@ func _ready() -> void:
 	# InteractionArea only unregisters on body_exited — a scene swap while still standing
 	# inside one (e.g. the boss-fight trigger) tears down free-roam without firing that
 	# signal, leaving a stale area and the prompt showing into the next scene.
-	SignalBus.request_scene_change.connect(func(_scene): _clear_interaction_state())
+	SignalBus.request_scene_change.connect(func(_scene, _data): _clear_interaction_state())
 
 func _clear_interaction_state() -> void:
 	active_areas.clear()

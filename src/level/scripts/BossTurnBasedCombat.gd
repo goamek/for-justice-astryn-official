@@ -7,6 +7,10 @@ class_name BossTurnBasedCombat
 @export var phase_transition_dialogue: DialogueResource
 @export var phase_transition_dialogue_title: String = "start"
 
+## Pre-fight cutscene explaining the duel, played before the first turn (and before battle
+## music replaces whatever's already playing).
+@export var duel_intro_dialogue: DialogueResource
+
 ## Long health bar shown under the turn queue once the boss enters phase 2. Left unset,
 ## the phase-2 transition simply skips showing it.
 @export var boss_health_bar: BossHealthBar
@@ -15,9 +19,53 @@ class_name BossTurnBasedCombat
 ## its new form. Left unset, it stays at its phase-1 spawn point for the reveal.
 @export var boss_phase_two_spawn_point: Marker3D
 
+## Story barks interjected mid-battle (dialogue_battle_interruptions.dialogue) — separate
+## from phase_transition_dialogue, which only covers the phase-1->2 transition itself.
+@export var battle_interruptions_dialogue: DialogueResource
+
 # Flat damage the boss deals to each remaining teammate after the transition dialogue,
 # striking them down itself rather than them vanishing off-screen.
 const TEAMMATE_EXECUTION_DAMAGE: int = 99
+
+# Checked once per resolved turn (TurnBasedCombat._next_turn()). Every entry rolls the same
+# chance the moment its target's move finishes (party members or, for the crowd's reaction,
+# Vorkoth's own turn) and never repeats once played. Astryn's three-part phase-2 thread
+# (_stage2_1/_2/_3) shares one target name on purpose — _check_battle_interruptions() below
+# only ever rolls the earliest still-unplayed entry for a given target per tick, so _2 can't
+# fire before _1 has. Purely data — retune the chance or reorder beats without touching the
+# check logic below.
+const INTERRUPTION_CHANCE: float = 0.20
+var _battle_interruptions: Array[Dictionary] = [
+	{"phase": 1, "target": "Astryn", "chance": INTERRUPTION_CHANCE, "title": "vorkoth_to_astryn", "played": false},
+	{"phase": 1, "target": "Novius", "chance": INTERRUPTION_CHANCE, "title": "vorkoth_to_novius", "played": false},
+	{"phase": 1, "target": "Aegrandir", "chance": INTERRUPTION_CHANCE, "title": "vorkoth_to_aegrandir", "played": false},
+	{"phase": 1, "target": "Spero", "chance": INTERRUPTION_CHANCE, "title": "vorkoth_to_spero", "played": false},
+	{"phase": 2, "target": "Astryn", "chance": INTERRUPTION_CHANCE, "title": "vorkoth_to_astryn_stage2_1", "played": false},
+	{"phase": 2, "target": "Spero", "chance": INTERRUPTION_CHANCE, "title": "vorkoth_to_spero_stage2", "played": false},
+	{"phase": 2, "target": "Aegrandir", "chance": INTERRUPTION_CHANCE, "title": "vorkoth_to_aegrandir_stage2", "played": false},
+	{"phase": 2, "target": "Novius", "chance": INTERRUPTION_CHANCE, "title": "vorkoth_to_novius_stage2", "played": false},
+	{"phase": 2, "target": "Astryn", "chance": INTERRUPTION_CHANCE, "title": "vorkoth_to_astryn_stage2_2", "played": false},
+	{"phase": 2, "target": "Vorkoth", "chance": INTERRUPTION_CHANCE, "title": "vorkoth_to_crowd_stage2", "played": false},
+	{"phase": 2, "target": "Astryn", "chance": INTERRUPTION_CHANCE, "title": "vorkoth_to_astryn_stage2_3", "played": false},
+]
+
+func _check_battle_interruptions() -> void:
+	if current_turn_actor == null or current_turn_actor.data == null:
+		return
+	var bosses: Array = enemy_nodes.filter(func(e): return e is BossEnemy)
+	if bosses.is_empty():
+		return
+	var boss: BossEnemy = bosses.front()
+	var mover_name: String = current_turn_actor.data.character_name
+	# Only the earliest still-unplayed entry for this mover is eligible this tick, so a
+	# missed roll on _1 can't let _2/_3 jump the queue in the same tick.
+	for entry in _battle_interruptions:
+		if entry.phase != boss.phase or entry.target != mover_name or entry.played:
+			continue
+		if randf() < entry.chance:
+			entry.played = true
+			await play_cutscene(battle_interruptions_dialogue, entry.title, false)
+		return
 
 # Stays visible=true in the scene file for editor positioning; hidden here at runtime
 # until _begin_boss_phase_two() reveals it via boss_health_bar.setup().
@@ -26,14 +74,8 @@ func _ready() -> void:
 	if boss_health_bar:
 		boss_health_bar.visible = false
 
-# PartySpawnPoint#1 is a dead marker in the base _spawn_party() (the add_child there is
-# commented out; Character's position is hardcoded in the scene instead) — wired up here,
-# not in the shared base class, since tbc.tscn's own PartySpawnPoint#1 doesn't match its
-# Character's position either, so a shared fix would silently move that player too.
-func _spawn_party() -> void:
-	super._spawn_party()
-	if player_node and partyspawn1:
-		player_node.global_position = partyspawn1.global_position
+func _play_pre_battle_cutscene() -> void:
+	await play_cutscene(duel_intro_dialogue, "duel_intro")
 
 # Phase 2's sprite is roughly double phase 1's height (see BossEnemy.PHASE_TWO_SPRITE_OFFSET),
 # so the base CAMERA_FOCUS_OFFSET leaves its top out of frame — pulled back and raised
@@ -67,6 +109,11 @@ func _should_announce_defeat(target: Node3D) -> bool:
 		return false
 	return true
 
+# The real fight's stat stages/statuses persist through battle end as they always have —
+# only practice fights (base TurnBasedCombat) get a clean slate.
+func reset_party_battle_modifiers() -> void:
+	pass
+
 func _handle_potential_defeat(target: Node3D) -> void:
 	if target is BossEnemy and target.phase == 1 and target.current_hp <= 0:
 		await _begin_boss_phase_two(target)
@@ -84,9 +131,9 @@ func _begin_boss_phase_two(boss: BossEnemy) -> void:
 	# Pre-transform banter plays first, still in phase 1, before any of the fade/swap below.
 	await play_cutscene(phase_transition_dialogue, phase_transition_dialogue_title + "_intro")
 
-	# Fires early so the existing phase-2 music crossfade (AudioController) starts
-	# during the fade rather than waiting for the whole reveal sequence to finish.
-	SignalBus.boss_phase_transition_started.emit(boss)
+	# Let phase-1 music fade all the way out before the screen goes black, instead of
+	# letting it keep playing through the transition.
+	await AudioController.stop_battle_music()
 
 	await SceneTransition.transition(2.0)
 
@@ -104,6 +151,11 @@ func _begin_boss_phase_two(boss: BossEnemy) -> void:
 	print("Boss entered phase %d" % boss.phase)
 
 	await SceneTransition.fade_in()
+
+	# Fires once the transition has fully finished (screen back to normal) so AudioController
+	# starts the phase-2 track on the reveal — phase-1 music was already faded out before
+	# the transition even began (see above), so there's silence during the transition itself.
+	SignalBus.boss_phase_transition_started.emit(boss)
 
 	# The boss strikes down any teammates still standing itself, in its new phase-2 form, as
 	# a "power display" beat right after the reveal, before it speaks.
