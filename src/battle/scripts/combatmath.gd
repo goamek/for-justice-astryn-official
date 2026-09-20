@@ -123,6 +123,7 @@ static func calculate_damage(attacker: Node3D, defender: Node3D, move: MoveData)
 				"is_crit": false,
 				"did_hit": false,
 				"effect_messages": status_effect_messages,
+				"oil_ignited": false,
 				# AI learning metadata:
 				"type_multiplier": 1.0,
 				"type_result": "miss"
@@ -132,7 +133,7 @@ static func calculate_damage(attacker: Node3D, defender: Node3D, move: MoveData)
 		_apply_stat_change(defender, move.stat_to_change_2, move.stat_change_amount_2, status_effect_messages)
 
 		# Field Reset Hook: clears every stat stage (not status conditions). Paired with
-		# targets_all, this is how Haze resets buffs/debuffs battlefield-wide.
+		# targets_all, this is how Smoke resets buffs/debuffs battlefield-wide.
 		if move.resets_stat_stages:
 			defender.data.reset_modifiers()
 			status_effect_messages.append("%s's stat changes were reset!" % [defender.character_name])
@@ -171,6 +172,7 @@ static func calculate_damage(attacker: Node3D, defender: Node3D, move: MoveData)
 			"is_crit": false,
 			"did_hit": true,
 			"effect_messages": status_effect_messages,
+			"oil_ignited": false,
 			# Status moves do not reveal offensive type matchup information.
 			"type_multiplier": 1.0,
 			"type_result": "status"
@@ -226,6 +228,7 @@ static func calculate_damage(attacker: Node3D, defender: Node3D, move: MoveData)
 			"is_crit": false,
 			"did_hit": false,
 			"effect_messages": [] as Array[String],
+			"oil_ignited": false,
 			# AI learning metadata:
 			"type_multiplier": 1.0,
 			"type_result": "miss"
@@ -282,18 +285,21 @@ static func calculate_damage(attacker: Node3D, defender: Node3D, move: MoveData)
 
 	var final_damage: float = base_damage * type_multiplier * stab_multiplier
 	var hit_effect_messages: Array[String] = []
+	var oil_ignited: bool = false
 
 	# Coating Hook: Oil ignites on a Fire hit for bonus damage, consuming the coating —
 	# mirrors the Water+Ice/Freeze interaction below with a player-facing message instead
 	# of a silent damage bump.
 	if move_primary_type == TypeData.Type.FIRE and defender.data.has_status(StatusEffect.StatusType.COATING_OIL):
-		final_damage *= 1.5
+		oil_ignited = true
+		var oil_ignite_multiplier: float = 1.5
+		final_damage *= oil_ignite_multiplier
 		var oil_coating: StatusEffect = defender.data.get_status(StatusEffect.StatusType.COATING_OIL)
 		if oil_coating:
 			defender.data.active_statuses.erase(oil_coating)
-		hit_effect_messages.append("%s's oil coating ignited into a blaze!" % [defender.character_name])
+		hit_effect_messages.append("%s's oil coating ignited into a blaze, dealing bonus damage!" % [defender.character_name])
 		if DEBUG_DAMAGE_LOGS:
-			print("Target's oil coating ignited! Fire attack dealt 1.5x damage.")
+			print("Target's oil coating ignited! Fire attack dealt %sx damage." % [oil_ignite_multiplier])
 
 	# Status Control Hook: Provoke
 	if attacker.data.has_status(StatusEffect.StatusType.PROVOKE):
@@ -393,6 +399,7 @@ static func calculate_damage(attacker: Node3D, defender: Node3D, move: MoveData)
 		"is_crit": is_crit,
 		"did_hit": true,
 		"effect_messages": hit_effect_messages,
+		"oil_ignited": oil_ignited,
 		"type_multiplier": type_multiplier,
 		"type_result": _classify_type_result(type_multiplier)
 	}

@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_calm")
 move_name = "Dead Calm"
-description = "The user steadies their breathing, sharpening both their attack and reflexes."
+description = "The user steadies their breathing, sharpening both their attack and speed."
 damage = 0
 category = 2
 mana_cost = 2

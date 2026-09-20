@@ -1,6 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://bsc2ffgvchyw3"]
+[gd_scene load_steps=11 format=3 uid="uid://bsc2ffgvchyw3"]
 
 [ext_resource type="Script" uid="uid://dkqp3ps2iltsv" path="res://src/ui/scripts/battle_health_bar.gd" id="1_pmv2q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_backer"]
+bg_color = Color(0, 0, 0, 0.55)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pmv2q"]
 
@@ -35,47 +42,36 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pmv2q")
 
+[node name="Background" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 119.0
+offset_bottom = 76.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_backer")
+
 [node name="NameLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 3.0
-offset_top = 8.0
-offset_right = 127.0
-offset_bottom = 30.333334
-theme_override_font_sizes/font_size = 16
+offset_left = 5.0
+offset_top = 3.0
+offset_right = 87.0
+offset_bottom = 22.541666
+theme_override_font_sizes/font_size = 14
 text = "Name"
+
+[node name="Portrait" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 91.0
+offset_top = 5.0
+offset_right = 111.0
+offset_bottom = 25.0
+expand_mode = 1
+stretch_mode = 5
 
 [node name="HPLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 27.0
-offset_right = 128.0
-offset_bottom = 45.145836
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_font_sizes/font_size = 12
-text = "0/0"
-vertical_alignment = 1
-
-[node name="ProgressBar" type="ProgressBar" parent="."]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 42.0
-offset_right = 130.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_pmv2q")
-theme_override_styles/fill = SubResource("StyleBoxFlat_rb85x")
-show_percentage = false
-
-[node name="MPLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 52.0
-offset_right = 29.0
-offset_bottom = 65.958336
+offset_left = 6.0
+offset_top = 21.0
+offset_right = 111.0
+offset_bottom = 36.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
@@ -84,68 +80,92 @@ theme_override_font_sizes/font_size = 10
 text = "0/0"
 vertical_alignment = 1
 
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 34.0
+offset_right = 113.0
+offset_bottom = 40.0
+theme_override_styles/background = SubResource("StyleBoxFlat_pmv2q")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rb85x")
+show_percentage = false
+
+[node name="MPLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 41.0
+offset_right = 28.0
+offset_bottom = 53.5625
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 9
+text = "0/0"
+vertical_alignment = 1
+
 [node name="ManaProgressBar" type="ProgressBar" parent="."]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 65.0
-offset_right = 130.0
-offset_bottom = 71.0
+offset_left = 6.0
+offset_top = 52.0
+offset_right = 113.0
+offset_bottom = 57.0
 theme_override_styles/background = SubResource("StyleBoxFlat_manabg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_manafill")
 show_percentage = false
 
 [node name="StatusBadgeRow" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 74.0
-offset_right = 130.0
-offset_bottom = 88.0
-theme_override_constants/separation = 3
+offset_left = 6.0
+offset_top = 61.0
+offset_right = 113.0
+offset_bottom = 74.0
+theme_override_constants/separation = 2
 
 [node name="Badge1" type="PanelContainer" parent="StatusBadgeRow"]
-custom_minimum_size = Vector2(28, 14)
-layout_mode = 2
 visible = false
+custom_minimum_size = Vector2(25, 13)
+layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_badge1")
 
 [node name="Label" type="Label" parent="StatusBadgeRow/Badge1"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 9
+theme_override_font_sizes/font_size = 8
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Badge2" type="PanelContainer" parent="StatusBadgeRow"]
-custom_minimum_size = Vector2(28, 14)
-layout_mode = 2
 visible = false
+custom_minimum_size = Vector2(25, 13)
+layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_badge2")
 
 [node name="Label" type="Label" parent="StatusBadgeRow/Badge2"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 9
+theme_override_font_sizes/font_size = 8
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Badge3" type="PanelContainer" parent="StatusBadgeRow"]
-custom_minimum_size = Vector2(28, 14)
-layout_mode = 2
 visible = false
+custom_minimum_size = Vector2(25, 13)
+layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_badge3")
 
 [node name="Label" type="Label" parent="StatusBadgeRow/Badge3"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 9
+theme_override_font_sizes/font_size = 8
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Badge4" type="PanelContainer" parent="StatusBadgeRow"]
-custom_minimum_size = Vector2(28, 14)
-layout_mode = 2
 visible = false
+custom_minimum_size = Vector2(25, 13)
+layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_badge4")
 
 [node name="Label" type="Label" parent="StatusBadgeRow/Badge4"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 9
+theme_override_font_sizes/font_size = 8
 horizontal_alignment = 1
 vertical_alignment = 1

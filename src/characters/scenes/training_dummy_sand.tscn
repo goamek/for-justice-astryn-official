@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://src/characters/scenes/training_dummy.tscn" id="1_base"]
+[ext_resource type="Resource" path="res://src/characters/resources/training_dummy_sand_character_data.tres" id="2_data"]
+
+[node name="CharacterBody3D" instance=ExtResource("1_base")]
+data = ExtResource("2_data")

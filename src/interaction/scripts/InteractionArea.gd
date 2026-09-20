@@ -4,7 +4,7 @@ class_name InteractionArea
 
 @export var action_name: String = "interact"
 
-# Set false to make this NPC/object non-interactable (no "[E] to ..." prompt, no
+# Set false to make this NPC/object non-interactable (no "[E / Gamepad A] to ..." prompt, no
 # interact() call) without removing the InteractionArea node itself.
 @export var interactable: bool = true
 

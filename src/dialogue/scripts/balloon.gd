@@ -193,7 +193,7 @@ func apply_dialogue_line() -> void:
 
 	dialogue_label.show()
 	if not dialogue_line.text.is_empty():
-		# CUSTOM SPEED
+		# CUSTOM: slower than the addon's default 0.02s/step — reads better at this pace.
 		dialogue_label.seconds_per_step = 0.04
 		dialogue_label.type_out()
 		await dialogue_label.finished_typing

@@ -117,7 +117,7 @@ theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_6yab0"
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_w64ul")
 theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_3o5t2")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_f0reb")
-text = "start"
+text = "start demo"
 
 [node name="ControlsButton" type="Button" parent="ButtonContainer"]
 layout_mode = 2
@@ -146,7 +146,7 @@ text = "controls"
 [node name="CreditsButton" type="Button" parent="ButtonContainer"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../ControlsButton")
-focus_neighbor_bottom = NodePath("../QuitButton")
+focus_neighbor_bottom = NodePath("../PostCreditsOneButton")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.446777, 0.44677705, 0.44677705, 1)
 theme_override_colors/font_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
@@ -167,9 +167,59 @@ theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_3o5t2")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_f0reb")
 text = "credits"
 
-[node name="QuitButton" type="Button" parent="ButtonContainer"]
+[node name="PostCreditsOneButton" type="Button" parent="ButtonContainer"]
+visible = false
 layout_mode = 2
 focus_neighbor_top = NodePath("../CreditsButton")
+focus_neighbor_bottom = NodePath("../PostCreditsTwoButton")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.446777, 0.44677705, 0.44677705, 1)
+theme_override_colors/font_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_colors/font_hover_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_7wsp6")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_t475i")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xg7my")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_wmo1h")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_gnv55")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_b7svq")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_wnywc")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_6yab0")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_w64ul")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_3o5t2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_f0reb")
+text = "post credit scene 1"
+
+[node name="PostCreditsTwoButton" type="Button" parent="ButtonContainer"]
+visible = false
+layout_mode = 2
+focus_neighbor_top = NodePath("../PostCreditsOneButton")
+focus_neighbor_bottom = NodePath("../QuitButton")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.446777, 0.44677705, 0.44677705, 1)
+theme_override_colors/font_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_colors/font_hover_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_7wsp6")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_t475i")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xg7my")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_wmo1h")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_gnv55")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_b7svq")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_wnywc")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_6yab0")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_w64ul")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_3o5t2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_f0reb")
+text = "post credit scene 2"
+
+[node name="QuitButton" type="Button" parent="ButtonContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../PostCreditsTwoButton")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.446777, 0.44677705, 0.44677705, 1)
 theme_override_colors/font_pressed_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
@@ -238,85 +288,154 @@ theme_override_font_sizes/font_size = 48
 text = "Credits"
 horizontal_alignment = 1
 
-[node name="ContentColumn" type="VBoxContainer" parent="CreditsPanel"]
+[node name="ContentRow" type="HBoxContainer" parent="CreditsPanel"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -260.0
+offset_left = -300.0
 offset_top = -190.0
-offset_right = 260.0
+offset_right = 300.0
 offset_bottom = 190.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="LeftColumn" type="VBoxContainer" parent="CreditsPanel/ContentRow"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="DirectionHeader" type="Label" parent="CreditsPanel/ContentColumn"]
+[node name="ProductionHeader" type="Label" parent="CreditsPanel/ContentRow/LeftColumn"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_wmo1h")
 theme_override_font_sizes/font_size = 30
-text = "Game Direction"
+text = "Production"
 horizontal_alignment = 1
 
-[node name="DirectionRow" type="Label" parent="CreditsPanel/ContentColumn"]
+[node name="ProductionRow" type="Label" parent="CreditsPanel/ContentRow/LeftColumn"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_wmo1h")
 theme_override_font_sizes/font_size = 18
-text = "Jordan Placeholder"
+text = "Garrett Oamek"
 horizontal_alignment = 1
 
-[node name="ProgrammingHeader" type="Label" parent="CreditsPanel/ContentColumn"]
+[node name="DevelopmentHeader" type="Label" parent="CreditsPanel/ContentRow/LeftColumn"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_wmo1h")
 theme_override_font_sizes/font_size = 30
-text = "Programming"
+text = "Development"
 horizontal_alignment = 1
 
-[node name="ProgrammingRow" type="Label" parent="CreditsPanel/ContentColumn"]
+[node name="DevelopmentRow" type="Label" parent="CreditsPanel/ContentRow/LeftColumn"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_wmo1h")
 theme_override_font_sizes/font_size = 18
-text = "Sam Example  •  Riley Sample"
+text = "Garrett Oamek"
 horizontal_alignment = 1
 
-[node name="ArtHeader" type="Label" parent="CreditsPanel/ContentColumn"]
+[node name="DesignHeader" type="Label" parent="CreditsPanel/ContentRow/LeftColumn"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_wmo1h")
 theme_override_font_sizes/font_size = 30
-text = "Art & Animation"
+text = "Design"
 horizontal_alignment = 1
 
-[node name="ArtRow" type="Label" parent="CreditsPanel/ContentColumn"]
+[node name="DesignRow" type="Label" parent="CreditsPanel/ContentRow/LeftColumn"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_wmo1h")
 theme_override_font_sizes/font_size = 18
-text = "Casey Doe"
+text = "Garrett Oamek"
 horizontal_alignment = 1
 
-[node name="MusicHeader" type="Label" parent="CreditsPanel/ContentColumn"]
+[node name="WritingHeader" type="Label" parent="CreditsPanel/ContentRow/LeftColumn"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_wmo1h")
 theme_override_font_sizes/font_size = 30
-text = "Music & Sound"
+text = "Writing"
 horizontal_alignment = 1
 
-[node name="MusicRow" type="Label" parent="CreditsPanel/ContentColumn"]
+[node name="WritingRow" type="Label" parent="CreditsPanel/ContentRow/LeftColumn"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_wmo1h")
 theme_override_font_sizes/font_size = 18
-text = "Morgan Test"
+text = "Garrett Oamek"
 horizontal_alignment = 1
 
-[node name="ThanksHeader" type="Label" parent="CreditsPanel/ContentColumn"]
+[node name="CharacterArtHeader" type="Label" parent="CreditsPanel/ContentRow/LeftColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 30
+text = "Character Art"
+horizontal_alignment = 1
+
+[node name="CharacterArtRow" type="Label" parent="CreditsPanel/ContentRow/LeftColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Garrett Oamek  •  Rory Mitchell"
+horizontal_alignment = 1
+
+[node name="RightColumn" type="VBoxContainer" parent="CreditsPanel/ContentRow"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="EnvironmentArtHeader" type="Label" parent="CreditsPanel/ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 30
+text = "Environment Art"
+horizontal_alignment = 1
+
+[node name="EnvironmentArtRow" type="Label" parent="CreditsPanel/ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Ultimate_End"
+horizontal_alignment = 1
+
+[node name="MusicHeader" type="Label" parent="CreditsPanel/ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 30
+text = "Music"
+horizontal_alignment = 1
+
+[node name="MusicRow" type="Label" parent="CreditsPanel/ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "ERNEY  •  Sara Garrard  •  Marllon Silva (xDeviruchi)"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ToolsHeader" type="Label" parent="CreditsPanel/ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 30
+text = "Tools & Engine"
+horizontal_alignment = 1
+
+[node name="ToolsRow" type="Label" parent="CreditsPanel/ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 18
+text = "Godot Engine  •  Dialogue Manager by Nathan Hoad"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ThanksHeader" type="Label" parent="CreditsPanel/ContentRow/RightColumn"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_wmo1h")
 theme_override_font_sizes/font_size = 30
 text = "Special Thanks"
 horizontal_alignment = 1
 
-[node name="ThanksRow" type="Label" parent="CreditsPanel/ContentColumn"]
+[node name="ThanksRow" type="Label" parent="CreditsPanel/ContentRow/RightColumn"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_wmo1h")
 theme_override_font_sizes/font_size = 18
@@ -329,17 +448,37 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -70.0
-offset_bottom = -30.0
+offset_top = -20.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
 theme_override_fonts/font = ExtResource("3_wmo1h")
 theme_override_font_sizes/font_size = 15
-theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
-text = "Press Escape to return to the Main Menu"
+text = "Press Cancel to go back"
 horizontal_alignment = 1
+
+[node name="BackButton" type="Button" parent="CreditsPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -70.0
+offset_top = -80.0
+offset_right = 70.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_wmo1h")
+theme_override_font_sizes/font_size = 22
+text = "Back"
 
 [connection signal="pressed" from="ButtonContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="ButtonContainer/ControlsButton" to="." method="_on_controls_button_pressed"]
 [connection signal="pressed" from="ButtonContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="ButtonContainer/PostCreditsOneButton" to="." method="_on_post_credits_one_button_pressed"]
+[connection signal="pressed" from="ButtonContainer/PostCreditsTwoButton" to="." method="_on_post_credits_two_button_pressed"]
 [connection signal="pressed" from="ButtonContainer/QuitButton" to="." method="_on_quit_button_pressed"]

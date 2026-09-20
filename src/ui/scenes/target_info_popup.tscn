@@ -48,6 +48,11 @@ theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 text = "Target Name"
 
+[node name="TypingLabel" type="Label" parent="PopupRoot/InfoPanel/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+text = ""
+
 [node name="BuffsLabel" type="Label" parent="PopupRoot/InfoPanel/VBoxContainer"]
 layout_mode = 2
 autowrap_mode = 3
@@ -65,4 +70,4 @@ text = ""
 [node name="PromptLabel" type="Label" parent="PopupRoot/InfoPanel/VBoxContainer"]
 layout_mode = 2
 horizontal_alignment = 1
-text = "E / Y or Cancel — Close"
+text = "C / X or Cancel — Close"

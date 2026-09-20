@@ -4,6 +4,11 @@
 extends Node3D
 class_name TurnBasedCombat
 
+const PHYSICAL_IMPACT_SFX: AudioStream = preload("res://assets/sounds/virtual_vibes-thud-impact-sound-sfx-379990.mp3")
+const PHYSICAL_IMPACT_VOLUME_DB: float = -10.0
+const ENERGY_IMPACT_SFX: AudioStream = preload("res://assets/sounds/freesound_community-energy-90321.mp3")
+const ENERGY_IMPACT_VOLUME_DB: float = 0.0
+
 signal combat_ended(was_quit: bool)
 
 @export var tbc_ui: PlayerActionUI
@@ -47,6 +52,7 @@ var enemy4_in = null
 @export var turn_queue_display: TurnQueueDisplay
 @export var move_info_popup: MoveInfoPopup
 @export var target_info_popup: TargetInfoPopup
+@export var tutorial_tip_popup: TutorialTipPopup
 @onready var health_bar_canvas = $HealthBarCanvasLayer
 @onready var battle_camera: Camera3D = $BattleCamera
 
@@ -74,6 +80,10 @@ var current_turn_actor = null
 var target_cycle_list: Array[Node3D] = []
 var target_cycle_index: int = 0
 
+# Whoever's sprite/turn-queue entry is currently flashing — the acting combatant by default,
+# or whichever target is cycled to while selecting one. See _set_highlighted_combatant().
+var _highlighted_combatant: Node3D = null
+
 # Fixed offset added to any target's position to center them in frame; see _focus_camera_on().
 const CAMERA_FOCUS_OFFSET: Vector3 = Vector3(0, 1.6, 4.0)
 const CAMERA_FOCUS_DURATION: float = 0.5
@@ -93,7 +103,7 @@ var boss_ai_controller = null
 # that one action; always cleared after.
 var _mana_waived_this_action: bool = false
 
-# Set by BossTurnBasedCombat to force a specific opening move (e.g. Haze) on the boss's
+# Set by BossTurnBasedCombat to force a specific opening move (e.g. Smoke) on the boss's
 # next turn; cleared after that turn.
 var forced_enemy_move: MoveData = null
 
@@ -113,6 +123,13 @@ func _ready() -> void:
 	# calling _process() the moment this node enters the tree, racing START_BATTLE's
 	# spawn/turn logic underneath the cutscene.
 	set_process(false)
+
+	# main.gd's switch_scene() calls initialize_data() right after add_child() returns —
+	# i.e. synchronously, immediately after _ready() (this function) yields control back to
+	# it. Without this yield, _spawn_party()/_spawn_enemy() below would run first and read
+	# this scene's editor-assigned enemy1../party_member2.. defaults instead of whatever
+	# roster initialize_data() is about to hand it (e.g. the practice fight's soldiers).
+	await get_tree().process_frame
 
 	if is_instance_valid(battle_camera):
 		_camera_overview_position = battle_camera.position
@@ -199,19 +216,31 @@ func play_cutscene(dialogue_resource: DialogueResource, title: String = "start",
 		battle_message_box.clear_queue()
 	_hide_player_action_ui()
 	_hide_target_action_ui()
+	# Don't leave the camera dollied in on whatever target it was last focused on (e.g. the
+	# killing blow) while a dialogue balloon takes over — always frame the overview shot.
+	_reset_camera_to_overview()
 	dialogue_resource.set_meta("show_cinematic_bars", show_bars)
 	DialogueManager.show_dialogue_balloon(dialogue_resource, title)
 	await DialogueManager.dialogue_ended
 
 
-func _play_move_animation(attacker: Node3D, target: Node3D, _move: MoveData) -> void:
+func _play_move_animation(attacker: Node3D, target: Node3D, move: MoveData) -> void:
 	# Fallback animation path. Move-specific handlers can be dispatched here later.
-	await _lunge_animation(attacker, target)
+	await _lunge_animation(attacker, target, move)
 
-# "This target was hit" cue — reuses the same opacity flash Haze's stat-reset uses.
+# "This target was hit" cue — reuses the same opacity flash Smoke's stat-reset uses.
 func _play_hit_flash(target: Node3D) -> void:
 	if target.has_method("flash_stat_reset_tint"):
 		target.flash_stat_reset_tint()
+
+# Impact cue keyed on whether the move actually deals direct damage, not its
+# Physical/Magic/Status category — a damaging Magic move plays the thud same as a Physical
+# one; a non-damaging move (stat changes, heals, coatings) plays the energy cue instead.
+func _play_move_impact_sfx(move: MoveData) -> void:
+	if move.damage > 0:
+		AudioController.play_sfx(PHYSICAL_IMPACT_SFX, PHYSICAL_IMPACT_VOLUME_DB)
+	else:
+		AudioController.play_sfx(ENERGY_IMPACT_SFX, ENERGY_IMPACT_VOLUME_DB)
 
 func _spawn_party():
 	if player_node:
@@ -333,13 +362,25 @@ func _debug_turn_queue() -> String:
 func _refresh_turn_queue_display() -> void:
 	if turn_queue_display == null:
 		return
-	var ordered_names: Array[String] = []
+	var ordered_actors: Array[Node3D] = []
 	if is_instance_valid(current_turn_actor):
-		ordered_names.append(current_turn_actor.character_name)
+		ordered_actors.append(current_turn_actor)
 	for actor in turn_queue:
 		if is_instance_valid(actor):
-			ordered_names.append(actor.character_name)
-	turn_queue_display.update_queue(ordered_names)
+			ordered_actors.append(actor)
+	turn_queue_display.update_queue(ordered_actors)
+
+# Flashes whichever combatant is currently relevant — the acting combatant by default, or a
+# cycled target during PLAYER_TURN_TARGET — on both their sprite and their turn-queue entry,
+# so duplicate-named combatants (e.g. the boss fight's trio of "Solider") stay distinguishable.
+func _set_highlighted_combatant(actor: Node3D) -> void:
+	if is_instance_valid(_highlighted_combatant) and _highlighted_combatant != actor and _highlighted_combatant.has_method("set_turn_highlight"):
+		_highlighted_combatant.set_turn_highlight(false)
+	_highlighted_combatant = actor
+	if is_instance_valid(actor) and actor.has_method("set_turn_highlight"):
+		actor.set_turn_highlight(true)
+	if turn_queue_display:
+		turn_queue_display.set_highlighted_actor(actor)
 
 func _debug_turn_start(actor: Node3D) -> void:
 	if not actor:
@@ -377,6 +418,7 @@ func _process(_delta: float) -> void:
 			_calculate_turn_queue()
 			current_turn_actor = turn_queue.pop_front()
 			_refresh_turn_queue_display()
+			_set_highlighted_combatant(current_turn_actor)
 			_debug_turn_start(current_turn_actor)
 			if current_turn_actor is Character:
 				change_state(CombatState.PLAYER_TURN_SELECT)
@@ -386,23 +428,36 @@ func _process(_delta: float) -> void:
 				change_state(CombatState.ENEMY_TURN)
 
 		CombatState.PLAYER_TURN_SELECT:
+			if tutorial_tip_popup and tutorial_tip_popup.visible:
+				return
 			# Skip re-showing the menu every frame — that would snap focus back and trap the player.
 			if Input.is_action_just_pressed("info"):
 				if move_info_popup and move_info_popup.visible:
 					_close_move_info_popup()
 				else:
+					if target_info_popup and target_info_popup.visible:
+						_close_turn_actor_info_popup()
 					_open_move_info_popup()
+			elif Input.is_action_just_pressed("character_info"):
+				if target_info_popup and target_info_popup.visible:
+					_close_turn_actor_info_popup()
+				else:
+					if move_info_popup and move_info_popup.visible:
+						_close_move_info_popup()
+					_open_turn_actor_info_popup()
 			elif move_info_popup and move_info_popup.visible and Input.is_action_just_pressed("cancel"):
 				_close_move_info_popup()
+			elif target_info_popup and target_info_popup.visible and Input.is_action_just_pressed("cancel"):
+				_close_turn_actor_info_popup()
 
 			# A mouse click on empty space clears GUI focus entirely (buttons are
 			# keyboard/gamepad-only, mouse_filter=IGNORE). Only re-grab when focus is truly
 			# empty, so this never fights player navigation.
-			if tbc_ui and (not move_info_popup or not move_info_popup.visible) and tbc_ui.get_focused_move_index() == -1:
+			if tbc_ui and (not move_info_popup or not move_info_popup.visible) and (not target_info_popup or not target_info_popup.visible) and tbc_ui.get_focused_move_index() == -1:
 				tbc_ui.set_focus_on_attack_button()
 
 		CombatState.PLAYER_TURN_TARGET:
-			if Input.is_action_just_pressed("info"):
+			if Input.is_action_just_pressed("character_info"):
 				if target_info_popup and target_info_popup.visible:
 					_close_target_info_popup()
 				else:
@@ -499,6 +554,7 @@ func _update_target_pointer() -> void:
 		return
 	var target = target_cycle_list[target_cycle_index]
 	_focus_camera_on(target)
+	_set_highlighted_combatant(target)
 
 # Locks in the currently cycled target and executes the selected move.
 func _confirm_target_selection() -> void:
@@ -522,7 +578,6 @@ func _select_random_party_target():
 	var valid_targets = party_nodes.filter(func(p): return p.current_hp > 0)
 
 	if valid_targets.size() > 0:
-		# Taunt Override Check
 		var taunted_targets = valid_targets.filter(func(p): return p.data.has_status(StatusEffect.StatusType.TAUNT))
 		if taunted_targets.size() > 0:
 			var taunted_node = taunted_targets.pick_random()
@@ -620,25 +675,29 @@ func _execute_action_logic():
 	await _wait_for_battle_messages()
 
 	for target in targets:
-		await _resolve_move_hit(attacker, target, move)
+		var hit_result: Dictionary = await _resolve_move_hit(attacker, target, move)
 
 		# A fire move landing on an Oil-coated target also splashes onto the rest of that
 		# side, at reduced damage.
-		if is_instance_valid(target) and _is_fire_oil_ignite(move, target):
+		if is_instance_valid(target) and hit_result.get("oil_ignited", false):
 			var splash_targets = _same_side_nodes(target).filter(
 				func(n): return n != target and is_instance_valid(n) and n.current_hp > 0)
+			if not splash_targets.is_empty():
+				_queue_battle_message("The flames spread across the oil-slicked ground!")
+				await _wait_for_battle_messages()
 			for splash_target in splash_targets:
-				await _resolve_move_hit(attacker, splash_target, move, SPLASH_DAMAGE_MULTIPLIER)
+				await _resolve_move_hit(attacker, splash_target, move, SPLASH_DAMAGE_MULTIPLIER, true)
 
-	# clean and move to next turn
 	_debug_turn_end(attacker)
 	_clear_action()
 	_next_turn()
 
 # Resolves one move hit (damage, animation, popup, messages, defeat). Shared by the primary
 # target and any splash targets. damage_multiplier scales the roll down for splash hits,
-# applied after that target's own stats/matchup are already factored in.
-func _resolve_move_hit(attacker: Node3D, target: Node3D, move: MoveData, damage_multiplier: float = 1.0) -> void:
+# applied after that target's own stats/matchup are already factored in. is_splash marks a
+# fire-spread hit for distinct battle text/popup treatment. Returns calculate_damage's result
+# dict so the caller can check e.g. oil_ignited to decide whether to trigger splash targets.
+func _resolve_move_hit(attacker: Node3D, target: Node3D, move: MoveData, damage_multiplier: float = 1.0, is_splash: bool = false) -> Dictionary:
 	var result = CombatMath.calculate_damage(attacker, target, move)
 	if result.did_hit and damage_multiplier != 1.0 and int(result.amount) > 0:
 		result.amount = int(max(1, round(result.amount * damage_multiplier)))
@@ -646,36 +705,57 @@ func _resolve_move_hit(attacker: Node3D, target: Node3D, move: MoveData, damage_
 	_emit_boss_attack_observation(attacker, target, move, result)
 
 	# Physical moves get the full lunge (which flashes on impact); other hits just get the
-	# flash directly, skipping Haze's own stat-reset flash.
-	if move.category == MoveData.MoveCategory.PHYSICAL:
+	# flash directly, skipping Smoke's own stat-reset flash. Splash hits skip the lunge too —
+	# the attacker only actually lunges at the primary target, not the whole side.
+	if move.category == MoveData.MoveCategory.PHYSICAL and not is_splash:
 		await _play_move_animation(attacker, target, move)
-	elif result.did_hit and target != attacker and not move.resets_stat_stages:
-		_play_hit_flash(target)
+	else:
+		# Flash only makes sense on a target other than the caster; the SFX isn't tied to
+		# that restriction, so a self-targeted move (e.g. Ironwood Stance) still gets a cue.
+		if result.did_hit and target != attacker and not move.resets_stat_stages:
+			_play_hit_flash(target)
+		if result.did_hit:
+			_play_move_impact_sfx(move)
 
 	if not result.did_hit or int(result.amount) > 0:
 		var popup = damage_text_scene.instantiate()
 		get_parent().add_child(popup)
 		popup.global_position = target.global_position + Vector3(0, 2, 0)
-		popup.setup(result.amount, result.is_crit, result.did_hit)
+		popup.setup(result.amount, result.is_crit, result.did_hit, is_splash)
 
 	var action_messages: Array[String] = []
 	var effect_messages: Array[String] = result.get("effect_messages", [])
 	var target_defeated: bool = false
+	var trigger_type_matchup_tip: bool = false
+	var trigger_status_move_tip: bool = false
+	var trigger_coating_tip: bool = false
 
 	if result.did_hit:
 		if int(result.amount) > 0:
 			target.take_damage(result.amount)
-			action_messages.append("%s took %d damage." % [target.character_name, result.amount])
+			if is_splash:
+				action_messages.append("%s took %d splash damage." % [target.character_name, result.amount])
+			else:
+				action_messages.append("%s took %d damage." % [target.character_name, result.amount])
 			var type_multiplier: float = result.get("type_multiplier", 1.0)
 			if type_multiplier > 1.0:
 				action_messages.append("It's super effective!")
+				trigger_type_matchup_tip = true
 			elif type_multiplier < 1.0:
 				action_messages.append("It's not very effective...")
+				trigger_type_matchup_tip = true
+			if result.get("oil_ignited", false):
+				trigger_coating_tip = true
 		elif effect_messages.is_empty():
 			action_messages.append("No direct damage was dealt.")
 
 		for effect_message in effect_messages:
 			action_messages.append(effect_message)
+		if move.category == MoveData.MoveCategory.STATUS and not effect_messages.is_empty():
+			trigger_status_move_tip = true
+		var coating_types: Array = [StatusEffect.StatusType.COATING_OIL, StatusEffect.StatusType.COATING_WATER, StatusEffect.StatusType.COATING_TAR, StatusEffect.StatusType.COATING_ROOTED]
+		if move.status_to_inflict != null and move.status_to_inflict.type in coating_types and not effect_messages.is_empty():
+			trigger_coating_tip = true
 
 		if result.is_crit:
 			action_messages.append("A critical hit!")
@@ -693,6 +773,28 @@ func _resolve_move_hit(attacker: Node3D, target: Node3D, move: MoveData, damage_
 	_queue_battle_messages(action_messages)
 	await _wait_for_battle_messages()
 
+	if tutorial_tip_popup:
+		# Fires after the very first move of the fight resolves, whoever it belongs to —
+		# not on PLAYER_TURN_SELECT entry, since that races PlayerActionUI's own deferred
+		# focus-grab (which re-defers a second time internally and wins) and left the popup
+		# unable to hold focus away from the move buttons.
+		if not QuestManager.tutorial_tips_seen.get("hp_mp", false):
+			QuestManager.tutorial_tips_seen["hp_mp"] = true
+			tutorial_tip_popup.show_tip("Tutorial: Health & Mana", "HP drops when you take damage. If it hits 0, that character is knocked out. Moves cost MP, shown next to each move; run out and you're stuck with free/no-cost moves.")
+			await tutorial_tip_popup.wait_for_dismissal()
+		if trigger_type_matchup_tip and not QuestManager.tutorial_tips_seen.get("type_matchup", false):
+			QuestManager.tutorial_tips_seen["type_matchup"] = true
+			tutorial_tip_popup.show_tip("Tutorial: Type Matchups", "Moves are more or less effective depending on typing: \"super effective\" hits deal bonus damage, \"not very effective\" hits deal less. Watch the battle log for these callouts.")
+			await tutorial_tip_popup.wait_for_dismissal()
+		if trigger_status_move_tip and not QuestManager.tutorial_tips_seen.get("status_move", false):
+			QuestManager.tutorial_tips_seen["status_move"] = true
+			tutorial_tip_popup.show_tip("Tutorial: Status Effects", "Status moves don't deal direct damage: they raise or lower stats, or inflict effects like poison and burn that tick down HP each turn, or freeze, which skips a turn entirely.")
+			await tutorial_tip_popup.wait_for_dismissal()
+		if trigger_coating_tip and not QuestManager.tutorial_tips_seen.get("coating", false):
+			QuestManager.tutorial_tips_seen["coating"] = true
+			tutorial_tip_popup.show_tip("Tutorial: Coating Moves", "Some moves coat a target instead of dealing damage. Coatings set up bonus effects with the right follow-up: Fire ignites an Oil coating for bonus damage, and Ice freezes a Water coating solid.")
+			await tutorial_tip_popup.wait_for_dismissal()
+
 	if target_defeated:
 		if is_instance_valid(target):
 			# _handle_potential_defeat is a coroutine in BossTurnBasedCombat's override (it
@@ -704,12 +806,7 @@ func _resolve_move_hit(attacker: Node3D, target: Node3D, move: MoveData, damage_
 			# but bookkeeping.
 			_prune_freed_battle_nodes()
 
-# True when a fire-typed move lands on a target that's coated in Oil, triggering
-# Ignite Slash-style splash damage to the rest of that target's side.
-func _is_fire_oil_ignite(move: MoveData, target: Node3D) -> bool:
-	if move.category == MoveData.MoveCategory.STATUS:
-		return false
-	return TypeData.get_primary_type(move.typing) == TypeData.Type.FIRE and target.data.has_status(StatusEffect.StatusType.COATING_OIL)
+	return result
 
 # Returns whichever tracked battle array (enemy_nodes or party_nodes) a node belongs to.
 func _same_side_nodes(node: Node3D) -> Array:
@@ -776,6 +873,7 @@ func _next_turn():
 
 	current_turn_actor = turn_queue.pop_front()
 	_refresh_turn_queue_display()
+	_set_highlighted_combatant(current_turn_actor)
 	_debug_turn_start(current_turn_actor)
 
 	# ---- Status Upkeep Tick ----
@@ -785,7 +883,6 @@ func _next_turn():
 	var upkeep_messages: Array[String] = []
 
 	for effect in status_list:
-		# 1. Handle turn mitigation
 		if effect.type == StatusEffect.StatusType.FREEZE:
 			if not effect.freeze_first_turn_passed:
 				effect.freeze_first_turn_passed = true
@@ -794,9 +891,8 @@ func _next_turn():
 				if DEBUG_BATTLE_LOGS:
 					print("   *", current_turn_actor.character_name, " is frozen solid and cannot act!")
 
-		# 2. Handle Fixed Scaling Damage
 		if effect.type == StatusEffect.StatusType.POISON or effect.type == StatusEffect.StatusType.BURN:
-			# scales with the inflicting character's magic power, scaled down against target's magic defense
+			# Scales with the inflicting character's magic power, scaled down against the target's magic defense.
 			var scaled_damage = effect.base_tick_damage * (effect.inflicted_magic_power / max(current_turn_actor.data.base_magic_defense * 0.5, 1))
 			var final_tick = int(max(1, ceil(scaled_damage)))
 
@@ -818,12 +914,10 @@ func _next_turn():
 				_next_turn()
 				return
 
-		# 3. Decrement Duration
 		effect.duration -= 1
 		if effect.duration <= 0:
 			expired_statuses.append(effect)
 
-	# Clean up expired statuses
 	for expired in expired_statuses:
 		status_list.erase(expired)
 		upkeep_messages.append("The %s wore off from %s." % [expired.effect_name, current_turn_actor.character_name])
@@ -834,7 +928,6 @@ func _next_turn():
 		_queue_battle_messages(upkeep_messages)
 		await _wait_for_battle_messages()
 
-	# 4. Execute turn phase skip if mitigation active
 	if should_skip_turn:
 		_next_turn()
 		return
@@ -914,6 +1007,25 @@ func _close_target_info_popup() -> void:
 	if target_info_popup:
 		target_info_popup.hide_popup()
 
+## Same popup as targeting's, shown for current_turn_actor during PLAYER_TURN_SELECT instead
+## of a cycled target. Releases GUI focus like _open_move_info_popup(), since the two share
+## _info_popup_move_index (only one of the two popups is ever open at a time).
+func _open_turn_actor_info_popup() -> void:
+	if not target_info_popup or not current_turn_actor:
+		return
+	if tbc_ui:
+		_info_popup_move_index = tbc_ui.get_focused_move_index()
+	get_viewport().gui_release_focus()
+	target_info_popup.show_target(current_turn_actor)
+
+func _close_turn_actor_info_popup() -> void:
+	_close_target_info_popup()
+	if _info_popup_move_index >= 0 and tbc_ui and _info_popup_move_index < tbc_ui.action_buttons.size():
+		var button = tbc_ui.action_buttons[_info_popup_move_index]
+		if is_instance_valid(button) and button.visible and button.is_visible_in_tree():
+			button.grab_focus()
+	_info_popup_move_index = -1
+
 func _show_target_action_ui():
 	if tbc_ui:
 		tbc_ui.show_target_canvas_layer()
@@ -922,13 +1034,16 @@ func _hide_target_action_ui():
 	if tbc_ui:
 		tbc_ui.hide_target_canvas_layer()
 	_close_target_info_popup()
+	# The only exit point from targeting (confirm or cancel) — restore the highlight to
+	# whoever's turn it still is now that a target is no longer being cycled.
+	_set_highlighted_combatant(current_turn_actor)
 
 func _load_ui_for_party_member():
 	if tbc_ui and current_turn_actor:
 		_focus_camera_on(current_turn_actor)
 
 		var moves = current_turn_actor.data.moves
-		var any_affordable: bool = moves.any(func(m): return m.category == MoveData.MoveCategory.PHYSICAL or m.mana_cost <= current_turn_actor.current_mp)
+		var any_affordable: bool = moves.any(func(m): return m.category == MoveData.MoveCategory.PHYSICAL or current_turn_actor.can_afford(m.mana_cost))
 
 		if not any_affordable:
 			# No affordable move (whole kit is Magic/Status and out of mana) — force a random
@@ -960,18 +1075,21 @@ func _load_ui_for_party_member():
 				else:
 					buttons[i].text = "%s (MP %d)" % [move.move_name, move.mana_cost]
 				buttons[i].visible = true
-				buttons[i].disabled = move.category != MoveData.MoveCategory.PHYSICAL and move.mana_cost > current_turn_actor.current_mp
+				buttons[i].disabled = move.category != MoveData.MoveCategory.PHYSICAL and not current_turn_actor.can_afford(move.mana_cost)
 			else:
 				buttons[i].visible = false
 
 # ---- Animation Logic ----
 
-func _lunge_animation(attacker: Node3D, target: Node3D):
+func _lunge_animation(attacker: Node3D, target: Node3D, move: MoveData):
 	if not is_instance_valid(attacker) or not is_instance_valid(target):
 		return
 
 	var original_pos = attacker.global_position
 	var target_pos = target.global_position + (original_pos - target.global_position).normalized() * 1.5
+	# Keep the attacker's own height so the lunge glides along the floor — matching the
+	# target's height would sink a raised attacker (e.g. phase-2 Vorkoth) into the ground.
+	target_pos.y = original_pos.y
 	var tween = create_tween()
 	# Phase 1: lunge forward
 	tween.tween_property(attacker, "global_position", target_pos, 0.2).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
@@ -980,6 +1098,7 @@ func _lunge_animation(attacker: Node3D, target: Node3D):
 	tween.tween_callback(func():
 		_shake_camera(0.3, 0.15)
 		_play_hit_flash(target)
+		_play_move_impact_sfx(move)
 	)
 
 	# Phase 2: return to start
@@ -1029,12 +1148,20 @@ func _reset_camera_to_overview() -> void:
 func _on_button_one_pressed() -> void:
 	if move_info_popup and move_info_popup.visible:
 		return
+	if target_info_popup and target_info_popup.visible:
+		return
+	if tutorial_tip_popup and tutorial_tip_popup.visible:
+		return
 	if current_state == CombatState.PLAYER_TURN_SELECT:
 		print("Attack one selected!")
 		_select_move(0)
 
 func _on_button_two_pressed() -> void:
 	if move_info_popup and move_info_popup.visible:
+		return
+	if target_info_popup and target_info_popup.visible:
+		return
+	if tutorial_tip_popup and tutorial_tip_popup.visible:
 		return
 	if current_state == CombatState.PLAYER_TURN_SELECT:
 		print("Attack two selected!")
@@ -1044,6 +1171,10 @@ func _on_button_two_pressed() -> void:
 func _on_button_third_pressed() -> void:
 	if move_info_popup and move_info_popup.visible:
 		return
+	if target_info_popup and target_info_popup.visible:
+		return
+	if tutorial_tip_popup and tutorial_tip_popup.visible:
+		return
 	if current_state == CombatState.PLAYER_TURN_SELECT:
 		print("Attack three selected!")
 		_select_move(2)
@@ -1051,6 +1182,10 @@ func _on_button_third_pressed() -> void:
 
 func _on_button_four_pressed() -> void:
 	if move_info_popup and move_info_popup.visible:
+		return
+	if target_info_popup and target_info_popup.visible:
+		return
+	if tutorial_tip_popup and tutorial_tip_popup.visible:
 		return
 	if current_state == CombatState.PLAYER_TURN_SELECT:
 		print("Attack four selected!")
@@ -1062,7 +1197,7 @@ func _select_move(move_index: int) -> void:
 	var move: MoveData = current_turn_actor.data.moves[move_index]
 	# Guards against an unaffordable move slipping through even though a disabled button
 	# shouldn't allow it — skipped when this is the forced no-cost backstop move.
-	if not _mana_waived_this_action and move.category != MoveData.MoveCategory.PHYSICAL and move.mana_cost > current_turn_actor.current_mp:
+	if not _mana_waived_this_action and move.category != MoveData.MoveCategory.PHYSICAL and not current_turn_actor.can_afford(move.mana_cost):
 		return
 	selected_action.move = move
 

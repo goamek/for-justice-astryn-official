@@ -36,6 +36,7 @@ var current_hp: float:
 
 var pulse_tween: Tween
 var stat_flash_tween: Tween
+var turn_highlight_tween: Tween
 
 signal hp_changed(new_hp)
 
@@ -77,6 +78,16 @@ func start_practice_fight() -> void:
 	SignalBus.request_scene_change.emit(practice_fight_scene, {"enemies": practice_enemies, "party": practice_party})
 	AudioController.stop_background_music()
 
+## Callable from a .dialogue file (`do speaker.start_boss_fight()`) to send the player into
+## the real boss fight — same target scene the old standalone SceneLoader interactable used.
+## Free-roam music deliberately keeps playing through the transition and the duel-intro
+## cutscene; TurnBasedCombat._ready() stops it once the intro resolves, right before battle
+## music starts (matches scene_loader.gd's old behavior — unlike start_practice_fight(),
+## this does NOT stop background music immediately).
+func start_boss_fight() -> void:
+	var boss_fight_scene: PackedScene = load("res://src/level/scenes/boss_fight_tbc.tscn")
+	SignalBus.request_scene_change.emit(boss_fight_scene, {})
+
 func take_damage(damage: float) -> float:
 	var was_defeated = health.apply_damage(damage)
 	update_enemy_tint(current_hp / max_hp)
@@ -93,20 +104,16 @@ func take_damage(damage: float) -> float:
 func _on_defeated() -> void:
 	queue_free()
 
-# Call this whenever the enemy takes damage
 func update_enemy_tint(hp_ratio: float):
-	# 1. Kill any existing pulse
 	if pulse_tween and pulse_tween.is_valid(): # check is_valid() instead of is_running()
 		pulse_tween.kill()
 		pulse_tween = null
 
-	# 2. Only start tinting if below 50% (0.5)
 	if hp_ratio < 0.5:
 		var danger_ratio = hp_ratio / 0.5
 		var tint_intensity = 1.0 - danger_ratio
 		animated_sprite.modulate = Color(1.0, 1.0 - tint_intensity, 1.0 - tint_intensity, 1.0)
 
-		# 3. Add the pulse if they are really low (< 20%)
 		if hp_ratio < 0.2:
 			pulse_tween = create_tween().set_loops()
 			pulse_tween.tween_property(animated_sprite, "modulate", Color(1.0, 0.0, 0.0, 1.0), 0.75)
@@ -132,7 +139,7 @@ func flash_stat_change_tint(is_buff: bool) -> void:
 	stat_flash_tween.tween_property(animated_sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.15)
 	stat_flash_tween.finished.connect(func(): update_enemy_tint(current_hp / max_hp))
 
-## Blinks the sprite's opacity for a field-reset move (e.g. Haze) wiping every stat stage —
+## Blinks the sprite's opacity for a field-reset move (e.g. Smoke) wiping every stat stage —
 ## same pulse-pause/resume handling as flash_stat_change_tint(), but fading alpha since a
 ## same-color flash against white didn't read.
 func flash_stat_reset_tint() -> void:
@@ -148,6 +155,25 @@ func flash_stat_reset_tint() -> void:
 	stat_flash_tween.tween_property(animated_sprite, "modulate:a", 0.2, 0.15)
 	stat_flash_tween.tween_property(animated_sprite, "modulate:a", 1.0, 0.15)
 	stat_flash_tween.finished.connect(func(): update_enemy_tint(current_hp / max_hp))
+
+## Loops a warm gold pulse on the sprite while it's this combatant's turn (or it's the
+## currently cycled target) — same pause/resume-the-HP-pulse handling as
+## flash_stat_change_tint(), since pulse_tween and this would otherwise fight over modulate.
+func set_turn_highlight(active: bool) -> void:
+	if animated_sprite == null:
+		return
+	if turn_highlight_tween and turn_highlight_tween.is_valid():
+		turn_highlight_tween.kill()
+		turn_highlight_tween = null
+	if not active:
+		update_enemy_tint(current_hp / max_hp)
+		return
+	if pulse_tween and pulse_tween.is_valid():
+		pulse_tween.kill()
+		pulse_tween = null
+	turn_highlight_tween = create_tween().set_loops()
+	turn_highlight_tween.tween_property(animated_sprite, "modulate", Color(1.0, 0.85, 0.3, 1.0), 0.4)
+	turn_highlight_tween.tween_property(animated_sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.4)
 
 ## Applies a status effect to this enemy's data.
 func apply_status_effect(effect: StatusEffect, inflicted_magic_power: float = 0.0) -> void:

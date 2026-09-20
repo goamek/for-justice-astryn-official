@@ -32,6 +32,19 @@ signal boss_phase_changed(boss: Node3D, new_phase: int)
 @warning_ignore("unused_signal")
 signal boss_phase_transition_started(boss: Node3D)
 
+# Emitted once, the instant the last party member is talked to (talked_to_team fully
+# true) — lets the free-roam objective HUD swap its team line without QuestManager
+# reaching into scene UI directly.
+@warning_ignore("unused_signal")
+signal team_ready_for_duel()
+
+# Emitted by CinematicBars whenever the letterbox bars slide in/out, so other UI (e.g. the
+# free-roam objective HUD) can duck out of the way during a cutscene-style conversation.
+@warning_ignore("unused_signal")
+signal cinematic_bars_shown()
+@warning_ignore("unused_signal")
+signal cinematic_bars_hidden()
+
 # Tracks the boss's phase across the whole session (not just this battle) for systems with
 # no direct node reference (e.g. the dialogue balloon's portrait pick). Synced via boss_phase_changed.
 var current_boss_phase: int = 1

@@ -20,6 +20,7 @@ func _ready() -> void:
 		# ourselves below, once the fade-to-black actually covers the screen, so the bars
 		# stay in place right up until the scene switches instead of retracting early.
 		dialogue_resource.set_meta("keep_cinematic_bars_on_end", true)
+	AudioController.play_world_map_music()
 	DialogueManager.show_dialogue_balloon(dialogue_resource, "start", [{"vorkoth": vorkoth, "cutscene": self}])
 	await DialogueManager.dialogue_ended
 	SignalBus.request_scene_change.emit(next_scene, {})

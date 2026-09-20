@@ -7,6 +7,8 @@
 [resource]
 script = ExtResource("3_aisce")
 character_name = "Solider"
-base_max_hp = 20
+base_max_hp = 50
+base_physical_attack = 10
+base_magic_attack = 10
 moves = Array[ExtResource("1_p4rvw")]([ExtResource("2_onak6")])
 metadata/_custom_type_script = "uid://dsmaiuwygo1ku"

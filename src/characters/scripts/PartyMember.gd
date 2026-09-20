@@ -32,6 +32,7 @@ var current_mp: float:
 var is_downed: bool = false
 var heal_flash_tween: Tween
 var stat_flash_tween: Tween
+var turn_highlight_tween: Tween
 
 signal hp_changed(new_hp)
 signal mana_changed(new_mp)
@@ -83,6 +84,9 @@ func spend_mana(cost: float) -> void:
 	mana.apply_cost(cost)
 	mana_changed.emit(current_mp)
 
+func can_afford(cost: float) -> bool:
+	return mana.can_afford(cost)
+
 func heal(amount: float) -> float:
 	var actual_heal: float = health.apply_heal(amount)
 	hp_changed.emit(current_hp)
@@ -117,7 +121,7 @@ func flash_stat_change_tint(is_buff: bool) -> void:
 	stat_flash_tween.tween_property(animated_sprite, "modulate", flash_color, 0.15)
 	stat_flash_tween.tween_property(animated_sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.15)
 
-## Blinks the sprite's opacity for a field-reset move (e.g. Haze) wiping every stat stage —
+## Blinks the sprite's opacity for a field-reset move (e.g. Smoke) wiping every stat stage —
 ## same mechanism as the buff/debuff flash, but fading alpha since modulate is already white at rest.
 func flash_stat_reset_tint() -> void:
 	if animated_sprite == null:
@@ -129,6 +133,44 @@ func flash_stat_reset_tint() -> void:
 	stat_flash_tween.tween_property(animated_sprite, "modulate:a", 0.2, 0.15)
 	stat_flash_tween.tween_property(animated_sprite, "modulate:a", 1.0, 0.15)
 
+## Blinks the sprite into view a few times before settling fully visible — same technique
+## as BossEnemy's teleport-in, used for Novius's stab-beat entrance in the spare ending.
+func play_teleport_in() -> void:
+	if animated_sprite == null:
+		return
+	animated_sprite.modulate = Color(1.0, 1.0, 1.0, 0.0)
+	var tween = create_tween().set_loops(4)
+	tween.tween_property(animated_sprite, "modulate:a", 1.0, 0.1)
+	tween.tween_property(animated_sprite, "modulate:a", 0.0, 0.1)
+	await tween.finished
+	animated_sprite.modulate.a = 1.0
+
+## Blinks the sprite out of view a few times before disappearing — the reverse of
+## play_teleport_in().
+func play_teleport_out() -> void:
+	if animated_sprite == null:
+		return
+	var tween = create_tween().set_loops(4)
+	tween.tween_property(animated_sprite, "modulate:a", 0.0, 0.1)
+	tween.tween_property(animated_sprite, "modulate:a", 1.0, 0.1)
+	await tween.finished
+	animated_sprite.modulate.a = 0.0
+
+## Loops a warm gold pulse on the sprite while it's this party member's turn (or it's the
+## currently cycled target), same mechanism as flash_stat_change_tint() but a persistent loop.
+func set_turn_highlight(active: bool) -> void:
+	if animated_sprite == null:
+		return
+	if turn_highlight_tween and turn_highlight_tween.is_valid():
+		turn_highlight_tween.kill()
+		turn_highlight_tween = null
+	if not active:
+		animated_sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		return
+	turn_highlight_tween = create_tween().set_loops()
+	turn_highlight_tween.tween_property(animated_sprite, "modulate", Color(1.0, 0.85, 0.3, 1.0), 0.4)
+	turn_highlight_tween.tween_property(animated_sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.4)
+
 func _enter_downed_state() -> void:
 	is_downed = true
 	_clear_statuses_and_stat_stages()
@@ -136,6 +178,9 @@ func _enter_downed_state() -> void:
 		heal_flash_tween.kill()
 	if stat_flash_tween and stat_flash_tween.is_valid():
 		stat_flash_tween.kill()
+	if turn_highlight_tween and turn_highlight_tween.is_valid():
+		turn_highlight_tween.kill()
+		turn_highlight_tween = null
 	if animated_sprite != null:
 		animated_sprite.modulate = Color(0.3, 0.3, 0.3, 1.0)
 

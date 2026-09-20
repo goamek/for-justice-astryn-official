@@ -76,17 +76,6 @@ func queue_message(message: String) -> void:
 		_start_queue()
 
 
-## Enqueues multiple non-empty messages and starts the queue if idle.
-func queue_messages(messages: Array[String]) -> void:
-	for message in messages:
-		if not message.strip_edges().is_empty():
-			_queue.append(message)
-
-	# Batch enqueue should also auto-start when currently idle.
-	if not _is_active and not _queue.is_empty():
-		_start_queue()
-
-
 ## Waits until the current queue finishes processing.
 func wait_until_idle() -> void:
 	if not _is_active:

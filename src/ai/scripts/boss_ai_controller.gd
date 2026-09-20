@@ -12,8 +12,18 @@ var learned_type_knowledge: Dictionary = {}
 var previous_boss_actor_id: int = -1
 
 # Bucket weights for boss personality tuning; normalized per turn before selection.
-const ATTACK_BUCKET_WEIGHT: float = 0.65
-const STATUS_BUCKET_WEIGHT: float = 0.35
+const ATTACK_BUCKET_WEIGHT: float = 0.6
+const STATUS_BUCKET_WEIGHT: float = 0.4
+
+# Once the boss drops below this fraction of its max HP it leans harder into attacking.
+const LOW_HP_THRESHOLD: float = 0.5
+const LOW_HP_ATTACK_BUCKET_WEIGHT: float = 0.8
+const LOW_HP_STATUS_BUCKET_WEIGHT: float = 0.2
+
+# How many top-scoring candidates the weighted pick draws from — kept tighter for the
+# status bucket so status/control moves read as more deliberate than attack-bucket picks.
+const TOP_CANDIDATE_COUNT_ATTACK: int = 3
+const TOP_CANDIDATE_COUNT_STATUS: int = 2
 
 # String keys used in bucket dictionaries and debug output.
 const BUCKET_ATTACK: String = "attack"
@@ -153,7 +163,7 @@ func _build_party_member_snapshot(member: Node) -> Dictionary:
 	}
 
 	# Stage integers, same shape as the boss's own buffs_debuffs — lets scoring see buffs
-	# (e.g. for Haze) without a multiplier calc.
+	# (e.g. for Smoke) without a multiplier calc.
 	snapshot["buffs_debuffs"] = {
 		"physical_attack_stage": member_data.physical_attack_stage,
 		"physical_defense_stage": member_data.physical_defense_stage,
@@ -251,42 +261,6 @@ func _build_boss_snapshot(boss_data: CharacterData, enemy_members: Array) -> Dic
 		"status_conditions": _build_status_snapshots(boss_data.active_statuses) # Array[Dictionary]
 	}
 
-# ---- Type Effectiveness Helpers ----
-
-# Types that deal < 1x damage against the given type array (resisted/immune); subtypes
-# resolve to primary before lookup.
-func _get_resistances(types: Array) -> Array[TypeData.Type]:
-	var results: Array[TypeData.Type] = []
-	for type_value in TypeData.Type.values():
-		var effectiveness: float = _get_type_effectiveness(types, type_value)
-		if effectiveness < 1.0:
-			results.append(type_value as TypeData.Type)
-	return results
-
-# Types that deal > 1x damage against the given type array (weaknesses).
-func _get_weaknesses(types: Array) -> Array[TypeData.Type]:
-	var results: Array[TypeData.Type] = []
-	for type_value in TypeData.Type.values():
-		var effectiveness: float = _get_type_effectiveness(types, type_value)
-		if effectiveness > 1.0:
-			results.append(type_value as TypeData.Type)
-	return results
-
-# Combined effectiveness of attack_type against a (possibly dual-typed) defender; subtypes
-# resolve to primary first.
-func _get_type_effectiveness(types: Array, attack_type: int) -> float:
-	if types.is_empty():
-		return 1.0  # Typeless defenders take neutral damage from everything.
-
-	var effectiveness: float = 1.0
-	for defended_type in types:
-		var defense_type: int = TypeData.get_primary_type(int(defended_type))
-		var attack_primary: int = TypeData.get_primary_type(attack_type)
-		var chart_row = TypeData.DEFENDING_CHART.get(defense_type, {})
-		if chart_row.has(attack_primary):
-			effectiveness *= float(chart_row[attack_primary])
-	return effectiveness
-
 # ---- Move / Status Snapshot Builders ----
 
 # Converts MoveData resources into plain dicts; "status" is null or the live StatusEffect
@@ -347,9 +321,12 @@ func _partition_move_indices_by_bucket(move_snapshots: Array) -> Dictionary:
 
 # Normalizes bucket weights to probabilities summing to 1.0; falls back to a 50/50 split
 # if both are zero/negative.
-func _normalized_bucket_weights() -> Dictionary:
-	var attack_weight: float = max(0.0, ATTACK_BUCKET_WEIGHT)
-	var status_weight: float = max(0.0, STATUS_BUCKET_WEIGHT)
+func _normalized_bucket_weights(boss_snapshot: Dictionary) -> Dictionary:
+	var boss_health: Dictionary = boss_snapshot.get("health", {})
+	var hp_ratio: float = clamp(float(boss_health.get("current", 1)) / max(float(boss_health.get("max", 1)), 1.0), 0.0, 1.0)
+	var is_low_hp: bool = hp_ratio < LOW_HP_THRESHOLD
+	var attack_weight: float = max(0.0, LOW_HP_ATTACK_BUCKET_WEIGHT if is_low_hp else ATTACK_BUCKET_WEIGHT)
+	var status_weight: float = max(0.0, LOW_HP_STATUS_BUCKET_WEIGHT if is_low_hp else STATUS_BUCKET_WEIGHT)
 	var total: float = attack_weight + status_weight
 	if total <= 0.0:
 		return {
@@ -459,7 +436,7 @@ func _make_decision() -> Dictionary:
 		bucket_source_snapshots.append(boss_move_snapshots[move_index])
 
 	var bucket_indices: Dictionary = _partition_move_indices_by_bucket(bucket_source_snapshots)
-	var weights: Dictionary = _normalized_bucket_weights()
+	var weights: Dictionary = _normalized_bucket_weights(boss_snapshot)
 	var selected_bucket: String = _select_weighted_bucket(weights)
 	var selected_move_indices: Array = bucket_indices.get(selected_bucket, [])
 
@@ -543,6 +520,7 @@ func _make_decision() -> Dictionary:
 	if candidate_entries.is_empty():
 		return {}
 
+	var top_candidate_limit: int = TOP_CANDIDATE_COUNT_STATUS if selected_bucket == BUCKET_STATUS else TOP_CANDIDATE_COUNT_ATTACK
 	var top_candidates: Array[Dictionary] = []
 	for candidate in candidate_entries:
 		var candidate_score: float = float(candidate.get("score", -INF))
@@ -551,12 +529,12 @@ func _make_decision() -> Dictionary:
 			if candidate_score > float(top_candidates[index].get("score", -INF)):
 				top_candidates.insert(index, candidate)
 				inserted = true
-				if top_candidates.size() > 3:
+				if top_candidates.size() > top_candidate_limit:
 					top_candidates.pop_back()
 				break
 		if inserted:
 			continue
-		if top_candidates.size() < 3:
+		if top_candidates.size() < top_candidate_limit:
 			top_candidates.append(candidate)
 
 	var top_candidates_log: String = "AI Top Candidates | Bucket=%s | " % selected_bucket
@@ -578,16 +556,17 @@ func _make_decision() -> Dictionary:
 	if best_move == null or best_target == null:
 		return {}
 
-	var final_log: String = "AI Final Decision | Bucket=%s | Move=%s | Target=%s | Score=%.3f | SelectedFromTop3=true" % [
+	var final_log: String = "AI Final Decision | Bucket=%s | Move=%s | Target=%s | Score=%.3f | SelectedFromTop%d=true" % [
 		selected_bucket,
 		String(best_move.move_name) if best_move != null else "None",
 		String(best_target.name) if best_target != null else "None",
-		best_score
+		best_score,
+		top_candidate_limit
 	]
 	print(final_log)
 
 	# best_target is just whichever single target scored highest; a targets_all move (e.g.
-	# Haze) needs to hit everyone standing on the party side instead. This AI only evaluates
+	# Smoke) needs to hit everyone standing on the party side instead. This AI only evaluates
 	# party targets, so it can't also reset the boss's own stages the way the forced
 	# phase-2 opener does.
 	var final_targets: Array = [best_target]
@@ -679,11 +658,11 @@ func _get_move_breakdown(move_snapshot: Dictionary, boss_snapshot: Dictionary, t
 		"accuracy_factor": accuracy_factor
 	}
 
-func _score_status_move(move_snapshot: Dictionary, _boss_snapshot: Dictionary, target_snapshot: Dictionary) -> float:
+func _score_status_move(move_snapshot: Dictionary, boss_snapshot: Dictionary, target_snapshot: Dictionary) -> float:
 	var score: float = 0.25
 	if move_snapshot.get("status") != null:
 		score += 0.35
-	# Field-wide moves (e.g. Haze) don't inflict a status themselves, so without this they'd
+	# Field-wide moves (e.g. Smoke) don't inflict a status themselves, so without this they'd
 	# never compete with a single-target status move's +0.35 bonus above.
 	if move_snapshot.get("targets_all", false):
 		score += 0.35
@@ -693,9 +672,14 @@ func _score_status_move(move_snapshot: Dictionary, _boss_snapshot: Dictionary, t
 		score -= 0.10
 	if target_snapshot["health"]["current"] <= target_snapshot["health"]["max"] * 0.35:
 		score += 0.10
-	# A field-reset move (Haze) is worth prioritizing hard once any party member is buffed —
+	# A field-reset move (Smoke) is worth prioritizing hard once any party member is buffed —
 	# big enough to reliably take the #1 slot over Poison Spit.
 	if move_snapshot.get("resets_stat_stages", false) and _target_has_any_buff(target_snapshot):
+		score += 0.9
+	# Same idea, but for the boss's own side — e.g. Astryn's Para Strike knocking down the
+	# boss's own Physical Attack stage should make Smoke just as attractive as it is when
+	# the party is buffed.
+	if move_snapshot.get("resets_stat_stages", false) and _boss_has_any_debuff(boss_snapshot):
 		score += 0.9
 
 	return clamp(score, 0.0, 1.0)
@@ -705,6 +689,14 @@ func _target_has_any_buff(target_snapshot: Dictionary) -> bool:
 	var stages: Dictionary = target_snapshot.get("buffs_debuffs", {})
 	for stage_value in stages.values():
 		if int(stage_value) > 0:
+			return true
+	return false
+
+# True if any of the boss's own stat stages is negative (i.e. currently debuffed).
+func _boss_has_any_debuff(boss_snapshot: Dictionary) -> bool:
+	var stages: Dictionary = boss_snapshot.get("buffs_debuffs", {})
+	for stage_value in stages.values():
+		if int(stage_value) < 0:
 			return true
 	return false
 

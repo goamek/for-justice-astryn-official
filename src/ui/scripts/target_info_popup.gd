@@ -2,6 +2,7 @@ extends CanvasLayer
 class_name TargetInfoPopup
 
 @onready var name_label: Label = $PopupRoot/InfoPanel/VBoxContainer/NameLabel
+@onready var typing_label: Label = $PopupRoot/InfoPanel/VBoxContainer/TypingLabel
 @onready var buffs_label: Label = $PopupRoot/InfoPanel/VBoxContainer/BuffsLabel
 @onready var status_label: Label = $PopupRoot/InfoPanel/VBoxContainer/StatusLabel
 
@@ -18,6 +19,13 @@ func show_target(target: Node3D) -> void:
 	var display_name = target.get("character_name")
 	name_label.text = str(display_name) if display_name else str(target.name)
 
+	# Only party members show typing — enemy typing is meant to be discovered through
+	# combat, same as the boss AI never being told party/enemy typing directly.
+	var is_party_member: bool = target is PartyMember or target is Character
+	typing_label.visible = is_party_member
+	if is_party_member:
+		typing_label.text = _build_typing_line(target.data)
+
 	var buffs_text: String = _build_buffs_line(target.data)
 	buffs_label.text = buffs_text if not buffs_text.is_empty() else "No active buffs or debuffs."
 
@@ -29,6 +37,13 @@ func show_target(target: Node3D) -> void:
 
 func hide_popup() -> void:
 	visible = false
+
+
+func _build_typing_line(data: CharacterData) -> String:
+	var names: Array[String] = []
+	for type_value in data.typing:
+		names.append(TypeData.type_to_string(type_value))
+	return "Type: " + ", ".join(names)
 
 
 func _build_buffs_line(data: CharacterData) -> String:

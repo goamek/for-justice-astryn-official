@@ -7,10 +7,22 @@ var target_node: Node3D = null
 
 @onready var progress_bar = $ProgressBar
 @onready var name_label = $NameLabel
+@onready var portrait: TextureRect = $Portrait
 @onready var hp_label = $HPLabel
 @onready var mana_progress_bar = $ManaProgressBar
 @onready var mp_label = $MPLabel
 @onready var status_badges: Array[PanelContainer] = [$StatusBadgeRow/Badge1, $StatusBadgeRow/Badge2, $StatusBadgeRow/Badge3, $StatusBadgeRow/Badge4]
+
+# Same central speaker roster balloon.gd uses for dialogue portraits, keyed by speaker_key
+# (== character_name.to_lower()).
+const CAST_PATH := "res://src/dialogue/resources/dialogue_cast.tres"
+var _cast_by_key: Dictionary = {}
+
+func _ready() -> void:
+	var cast: DialogueCast = load(CAST_PATH)
+	if cast:
+		for entry in cast.speakers:
+			_cast_by_key[entry.speaker_key] = entry
 
 func setup(target: Node3D, display_index: int = 0):
 	# Public initializer used by TurnBasedCombat when spawning bars.
@@ -40,6 +52,10 @@ func _refresh_from_target():
 			display_name = target_node.name
 		name_label.text = str(display_name)
 
+		var cast_entry: DialogueSpeaker = _cast_by_key.get(str(display_name).to_lower())
+		portrait.texture = cast_entry.portrait if cast_entry else null
+		portrait.visible = portrait.texture != null
+
 		progress_bar.max_value = max(1.0, target_node.max_hp)
 		progress_bar.value = max(0.0, target_node.current_hp)
 		_update_hp_label(target_node.current_hp, target_node.max_hp)
@@ -66,8 +82,8 @@ func _apply_layout(display_index: int):
 
 	offset_left = 10
 	offset_top = 10 + (display_index * 82)
-	offset_right = offset_left + 130
-	offset_bottom = offset_top + 88
+	offset_right = offset_left + 116
+	offset_bottom = offset_top + 78
 
 func _on_hp_changed(new_hp):
 	progress_bar.value = max(0.0, new_hp)

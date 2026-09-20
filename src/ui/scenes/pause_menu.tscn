@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://src/ui/scripts/pause_menu.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://src/ui/scenes/controls_panel.tscn" id="2_controlspanel"]
 [ext_resource type="FontFile" uid="uid://c45qqkxks0evn" path="res://assets/fonts/Ferrum-wy99.otf" id="3_font"]
+[ext_resource type="PackedScene" path="res://src/ui/scenes/objectives_panel.tscn" id="4_objectivespanel"]
 
 [node name="PauseMenu" type="Control"]
 process_mode = 3
@@ -54,6 +55,13 @@ theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 22
 text = "Controls"
 
+[node name="ObjectivesButton" type="Button" parent="ButtonContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 22
+text = "Objectives"
+
 [node name="QuitBattleButton" type="Button" parent="ButtonContainer"]
 visible = false
 layout_mode = 2
@@ -67,13 +75,18 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 22
-text = "Quit Game"
+text = "Main Menu"
 
 [node name="ControlsPanel" parent="." instance=ExtResource("2_controlspanel")]
 visible = false
 layout_mode = 1
 
+[node name="ObjectivesPanel" parent="." instance=ExtResource("4_objectivespanel")]
+visible = false
+layout_mode = 1
+
 [connection signal="pressed" from="ButtonContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="ButtonContainer/ControlsButton" to="." method="_on_controls_button_pressed"]
+[connection signal="pressed" from="ButtonContainer/ObjectivesButton" to="." method="_on_objectives_button_pressed"]
 [connection signal="pressed" from="ButtonContainer/QuitBattleButton" to="." method="_on_quit_battle_button_pressed"]
 [connection signal="pressed" from="ButtonContainer/QuitGameButton" to="." method="_on_quit_game_button_pressed"]

@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_alxsd")
-move_name = "Attack"
-description = "A basic, no-frills attack."
+move_name = "Strike"
+description = "A basic attack."
+damage = 5
 metadata/_custom_type_script = "uid://b8xdk5l3gwett"

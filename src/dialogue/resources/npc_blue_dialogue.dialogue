@@ -1,14 +1,22 @@
 ~ start
-npcblue: (pacing outside the distributor's storefront, counting coins in hand)
+if QuestManager.talked_to_npcs.get("NPCBlue", false) == true:
+	npcblue: Still doing the math.
+	- Talk to them again => full_conversation
+	- Leave => END
+=> full_conversation
+
+~ full_conversation
+npcblue: *They are pacing outside the distributor's storefront, counting coins in hand*
 astryn: You alright?
 npcblue: Hm? Oh. Fine, fine. Just doing math I already know the answer to.
 astryn: What do you mean?
-npcblue: My boy's got the shaking sickness. Medicine's right there behind that counter. Price went up again last week.
+npcblue: My boy's sick. Medicine's right there behind that counter. Price went up again last week.
 npcblue: Third time this year.
 astryn: ...That's Vorkoth's doing.
 npcblue: Everything here's Vorkoth's doing.
 if QuestManager.talked_to_team["Novius"] == true:
 	Astryn: (Novius said something like this happens all over. Guess now I'm seeing it firsthand.)
 astryn: We're gonna do something about him. Tonight.
-npcblue: (quiet, almost afraid to hope) ...Yeah? Well. Good luck to you, then.
+npcblue: ...Yeah? Well. Good luck to you, then.
+do QuestManager.mark_npc_talked_to("NPCBlue")
 => END

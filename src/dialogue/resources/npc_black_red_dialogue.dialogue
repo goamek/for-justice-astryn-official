@@ -10,7 +10,6 @@ npcblack: It might not hurt if they stir the pot a bit; hopefully they'll show u
 npcred: You crazy man, where's your respect for your people!
 npcblack: Shit, them people don't care about us, man.
 npcblack: We both know that…
-astryn: (They come to accept this as their life.)
-astryn: (Damn you, Vorkoth.)
+astryn: (They come to accept this as their life. Damn you, Vorkoth.)
 do speaker.set_interactable(false)
 => END

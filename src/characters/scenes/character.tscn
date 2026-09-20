@@ -1,18 +1,20 @@
-[gd_scene load_steps=114 format=3 uid="uid://bmnbtygoa10xp"]
+[gd_scene load_steps=118 format=3 uid="uid://bmnbtygoa10xp"]
 
 [ext_resource type="Script" uid="uid://bytylextix6dk" path="res://src/characters/scripts/character.gd" id="1_y1hcf"]
-[ext_resource type="Script" path="res://src/characters/scripts/HealthComponent.gd" id="11_hlthc"]
-[ext_resource type="Script" path="res://src/characters/scripts/ManaComponent.gd" id="12_manac"]
 [ext_resource type="Resource" uid="uid://t1efbxgiustj" path="res://src/characters/resources/main_character_data.tres" id="2_q4dco"]
-[ext_resource type="Texture2D" uid="uid://bmvur37jxwlgf" path="res://assets/sprites/astryn/MC IDLE/48MCBattleIdle.png" id="3_q4dco"]
-[ext_resource type="Texture2D" uid="uid://b7l33qbe1ojqj" path="res://assets/sprites/astryn/MC IDLE/48MCDownIdle.png" id="3_y1hcf"]
-[ext_resource type="Texture2D" uid="uid://cauyoh25dlb3c" path="res://assets/sprites/astryn/MC IDLE/48MCLeftIdle.png" id="4_yo31i"]
-[ext_resource type="Texture2D" uid="uid://c2nc20pqlkrvx" path="res://assets/sprites/astryn/MC IDLE/48MCRightIdle.png" id="5_1l7j3"]
-[ext_resource type="Texture2D" uid="uid://cgx66ruccy85b" path="res://assets/sprites/astryn/MC IDLE/48MCUpIdle.png" id="6_hrblg"]
-[ext_resource type="Texture2D" uid="uid://cwwwkdtincexy" path="res://assets/sprites/astryn/MC RUN/mcDown48.png" id="7_hrblg"]
-[ext_resource type="Texture2D" uid="uid://cxxdrey2v2lji" path="res://assets/sprites/astryn/MC RUN/mcLeft48.png" id="8_hrblg"]
-[ext_resource type="Texture2D" uid="uid://dmjoblg2nsgj2" path="res://assets/sprites/astryn/MC RUN/mcRight48.png" id="9_hrblg"]
-[ext_resource type="Texture2D" uid="uid://dktcnetdtgq2s" path="res://assets/sprites/astryn/MC RUN/mcUp48.png" id="10_hrblg"]
+[ext_resource type="Texture2D" uid="uid://bmvur37jxwlgf" path="res://assets/Sprites/Astryn/MC IDLE/48MCBattleIdle.png" id="3_q4dco"]
+[ext_resource type="Texture2D" uid="uid://b7l33qbe1ojqj" path="res://assets/Sprites/Astryn/MC IDLE/48MCDownIdle.png" id="3_y1hcf"]
+[ext_resource type="Texture2D" uid="uid://cauyoh25dlb3c" path="res://assets/Sprites/Astryn/MC IDLE/48MCLeftIdle.png" id="4_yo31i"]
+[ext_resource type="Texture2D" uid="uid://c2nc20pqlkrvx" path="res://assets/Sprites/Astryn/MC IDLE/48MCRightIdle.png" id="5_1l7j3"]
+[ext_resource type="Texture2D" uid="uid://cgx66ruccy85b" path="res://assets/Sprites/Astryn/MC IDLE/48MCUpIdle.png" id="6_hrblg"]
+[ext_resource type="Texture2D" uid="uid://cwwwkdtincexy" path="res://assets/Sprites/Astryn/MC RUN/mcDown48.png" id="7_hrblg"]
+[ext_resource type="Texture2D" uid="uid://cxxdrey2v2lji" path="res://assets/Sprites/Astryn/MC RUN/mcLeft48.png" id="8_hrblg"]
+[ext_resource type="Texture2D" uid="uid://dmjoblg2nsgj2" path="res://assets/Sprites/Astryn/MC RUN/mcRight48.png" id="9_hrblg"]
+[ext_resource type="Texture2D" uid="uid://dktcnetdtgq2s" path="res://assets/Sprites/Astryn/MC RUN/mcUp48.png" id="10_hrblg"]
+[ext_resource type="Script" uid="uid://ci082cesig2h1" path="res://src/characters/scripts/HealthComponent.gd" id="11_hlthc"]
+[ext_resource type="Script" uid="uid://di6s58kihd1vo" path="res://src/characters/scripts/ManaComponent.gd" id="12_manac"]
+[ext_resource type="Texture2D" uid="uid://duwpjqs2hg74i" path="res://assets/Sprites/Astryn/mcShoot.png" id="14_vw146"]
+[ext_resource type="Texture2D" uid="uid://cv5sknsfhbnyc" path="res://assets/Sprites/Astryn/mcStabbed.png" id="15_rf5ky"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x3a0m"]
 radius = 5.5
@@ -410,6 +412,14 @@ region = Rect2(288, 0, 48, 48)
 atlas = ExtResource("10_hrblg")
 region = Rect2(336, 0, 48, 48)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_rf5ky"]
+atlas = ExtResource("14_vw146")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1l6uy"]
+atlas = ExtResource("15_rf5ky")
+region = Rect2(0, 0, 48, 48)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_k65uw"]
 animations = [{
 "frames": [{
@@ -750,6 +760,22 @@ animations = [{
 "loop": true,
 "name": &"Run Up",
 "speed": 7.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rf5ky")
+}],
+"loop": true,
+"name": &"Shoot",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1l6uy")
+}],
+"loop": true,
+"name": &"Stabbed",
+"speed": 5.0
 }]
 
 [node name="Astryn" type="CharacterBody3D"]
@@ -770,11 +796,12 @@ script = ExtResource("11_hlthc")
 script = ExtResource("12_manac")
 
 [node name="HeadMarker" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.9063077, 0.42261824, 0, -0.42261824, 0.9063077, 0, 40, 60)
-far = 500.0
+near = 3.0
+far = 1500.0
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
@@ -784,4 +811,4 @@ alpha_cut = 1
 texture_filter = 0
 render_priority = 1
 sprite_frames = SubResource("SpriteFrames_k65uw")
-animation = &"Idle Down"
+animation = &"Stabbed"

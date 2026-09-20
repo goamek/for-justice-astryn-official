@@ -2,13 +2,18 @@ extends Node
 
 # Mirrors every on-screen battle message to a plain-text file, cleared at the start
 # of each battle, so the current battle's log can be reviewed after the fact without
-# having to watch the battle_message_box live.
+# having to watch the battle_message_box live. Editor-only — an exported build (what
+# players run) must never write anything to disk, so this whole autoload is inert
+# outside the editor (see the OS.has_feature("editor") check in _ready()).
 const LOG_PATH: String = "res://logs/battle_log.txt"
 
 var _log_file: FileAccess
 
 
 func _ready() -> void:
+	if not OS.has_feature("editor"):
+		return
+
 	if SignalBus != null:
 		if SignalBus.has_signal("battle_message_requested"):
 			SignalBus.battle_message_requested.connect(_on_battle_message_requested)

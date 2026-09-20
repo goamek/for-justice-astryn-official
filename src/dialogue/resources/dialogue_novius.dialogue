@@ -1,13 +1,21 @@
 ~ start
+if QuestManager.novius_bonded == true:
+	novius: Go get some rest, captain. Tonight's gonna be a long one.
+	- Hear the first conversation again => full_conversation_1
+	- Hear the second conversation again => full_conversation_2
+	- Leave => END
 if QuestManager.talked_to_team["Novius"] == true:
-	=> novius_followup
+	=> full_conversation_2
+=> full_conversation_1
+
+~ full_conversation_1
 novius: Hey, Astryn.
 astryn: Nov. What you doing?
-novius: Just scouting the local magic shops. Inflation here is insane. Mana crystals are priced like luxury goods.
+novius: Just scouting the market stalls. Inflation here is insane. Even basic supplies are priced like luxury goods.
 if QuestManager.talked_to_team["Aegrandir"] == true:
 	Astryn: Yeah, Aeg was telling me about that. Vorkoth has the economy completely cooked.
 else:
-	Astryn: Damn, and here I was hoping to grab some magic items too.
+	Astryn: Damn, guess I'm stuck with what's already in my bag, then.
 novius: Shit's crazy, caught some news too.
 astryn: Glad you can still read my mind. Spill it.
 novius: Word on the street is that Vorkoth can wield dark magic. Overheard some guys outside a shop, they were talking about our duel. Seems the word has spread.
@@ -22,16 +30,13 @@ novius: Later, captain.
 do QuestManager.mark_as_talked_to("Novius")
 => END
 
-~ novius_followup
+~ full_conversation_2
 do CinematicBars.show_bars()
-if QuestManager.novius_bonded == true:
-	Novius: Go get some rest, captain. Tonight's gonna be a long one.
-	=> END
-novius: Hey... Before tonight—
+novius: Hey... Before tonight...
 astryn: What's up?
 novius: I don't say this stuff much. But I'm glad you're the one leading this. I mean that.
 astryn: ...You good, Nov?
-novius: Yeah. Just — a guy like Vorkoth makes you think about people you couldn't save. Makes you want to make sure you don't lose anyone else.
+novius: Yeah. Just... a guy like Vorkoth makes you think about people you couldn't save. Makes you want to make sure you don't lose anyone else.
 astryn: Nobody's losing anybody tonight.
 novius: Damn right.
 do QuestManager.novius_bonded = true

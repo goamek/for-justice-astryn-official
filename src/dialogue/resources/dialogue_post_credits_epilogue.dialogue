@@ -1,7 +1,7 @@
 ~ post_credits_epilogue
 # The credits have finished. Cut to: the team walking out of Levaris's gates, the city behind them quiet under early morning light.
 
-aegrandir: (quiet) Not every fight will end like this one, star. Remember that.
+aegrandir: ...Not every fight will end like this one, star. Remember that.
 
 astryn: I know, Aeg.
 
@@ -9,71 +9,59 @@ aegrandir: I hope you do.
 
 # They walk in silence for a moment.
 
-novius: (glancing back at the city) Think it'll actually hold? Without him running it?
+novius: Think it'll actually hold? Without him running it?
 
 astryn: It'll hold long enough. People here know what they're capable of now.
 
-spero: (quiet, uncharacteristically serious) Wish I'd figured that out sooner.
+spero: Wish I'd figured that out sooner.
 
-# Astryn glances at him, but doesn't push.
-
-novius: (changing the subject, pulling out a folded paper) Got word from a contact this morning. There's a lead — bigger than Levaris.
+novius: ...Got word from a contact this morning. There's a lead. Bigger than Levaris.
 
 astryn: How big?
 
 novius: Capital-city big.
 
-# The team exchanges a look.
-
-astryn: (steady) Then that's where we go next.
+astryn: Then that's where we go next.
 
 aegrandir: We were never going to be done in one night, star.
 
 astryn: I know. Wasn't expecting to be.
 
-# They keep walking. Fade to black.
-
+astryn: (I hope Thyone is seeing this... wish he was here with us...)
 => END
 
 ~ post_credits_epilogue_novius_intervened
 [The credits have finished. Cut to: the team walking out of Levaris's gates, the city behind them quiet under early morning light.]
 
-Astryn: (quiet, still a little unsteady) ...Thank you. Again.
+astryn: ...Thank you. Again.
 
-Novius: You don't have to keep saying it.
+novius: You don't have to keep saying it.
 
-Astryn: I kind of do.
+astryn: I kind of do.
 
-Aegrandir: (gently) You made the call you believed in, star. That still counts for something — even if it didn't go the way you wanted.
+aegrandir: You made the call you believed in, star. That still counts for something, even if it didn't go the way you wanted.
 
-Astryn: Didn't feel like much of a call. Felt like almost dying.
+astryn: Didn't feel like much of a call. Felt like almost dying.
 
-Aegrandir: I know. That's the part I want you to remember, too.
+aegrandir: I know. That's the part I want you to remember, too.
 
-[They walk in silence for a moment.]
+novius: Think it'll actually hold? Without him running it?
 
-Novius: (glancing back at the city) Think it'll actually hold? Without him running it?
+astryn: It'll hold long enough. People here know what they're capable of now.
 
-Astryn: It'll hold long enough. People here know what they're capable of now.
+spero: Wish I'd figured that out sooner.
 
-Spero: (quiet, uncharacteristically serious) Wish I'd figured that out sooner.
+novius: ...Got word from a contact this morning. There's a lead. Bigger than Levaris.
 
-[Astryn glances at him, but doesn't push.]
+astryn: How big?
 
-Novius: (changing the subject, pulling out a folded paper) Got word from a contact this morning. There's a lead — bigger than Levaris.
+novius: Capital-city big.
 
-Astryn: How big?
+astryn: Then that's where we go next.
 
-Novius: Capital-city big.
+aegrandir: We were never going to be done in one night, star.
 
-[The team exchanges a look.]
+astryn: I know. Wasn't expecting to be.
 
-Astryn: (steady) Then that's where we go next.
-
-Aegrandir: We were never going to be done in one night, star.
-
-Astryn: I know. Wasn't expecting to be.
-
-[They keep walking. Fade to black.]
-
+astryn: (I hope Thyone is seeing this, wish he was here with us...)
 => END

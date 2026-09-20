@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/ui/scripts/free_roam_objective_hud.gd" id="1_script"]
+[ext_resource type="FontFile" uid="uid://c45qqkxks0evn" path="res://assets/fonts/Ferrum-wy99.otf" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_backer"]
+bg_color = Color(0, 0, 0, 0.55)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 14.0
+content_margin_right = 14.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+
+[node name="FreeRoamObjectiveHud" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_script")
+
+[node name="Backer" type="PanelContainer" parent="."]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 420.0
+offset_bottom = 100.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_backer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Backer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CityRow" type="Label" parent="Backer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Talk to people around the city"
+
+[node name="PracticeRow" type="Label" parent="Backer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "☐ Try a practice battle"
+
+[node name="TeamRow" type="Label" parent="Backer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "☐ Talk to your team"
+
+[node name="GuardsRow" type="Label" parent="Backer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Talk to the guards at the platform when ready for the duel"
