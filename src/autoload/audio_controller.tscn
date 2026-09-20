@@ -1,17 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://dj85m0tgetx11"]
+[gd_scene load_steps=8 format=3 uid="uid://dj85m0tgetx11"]
 
 [ext_resource type="Script" uid="uid://dc3lsptetbc1f" path="res://src/audio/audio_controller.gd" id="1_3rbmd"]
 [ext_resource type="AudioStream" uid="uid://by5817feorm0x" path="res://assets/music/1 titles LOOP.wav" id="2_5ea0b"]
 [ext_resource type="AudioStream" path="res://assets/music/2 dungeon LOOP.wav" id="5_2loop"]
 [ext_resource type="AudioStream" uid="uid://fbik8fixhlt7" path="res://assets/music/love like the moon.mp3" id="3_yenca"]
 [ext_resource type="AudioStream" uid="uid://c1n1c3iwx5013" path="res://assets/music/06 - For Vengeance.wav" id="4_5ea0b"]
+[ext_resource type="AudioStream" path="res://assets/music/chsn_u_piano (river in the sky - piano collection).wav" id="6_credits"]
+[ext_resource type="AudioStream" path="res://assets/Music/10 world map LOOP.wav" id="7_worldmap"]
 
-[node name="AudioController" type="Node" node_paths=PackedStringArray("background_music", "main_menu_music", "battle_music")]
+[node name="AudioController" type="Node" node_paths=PackedStringArray("background_music", "main_menu_music", "battle_music", "sfx_player", "credits_music", "world_map_music")]
 process_mode = 3
 script = ExtResource("1_3rbmd")
 background_music = NodePath("BackgroundMusic")
 main_menu_music = NodePath("MainMenuMusic")
 battle_music = NodePath("BattleMusic")
+sfx_player = NodePath("SfxPlayer")
+credits_music = NodePath("CreditsMusic")
+world_map_music = NodePath("WorldMapMusic")
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_2loop")
@@ -21,3 +26,11 @@ stream = ExtResource("3_yenca")
 
 [node name="BattleMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_5ea0b")
+
+[node name="SfxPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="CreditsMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_credits")
+
+[node name="WorldMapMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_worldmap")

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_smoke"]
+
+[resource]
+script = ExtResource("1_smoke")
+move_name = "Smoke"
+description = "A thick smoke screen blankets the battlefield, washing away every stat change in play."
+damage = 0
+category = 2
+crit_chance = 0
+typing = 5
+targets_all = true
+resets_stat_stages = true
+never_misses = true
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

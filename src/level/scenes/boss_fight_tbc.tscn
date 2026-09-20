@@ -14,8 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://bsc2ffgvchyw3" path="res://src/ui/scenes/battle_health_bar.tscn" id="10_6wv1l"]
 [ext_resource type="PackedScene" uid="uid://b7kau0k3y4m1q" path="res://src/ai/scenes/boss_ai_controller.tscn" id="11_8ahkt"]
 [ext_resource type="PackedScene" uid="uid://b0lnt2egh6g45" path="res://src/ui/scenes/battle_message_box.tscn" id="14_6lq3m"]
-[ext_resource type="Resource" uid="uid://60jwsduia5en" path="res://src/dialogue/resources/dialogue_battle_cutscenes.dialogue" id="15_pdlg2"]
 [ext_resource type="Resource" uid="uid://bxqq52t7eiayk" path="res://src/dialogue/resources/dialogue_battle_interruptions.dialogue" id="15_battleinterrupt"]
+[ext_resource type="Resource" uid="uid://60jwsduia5en" path="res://src/dialogue/resources/dialogue_battle_cutscenes.dialogue" id="15_pdlg2"]
 [ext_resource type="PackedScene" path="res://src/ui/scenes/turn_queue_display.tscn" id="16_tqd01"]
 [ext_resource type="PackedScene" path="res://src/ui/scenes/move_info_popup.tscn" id="18_infopu"]
 [ext_resource type="PackedScene" uid="uid://m2ytr8vk7fia" path="res://src/ui/scenes/boss_health_bar.tscn" id="19_bhb01"]
@@ -52,6 +52,27 @@
 [ext_resource type="PackedScene" path="res://src/environment/scenes/objects/floor_lrg_14.tscn" id="40_floor14"]
 [ext_resource type="PackedScene" path="res://src/environment/scenes/objects/floor_lrg_15.tscn" id="40_floor15"]
 [ext_resource type="PackedScene" path="res://src/environment/scenes/objects/floor_lrg_16.tscn" id="40_floor16"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_actionbtn_normal"]
+bg_color = Color(0, 0, 0, 0.55)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_actionbtn_hover"]
+bg_color = Color(0.2, 0.2, 0.2, 0.7)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_actionbtn_pressed"]
+bg_color = Color(0, 0, 0, 0.75)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pitground"]
 size = Vector3(42, 0.2, 18)
@@ -98,9 +119,10 @@ script = ExtResource("1_e636i")
 phase_transition_dialogue = ExtResource("15_pdlg2")
 phase_transition_dialogue_title = "vorkoth_transformation"
 duel_intro_dialogue = ExtResource("15_pdlg2")
-battle_interruptions_dialogue = ExtResource("15_battleinterrupt")
 boss_health_bar = NodePath("HealthBarCanvasLayer/BossHealthBar")
 boss_phase_two_spawn_point = NodePath("BossPhaseTwoSpawnPoint")
+battle_interruptions_dialogue = ExtResource("15_battleinterrupt")
+vorkoth_defeat_dialogue = ExtResource("15_pdlg2")
 tbc_ui = NodePath("Player Action UI Control")
 player_node = NodePath("Character")
 party_member2 = ExtResource("2_6qlvv")
@@ -530,7 +552,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.1, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1.1, 1.5)
 
 [node name="BossPhaseTwoSpawnPoint" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.1, 1.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3.25, 1.5)
 
 [node name="Player Action UI Control" type="CanvasLayer" parent="."]
 script = ExtResource("8_b2ic7")
@@ -561,7 +583,7 @@ grow_vertical = 2
 [node name="InfoHintLabel" type="Label" parent="Player Action UI Control/Player Action CL/VBoxContainer"]
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
-text = "E / Y — Move Info"
+text = "E / Y — Move Info      C / X — Character Info"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Player Action UI Control/Player Action CL/VBoxContainer"]
@@ -575,6 +597,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_neighbor_right = NodePath("../Button2")
 mouse_filter = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_actionbtn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_actionbtn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_actionbtn_pressed")
 text = "Attack
 "
 
@@ -584,6 +609,9 @@ size_flags_horizontal = 3
 focus_neighbor_left = NodePath("../Button1")
 focus_neighbor_right = NodePath("../Button3")
 mouse_filter = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_actionbtn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_actionbtn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_actionbtn_pressed")
 text = "a
 "
 
@@ -593,6 +621,9 @@ size_flags_horizontal = 3
 focus_neighbor_left = NodePath("../Button2")
 focus_neighbor_right = NodePath("../Button4")
 mouse_filter = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_actionbtn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_actionbtn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_actionbtn_pressed")
 text = "b"
 
 [node name="Button4" type="Button" parent="Player Action UI Control/Player Action CL/VBoxContainer/HBoxContainer"]
@@ -600,6 +631,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_neighbor_left = NodePath("../Button3")
 mouse_filter = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_actionbtn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_actionbtn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_actionbtn_pressed")
 text = "c"
 
 [node name="Select Target CL" type="Control" parent="Player Action UI Control"]
@@ -626,7 +660,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "◄ ►  Cycle target      Confirm      F / B — Cancel      E / Y — View Status"
+text = "◄ ►  Cycle target      Confirm      F / B — Cancel      C / X — View Status"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -657,7 +691,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.1, 3)
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.34202006, -0.66446304, -0.664463, 0, -0.70710677, 0.7071067, -0.9396927, 0.2418447, 0.24184468, 0, 0, 0)
 light_color = Color(0.55, 0.6, 0.8, 1)
-light_energy = 0.2
+light_energy = 1.2
 shadow_enabled = true
 directional_shadow_max_distance = 1000.0
 
@@ -1507,9 +1541,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5, 3.994, 4)
 
 [node name="StreetLight5" parent="." instance=ExtResource("30_streetlight")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 3.994, -6)
-
-[node name="StreetLight6" parent="." instance=ExtResource("30_streetlight")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 3.994, 4)
 
 [node name="PitCornerLightBackLeft" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.4711566, 3.5, -0.43641233)

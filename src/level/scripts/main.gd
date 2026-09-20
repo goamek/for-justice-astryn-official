@@ -18,13 +18,16 @@ func _ready():
 	pause_menu.current_gameplay_scene = current_scene
 
 func switch_scene(new_scene_packed: PackedScene, data = {}):
-	# 1. Fade out
-	SceneTransition.transition()
+	# Guards against a button mashed while its own press is already fading the scene out —
+	# each extra call would free/instantiate on top of the transition already in flight
+	# (e.g. spamming the main menu's Start button could free the opening cutscene mid-setup
+	# while its own dialogue was still starting, crashing on the now-freed node).
+	if SceneTransition.is_transitioning:
+		return
 
-	# 2. Wait for the fade to finish
+	SceneTransition.transition()
 	await SceneTransition.on_transition_finished
 
-	# 3. Swap the scene content while the screen is black
 	if current_scene != null:
 		current_scene.queue_free()
 		current_scene = null
@@ -36,17 +39,18 @@ func switch_scene(new_scene_packed: PackedScene, data = {}):
 	if current_scene.has_method("initialize_data"):
 		current_scene.initialize_data(data)
 
-	# Connect signals for game logic
 	if current_scene is FreeRoam:
 		current_scene.start_combat.connect(_on_start_combat)
 	elif current_scene is TurnBasedCombat:
 		current_scene.combat_ended.connect(_on_combat_ended)
 
-	# 4. Fade back in
 	SceneTransition.fade_in()
 
 func _on_start_combat():
 	switch_scene(TBC_SCENE)
 
-func _on_combat_ended(was_quit: bool):
-	switch_scene(FREE_ROAM_SCENE, {"return_to_practice_soldier": was_quit})
+func _on_combat_ended(_was_quit: bool):
+	# Any practice-fight ending (win, loss, or quit) returns to the soldier who started it,
+	# not just a quit — only the real boss fight falls back to the default free-roam spawn.
+	var was_practice_fight: bool = current_scene is TurnBasedCombat and not current_scene is BossTurnBasedCombat
+	switch_scene(FREE_ROAM_SCENE, {"return_to_practice_soldier": was_practice_fight})

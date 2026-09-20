@@ -1,7 +1,11 @@
 ~ start
 if QuestManager.talked_to_team["Spero"] == true:
-	Spero: ...
-	=> END
+	spero: ...
+	- Talk to Spero again => full_conversation
+	- Leave => END
+=> full_conversation
+
+~ full_conversation
 astryn: Spero.
 spero: Yo, Ass. How’s it going?
 astryn: Told you to stop calling me that, meathead.
@@ -17,7 +21,7 @@ spero: Chopped it up with some of the guards, they told m-
 astryn: You did what now! Are you insane?!
 spero: Chillll, trust.
 astryn: ...
-spero: They told me some good stuff. The morals in this place are cooked—they’ll do anything for coin. They said the big man has actually gone demon form before.
+spero: They told me some good stuff. The morals in this place are cooked. They’ll do anything for coin. They said the big man has actually gone demon form before.
 astryn: What now?!
 spero: Damn, slow down. Apparently, when someone tried to stage a coup a year back, a few of them saw him transform for a split second. Absolute bloodbath. Dude finished the guy off instantly.
 astryn: Shit, that spins things up.
@@ -25,6 +29,6 @@ spero: Yeah, I ain’t seen one yet.
 astryn: Novius and I ran into one before, tough fight… but it’ll be fine. Anything else that coin got us?
 spero: Shit… some drinks down my hatch.
 astryn: ... see ya later, brick brains.
-spero: Oh, so you can use nickn—
+spero: Oh, so you can use nickn...
 do QuestManager.mark_as_talked_to("Spero")
 => END

@@ -4,14 +4,13 @@ extends Node2D
 var player = null
 @onready var label = $Label
 
-const base_text = "[E] to "
+const base_text = "[E / Gamepad A] to "
 const TBC_SCENE = "res://src/level/scenes/tbc.tscn"
 const BOSS_FIGHT_SCENE = "res://src/level/scenes/boss_fight_tbc.tscn"
 
 var is_dialogue_playing: bool = false
 
 func _ready() -> void:
-	# Automatically manage the lock state using the Dialogue Manager's global signals
 	DialogueManager.dialogue_started.connect(func(_res): is_dialogue_playing = true)
 	DialogueManager.dialogue_ended.connect(func(_res): is_dialogue_playing = false)
 
@@ -63,13 +62,9 @@ func _process(_delta: float) -> void:
 		active_areas.sort_custom(_sort_by_distance_to_player)
 		label.text = base_text + active_areas[0].action_name
 		
-		# 1. Get the current 3D viewport camera
 		var camera = get_viewport().get_camera_3d()
 		if camera:
-			# 2. Project the 3D position to a 2D screen position
 			var screen_pos = camera.unproject_position(active_areas[0].global_position)
-			
-			# 3. Apply the 2D position and offsets
 			label.global_position = screen_pos
 			label.global_position.y -= 100
 			label.global_position.x -= label.size.x / 2

@@ -1,15 +1,11 @@
 ~ vorkoth_transformation_intro
-# Vorkoth stumbles, breathing hard. The crowd goes quiet.
-
-vorkoth_p1: (laughing, low) You actually landed a few. I'll admit — didn't expect that.
+vorkoth_p1: *laughing* You actually landed a few. I'll admit... didn't expect that.
 
 vorkoth_p1: Guess I'll stop holding back, then.
 => END
 
 ~ vorkoth_transformation_reveal
-# A dark, fire-veined energy erupts from Vorkoth. His form twists, growing, splitting — the humanoid mask cracking into something else entirely. (the screen fade + actual phase-2 swap happens in code, between the intro and reveal dialogue sections)
-
-npcgreen: It's — it's true, then. He really is one of them.
+npcgreen: It's... it's true, then. He really is one of them.
 
 npcblue: All this time...
 
@@ -19,33 +15,30 @@ astryn: ...Right. Guess we do this the hard way.
 => END
 
 ~ vorkoth_defeat
-# Vorkoth collapses, the monstrous form flickering weakly, half-reverted. The crowd roars — no longer afraid, no longer silent.
+vorkoth_p1: ...heh. Didn't think you had it in you.
 
-# Astryn doesn't move yet. She glances back at the team — all of them worn ragged, breathing hard, weapons hanging low like they're too heavy to lift again. No one steps forward to stop her. Spero leans against his staff, jaw tight, arms crossed. Aegrandir, chest still heaving, gives the smallest nod.
+astryn: Give it up. Step down. Give back what you've stolen from this city, and maybe... maybe... these people find it in them to forgive you.
 
-# Novius steps up beside Astryn instead of staying back. Their eyes meet for half a second — no words needed, just a shared, exhausted understanding of exactly what this man is.
+vorkoth_p1: Forgive me. For what? Running this city the only way it's ever worked?
 
-vorkoth_p2: ...heh. Didn't think you had it in you.
+vorkoth_p1: I'd do it again. Every coin, every tariff, every debt I called in. This city breathes because I make it breathe. Take that away and watch how fast it starves without me.
 
-astryn: Give it up. Step down. Give back what you've stolen from this city, and maybe — maybe — these people find it in them to forgive you.
+novius: You know how many times I said no to people who couldn't pay? Watched their faces when I did it, telling myself it wasn't my fault, that it was just how things worked. I still see that look on this whole city every time you open your mouth.
 
-vorkoth_p2: Forgive me. For what — running this city the only way it's ever worked?
-
-vorkoth_p2: I'd do it again. Every coin, every tariff, every debt I called in. This city breathes because I make it breathe. Take that away and watch how fast it starves without me.
-
-novius: You know how many times I said no to people who couldn't pay? Watched their faces when I did it — telling myself it wasn't my fault, that it was just how things worked. I still see that look on this whole city every time you open your mouth.
-
-vorkoth_p2: Then you understand. Someone has to make the hard calls. I just made mine honestly — I didn't dress it up as kindness like you did.
+vorkoth_p1: Then you understand. Someone has to make the hard calls. I just made mine honestly. I didn't dress it up as kindness like you did.
 
 astryn: That's not power. That's just theft with a title.
 
-vorkoth_p2: Call it whatever lets you sleep at night. I built something here. You just want to burn it down and call it justice.
+vorkoth_p1: Call it whatever lets you sleep at night. I built something here. You just want to burn it down and call it justice.
 
-vorkoth_p2: Go on, then. Everyone's watching. Let's see what you really are underneath all that talk.
+vorkoth_p1: Go on, then. Everyone's watching. Let's see what you really are underneath all that talk.
+=> END
 
-# Astryn walks toward him slowly. Novius doesn't stop her — doesn't even move. She reaches down through the slit of her dress, drawing a pistol from a holster strapped to her thigh — a weapon she never uses in battle. She racks the slide, chambering a round, and raises it, level with his head.
-
-vorkoth_p2: ...That's not your style.
+# Astryn's walk-over and draw (a pistol from a holster strapped to her thigh, a weapon she
+# never uses in battle) plays out in code between here and the line below; see
+# BossTurnBasedCombat._play_vorkoth_ending_sequence().
+~ vorkoth_defeat_confrontation
+vorkoth_p1: ...That's not your style.
 
 astryn: Special occasion, asshole.
 
@@ -53,7 +46,7 @@ astryn: Special occasion, asshole.
 - Kill Vorkoth => vorkoth_kill
 
 # Routes to the Novius-intervenes version of sparing him if Astryn and Novius bonded
-# earlier (dialogue_novius.dialogue's ~ novius_followup node), otherwise the normal
+# earlier (dialogue_novius.dialogue's ~ full_conversation_2 node), otherwise the normal
 # (fatal) spare outcome.
 ~ vorkoth_spare_check
 if QuestManager.novius_bonded == true:
@@ -61,28 +54,25 @@ if QuestManager.novius_bonded == true:
 => vorkoth_spare
 
 ~ vorkoth_kill
+do QuestManager.vorkoth_ending = "kill"
+
 astryn: ...For justice.
-
-# A single gunshot cracks through the arena. Vorkoth drops.
-
 # Cut to black.
-
-# TODO: trigger the credits sequence here (not built yet) before => END
 => END
 
 ~ vorkoth_spare_novius_intervenes
+do QuestManager.vorkoth_ending = "spare_novius_intervened"
+
 astryn: ...No. You're not worth it.
+=> END
 
-# She holsters the weapon and turns her back, walking toward the team.
+# Astryn's walk back to the team, and Novius's stab beat with Vorkoth, play out in code
+# between here and the title below; see BossTurnBasedCombat._play_vorkoth_ending_sequence().
+~ vorkoth_spare_novius_mercy_taunt
+vorkoth_p1: ...Mercy. From you.
+=> END
 
-vorkoth_p2: ...Mercy. From you.
-
-# In one last surge, dark energy flares around Vorkoth's collapsed form. He lunges.
-
-# Novius is already moving. He's on Vorkoth before anyone can shout a warning, driving his blade through him from the side.
-
-# Vorkoth collapses fully this time, unmoving. Silence.
-
+~ vorkoth_spare_novius_aftermath
 astryn: ...Nov.
 
 novius: I told you. I know exactly what he costs people.
@@ -90,44 +80,37 @@ novius: I told you. I know exactly what he costs people.
 astryn: ...Thank you.
 
 novius: Don't spare men like him again.
-
-# Astryn nods, shaken. The screen fades to black.
-
-# TODO: trigger the credits sequence here (not built yet) before => END
 => END
 
 ~ vorkoth_spare
+do QuestManager.vorkoth_ending = "spare_fail"
+
 astryn: ...No. You're not worth it.
+=> END
 
-# She holsters the weapon and turns her back, walking away from him.
+# Astryn's holster-and-idle blink, the walk away, Vorkoth's teleport strike, the cut to
+# black, and the final wait all play out in code between here and the title below; see
+# BossTurnBasedCombat._play_vorkoth_ending_sequence().
+~ vorkoth_spare_mercy_taunt
+vorkoth_p1: ...Mercy. From you.
+=> END
 
-vorkoth_p2: ...Mercy. From you.
+~ vorkoth_spare_aftermath
+vorkoth_p1: YOU SEE?! You see what happens to those who think they can challenge me?!
 
-# In one last surge, dark energy flares around Vorkoth's collapsed form. He lunges, driving a blade of dark magic through her back.
-
-# Cut immediately to black.
-
-vorkoth_p2: YOU SEE?! You see what happens to those who think they can challenge me?!
-
-vorkoth_p2: Levaris does not bow to radicals! Let this "Justice" nonsense die with her!
-
-# Silence again.
-
-# TODO: trigger the demo fail-state here (not built yet) before => END
+vorkoth_p1: Levaris does not bow to radicals! Let this "Justice" nonsense die with her!
 => END
 
 ~ duel_intro
 paanouncer: Ladies and gentlemen of Levaris! Tonight, in accordance with the challenge issued at this morning's podium, we bring you a duel for the ages!
 
-paanouncer: In this corner — the undisputed, unbroken defender of this city, the People's General himself — VORKOTH!
+paanouncer: In this corner: the undisputed, unbroken defender of this city, the People's General himself... VORKOTH!
 
-(The crowd cheers, though a little too on cue, a little too rehearsed.)
+*The crowd cheers, though a little too on cue, a little too rehearsed.*
 
 paanouncer: And challenging him tonight... representing themselves as...
 
 paanouncer: ..."The Merciless Blades of Absolute Justice"?
-
-(Silence. Astryn, Novius, and Aegrandir all turn to look at Spero.)
 
 astryn: The what.
 

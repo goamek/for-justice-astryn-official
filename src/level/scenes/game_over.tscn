@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://i51r78jk7gce"]
+
+[ext_resource type="Script" uid="uid://ugok5ocqgut" path="res://src/level/scripts/GameOver.gd" id="1_gameover"]
+[ext_resource type="FontFile" uid="uid://c45qqkxks0evn" path="res://assets/fonts/Ferrum-wy99.otf" id="2_font"]
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gameover")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="GameOverLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.4
+anchor_right = 0.5
+anchor_bottom = 0.4
+offset_left = -250.0
+offset_top = 39.0
+offset_right = 250.0
+offset_bottom = 139.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.8, 0.1, 0.1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 56
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = 40.0
+offset_right = 120.0
+offset_bottom = 76.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+text = "Return to Free Roam"
+
+[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]

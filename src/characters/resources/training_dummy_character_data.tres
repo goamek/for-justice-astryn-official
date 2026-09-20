@@ -6,8 +6,9 @@
 
 [resource]
 script = ExtResource("3_data")
-character_name = "Soldier"
-base_max_hp = 100
-base_speed = 16
+character_name = "Practice Soldier"
+base_max_hp = 50
+base_physical_attack = 10
+base_magic_attack = 10
 moves = Array[ExtResource("1_move")]([ExtResource("2_atk")])
 metadata/_custom_type_script = "uid://dsmaiuwygo1ku"

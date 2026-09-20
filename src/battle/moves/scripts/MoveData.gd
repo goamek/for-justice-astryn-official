@@ -17,7 +17,7 @@ enum StatType { NONE, PHYSICALATTACK, MAGICATTACK, PHYSICALDEFENSE, MAGICDEFENSE
 ## Mana cost to use this move — only meaningful for MAGIC/STATUS moves (PHYSICAL moves
 ## are always free). Enemies/bosses have unlimited mana, so this is never read for them.
 @export var mana_cost: int = 0
-@export_range(0, 100) var crit_chance: int = 10 # Default 10% chance
+@export_range(0, 100) var crit_chance: int = 5 # Default 5% chance
 @export var typing: TypeData.Type = TypeData.Type.BASIC
 @export var subtype: TypeData.Type = TypeData.Type.NONE
 
@@ -40,7 +40,7 @@ enum StatType { NONE, PHYSICALATTACK, MAGICATTACK, PHYSICALDEFENSE, MAGICDEFENSE
 @export var cures_statuses: Array[StatusEffect.StatusType] = []
 
 ## Clears all 7 stat stages (buffs/debuffs) on the target — not status conditions like
-## poison/paralyze. Meant to be paired with targets_all (e.g. Haze) for a field-wide reset.
+## poison/paralyze. Meant to be paired with targets_all (e.g. Smoke) for a field-wide reset.
 @export var resets_stat_stages: bool = false
 
 ## If true, this move skips manual target selection entirely and hits every active
@@ -60,6 +60,6 @@ enum StatType { NONE, PHYSICALATTACK, MAGICATTACK, PHYSICALDEFENSE, MAGICDEFENSE
 ## makes sense when TAUNT is applied to a party member, not an enemy.
 @export var ally_target_only: bool = false
 
-## Always hits regardless of accuracy/evasion (e.g. Haze). Self/ally/revive moves already
+## Always hits regardless of accuracy/evasion (e.g. Smoke). Self/ally/revive moves already
 ## bypass the accuracy roll; this covers a move that isn't any of those but still shouldn't miss.
 @export var never_misses: bool = false

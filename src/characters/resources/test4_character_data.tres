@@ -11,7 +11,7 @@
 script = ExtResource("1_aegrandir")
 character_name = "Aegrandir"
 base_max_hp = 60
-base_max_mp = 40
+base_max_mp = 50
 base_physical_defense = 20
 moves = Array[ExtResource("2_aegrandir")]([ExtResource("3_timb"), ExtResource("4_bless"), ExtResource("5_iron"), ExtResource("6_taunt")])
 typing = Array[int]([3])

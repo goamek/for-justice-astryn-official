@@ -1,6 +1,17 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://src/ui/scripts/turn_queue_display.gd" id="1_1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_backer"]
+bg_color = Color(0, 0, 0, 0.55)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 14.0
+content_margin_right = 14.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
 
 [node name="TurnQueueDisplay" type="CanvasLayer"]
 script = ExtResource("1_1")
@@ -14,13 +25,22 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="NameContainer" type="HBoxContainer" parent="Root"]
+[node name="Backer" type="PanelContainer" parent="Root"]
 layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 16.0
-offset_bottom = 48.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.0
+offset_top = 12.0
+offset_right = 60.0
+offset_bottom = 44.0
 grow_horizontal = 2
+grow_vertical = 1
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_backer")
+
+[node name="NameContainer" type="HBoxContainer" parent="Root/Backer"]
+layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 12
 alignment = 1

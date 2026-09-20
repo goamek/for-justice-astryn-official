@@ -25,7 +25,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 20, 245)
 shape = SubResource("BoxShape3D_south")
 
 [node name="WestBoundary" type="CollisionShape3D" parent="Bounds"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -340, 20, -30)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -364.38867, 20, -30)
 shape = SubResource("BoxShape3D_west")
 
 [node name="EastBoundary" type="CollisionShape3D" parent="Bounds"]

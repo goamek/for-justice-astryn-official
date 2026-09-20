@@ -148,6 +148,12 @@ theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 18
 text = "Move Info  —  E or Gamepad Y"
 
+[node name="CharacterInfoRow" type="Label" parent="ContentColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 18
+text = "Character Info  —  C or Gamepad X"
+
 [node name="GamepadDiagram" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -245,8 +251,8 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -70.0
-offset_bottom = -30.0
+offset_top = -20.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_fonts/font = ExtResource("1_font")
@@ -254,3 +260,21 @@ theme_override_font_sizes/font_size = 15
 theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
 text = "Press Cancel to go back"
 horizontal_alignment = 1
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -70.0
+offset_top = -80.0
+offset_right = 70.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 22
+text = "Back"

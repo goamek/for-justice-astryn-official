@@ -1,0 +1,191 @@
+[gd_scene load_steps=3 format=3 uid="uid://mmakw8ln34l6"]
+
+[ext_resource type="Script" path="res://src/level/scripts/Credits.gd" id="1_credits"]
+[ext_resource type="FontFile" uid="uid://c45qqkxks0evn" path="res://assets/fonts/Ferrum-wy99.otf" id="2_font"]
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_credits")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 36.0
+offset_right = 200.0
+offset_bottom = 96.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 48
+text = "Credits"
+horizontal_alignment = 1
+
+[node name="ContentRow" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -190.0
+offset_right = 300.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+theme_override_constants/separation = 40
+
+[node name="LeftColumn" type="VBoxContainer" parent="ContentRow"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ProductionHeader" type="Label" parent="ContentRow/LeftColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 30
+text = "Production"
+horizontal_alignment = 1
+
+[node name="ProductionRow" type="Label" parent="ContentRow/LeftColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "Garrett Oamek"
+horizontal_alignment = 1
+
+[node name="DevelopmentHeader" type="Label" parent="ContentRow/LeftColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 30
+text = "Development"
+horizontal_alignment = 1
+
+[node name="DevelopmentRow" type="Label" parent="ContentRow/LeftColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "Garrett Oamek"
+horizontal_alignment = 1
+
+[node name="DesignHeader" type="Label" parent="ContentRow/LeftColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 30
+text = "Design"
+horizontal_alignment = 1
+
+[node name="DesignRow" type="Label" parent="ContentRow/LeftColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "Garrett Oamek"
+horizontal_alignment = 1
+
+[node name="WritingHeader" type="Label" parent="ContentRow/LeftColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 30
+text = "Writing"
+horizontal_alignment = 1
+
+[node name="WritingRow" type="Label" parent="ContentRow/LeftColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "Garrett Oamek"
+horizontal_alignment = 1
+
+[node name="CharacterArtHeader" type="Label" parent="ContentRow/LeftColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 30
+text = "Character Art"
+horizontal_alignment = 1
+
+[node name="CharacterArtRow" type="Label" parent="ContentRow/LeftColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "Garrett Oamek  •  Rory Mitchell"
+horizontal_alignment = 1
+
+[node name="RightColumn" type="VBoxContainer" parent="ContentRow"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="EnvironmentArtHeader" type="Label" parent="ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 30
+text = "Environment Art"
+horizontal_alignment = 1
+
+[node name="EnvironmentArtRow" type="Label" parent="ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "Ultimate_End"
+horizontal_alignment = 1
+
+[node name="MusicHeader" type="Label" parent="ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 30
+text = "Music"
+horizontal_alignment = 1
+
+[node name="MusicRow" type="Label" parent="ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "ERNEY  •  Sara Garrard  •  Marllon Silva (xDeviruchi)"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ToolsHeader" type="Label" parent="ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 30
+text = "Tools & Engine"
+horizontal_alignment = 1
+
+[node name="ToolsRow" type="Label" parent="ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "Godot Engine  •  Dialogue Manager by Nathan Hoad"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ThanksHeader" type="Label" parent="ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 30
+text = "Special Thanks"
+horizontal_alignment = 1
+
+[node name="ThanksRow" type="Label" parent="ContentRow/RightColumn"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "You, for playing"
+horizontal_alignment = 1

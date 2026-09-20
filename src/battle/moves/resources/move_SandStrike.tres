@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3]
+
+[ext_resource type="Script" uid="uid://b8xdk5l3gwett" path="res://src/battle/moves/scripts/MoveData.gd" id="1_sand"]
+
+[resource]
+script = ExtResource("1_sand")
+move_name = "Sand Strike"
+description = "A quick jab with a handful of grit thrown in."
+damage = 5
+typing = 11
+metadata/_custom_type_script = "uid://b8xdk5l3gwett"

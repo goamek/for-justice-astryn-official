@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://c7xd5cu3f70vc"]
+[gd_scene load_steps=34 format=3 uid="uid://c7xd5cu3f70vc"]
 
 [ext_resource type="Script" uid="uid://drevnosqbohmu" path="res://src/level/scripts/TurnBasedCombat.gd" id="1_e636i"]
 [ext_resource type="PackedScene" uid="uid://c3wfp4n01jdvk" path="res://src/characters/scenes/party_member_2.tscn" id="2_6qlvv"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" path="res://src/ui/scenes/turn_queue_display.tscn" id="15_tqd01"]
 [ext_resource type="PackedScene" path="res://src/ui/scenes/move_info_popup.tscn" id="17_infopu"]
 [ext_resource type="PackedScene" path="res://src/ui/scenes/target_info_popup.tscn" id="18_tinfopu"]
+[ext_resource type="PackedScene" path="res://src/ui/scenes/tutorial_tip_popup.tscn" id="19_tutpop"]
 [ext_resource type="PackedScene" path="res://src/environment/scenes/objects/floor_lrg_01.tscn" id="40_floor01"]
 [ext_resource type="PackedScene" path="res://src/environment/scenes/objects/floor_lrg_02.tscn" id="40_floor02"]
 [ext_resource type="PackedScene" path="res://src/environment/scenes/objects/floor_lrg_03.tscn" id="40_floor03"]
@@ -30,6 +31,27 @@
 [ext_resource type="PackedScene" path="res://src/environment/scenes/objects/floor_lrg_14.tscn" id="40_floor14"]
 [ext_resource type="PackedScene" path="res://src/environment/scenes/objects/floor_lrg_15.tscn" id="40_floor15"]
 [ext_resource type="PackedScene" path="res://src/environment/scenes/objects/floor_lrg_16.tscn" id="40_floor16"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_actionbtn_normal"]
+bg_color = Color(0, 0, 0, 0.55)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_actionbtn_hover"]
+bg_color = Color(0.2, 0.2, 0.2, 0.7)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_actionbtn_pressed"]
+bg_color = Color(0, 0, 0, 0.75)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_6wv1l"]
 rayleigh_color = Color(0.25, 0.45, 0.85, 1)
@@ -55,7 +77,7 @@ fog_depth_curve = 1.8
 fog_depth_begin = 5.0
 fog_depth_end = 40.0
 
-[node name="TBC" type="Node3D" node_paths=PackedStringArray("tbc_ui", "player_node", "partyspawn1", "partyspawn2", "partyspawn3", "partyspawn4", "spawn1", "spawn2", "spawn3", "spawn4", "battle_message_box", "turn_queue_display", "move_info_popup", "target_info_popup")]
+[node name="TBC" type="Node3D" node_paths=PackedStringArray("tbc_ui", "player_node", "partyspawn1", "partyspawn2", "partyspawn3", "partyspawn4", "spawn1", "spawn2", "spawn3", "spawn4", "battle_message_box", "turn_queue_display", "move_info_popup", "target_info_popup", "tutorial_tip_popup")]
 script = ExtResource("1_e636i")
 tbc_ui = NodePath("Player Action UI Control")
 player_node = NodePath("Character")
@@ -81,6 +103,7 @@ battle_message_box = NodePath("BattleMessageBox")
 turn_queue_display = NodePath("TurnQueueDisplay")
 move_info_popup = NodePath("MoveInfoPopup")
 target_info_popup = NodePath("TargetInfoPopup")
+tutorial_tip_popup = NodePath("TutorialTipPopup")
 
 [node name="Character" parent="." instance=ExtResource("3_muqeg")]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.5, 1.1, 2)
@@ -131,7 +154,7 @@ grow_vertical = 2
 layout_mode = 2
 custom_minimum_size = Vector2(0, 26)
 horizontal_alignment = 1
-text = "E / Y — Move Info"
+text = "E / Y — Move Info      C / X — Character Info"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Player Action UI Control/Player Action CL/VBoxContainer"]
 layout_mode = 2
@@ -144,6 +167,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 focus_neighbor_right = NodePath("../Button2")
+theme_override_styles/normal = SubResource("StyleBoxFlat_actionbtn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_actionbtn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_actionbtn_pressed")
 text = "Attack
 "
 
@@ -153,6 +179,9 @@ size_flags_horizontal = 3
 mouse_filter = 2
 focus_neighbor_left = NodePath("../Button1")
 focus_neighbor_right = NodePath("../Button3")
+theme_override_styles/normal = SubResource("StyleBoxFlat_actionbtn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_actionbtn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_actionbtn_pressed")
 text = "a
 "
 
@@ -162,6 +191,9 @@ size_flags_horizontal = 3
 mouse_filter = 2
 focus_neighbor_left = NodePath("../Button2")
 focus_neighbor_right = NodePath("../Button4")
+theme_override_styles/normal = SubResource("StyleBoxFlat_actionbtn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_actionbtn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_actionbtn_pressed")
 text = "b"
 
 [node name="Button4" type="Button" parent="Player Action UI Control/Player Action CL/VBoxContainer/HBoxContainer"]
@@ -169,6 +201,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 focus_neighbor_left = NodePath("../Button3")
+theme_override_styles/normal = SubResource("StyleBoxFlat_actionbtn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_actionbtn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_actionbtn_pressed")
 text = "c"
 
 [node name="Select Target CL" type="Control" parent="Player Action UI Control"]
@@ -197,7 +232,7 @@ grow_horizontal = 2
 grow_vertical = 2
 horizontal_alignment = 1
 vertical_alignment = 1
-text = "◄ ►  Cycle target      Confirm      F / B — Cancel      E / Y — View Status"
+text = "◄ ►  Cycle target      Confirm      F / B — Cancel      C / X — View Status"
 
 [node name="PartySpawnPoint#2" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.1, 1.5)
@@ -220,6 +255,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.1, 3)
 [node name="MoveInfoPopup" parent="." instance=ExtResource("17_infopu")]
 
 [node name="TargetInfoPopup" parent="." instance=ExtResource("18_tinfopu")]
+
+[node name="TutorialTipPopup" parent="." instance=ExtResource("19_tutpop")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.34202006, -0.66446304, -0.664463, 0, -0.70710677, 0.7071067, -0.9396927, 0.2418447, 0.24184468, 0, 0, 0)

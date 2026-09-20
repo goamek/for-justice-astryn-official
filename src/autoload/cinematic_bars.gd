@@ -34,6 +34,7 @@ func _on_dialogue_ended(resource: DialogueResource) -> void:
 ## for turning bars on partway through a conversation, or in just one ~ titled section of a
 ## multi-section file, rather than for the whole thing via Enemy/PartyMember's Inspector toggle.
 func show_bars() -> void:
+	SignalBus.cinematic_bars_shown.emit()
 	var tween := create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.tween_property(top_bar, "offset_bottom", bar_height, animation_duration)
 	tween.tween_property(bottom_bar, "offset_top", -bar_height, animation_duration)
@@ -41,6 +42,7 @@ func show_bars() -> void:
 
 ## `do CinematicBars.hide_bars()` - the .dialogue-file counterpart to show_bars() above.
 func hide_bars() -> void:
+	SignalBus.cinematic_bars_hidden.emit()
 	var tween := create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	tween.tween_property(top_bar, "offset_bottom", 0.0, animation_duration)
 	tween.tween_property(bottom_bar, "offset_top", 0.0, animation_duration)

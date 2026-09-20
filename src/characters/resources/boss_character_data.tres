@@ -4,19 +4,19 @@
 [ext_resource type="Script" uid="uid://dsmaiuwygo1ku" path="res://src/characters/scripts/CharacterData.gd" id="2_jrrfc"]
 [ext_resource type="Resource" uid="uid://diq28wfc0gmwm" path="res://src/battle/moves/resources/move_DarkLance.tres" id="3_k67qm"]
 [ext_resource type="Resource" uid="uid://76t2kx54coy4" path="res://src/battle/moves/resources/move_FireBreath.tres" id="4_qvkpe"]
-[ext_resource type="Resource" path="res://src/battle/moves/resources/move_Haze.tres" id="5_haze"]
-[ext_resource type="Resource" path="res://src/battle/moves/resources/move_PoisonSpit.tres" id="6_pspit"]
+[ext_resource type="Resource" path="res://src/battle/moves/resources/move_Smoke.tres" id="5_smoke"]
+[ext_resource type="Resource" uid="uid://vqo5i1nv7u71" path="res://src/battle/moves/resources/move_PoisonSpit.tres" id="6_pspit"]
 
 [resource]
 script = ExtResource("2_jrrfc")
 character_name = "Vorkoth"
 base_max_hp = 300
-base_physical_attack = 40
-base_magic_attack = 40
+base_physical_attack = 30
+base_magic_attack = 30
 base_physical_defense = 35
 base_magic_defense = 35
 base_speed = 30
 is_boss = true
-moves = Array[ExtResource("1_4emr1")]([ExtResource("3_k67qm"), ExtResource("4_qvkpe"), ExtResource("5_haze"), ExtResource("6_pspit")])
+moves = Array[ExtResource("1_4emr1")]([ExtResource("3_k67qm"), ExtResource("4_qvkpe"), ExtResource("5_smoke"), ExtResource("6_pspit")])
 typing = Array[int]([5, 1])
 metadata/_custom_type_script = "uid://dsmaiuwygo1ku"

@@ -1,3 +1,19 @@
 ~ start
+if QuestManager.can_enter_boss_fight() == true:
+	solider_one: You ready for the duel?
+	- Let's do it => solider_one_boss_fight_accept
+	- Not yet => solider_one_boss_fight_decline
+=> solider_one_default
+
+~ solider_one_default
 solider_one: ...
+=> END
+
+~ solider_one_boss_fight_accept
+solider_one: Good luck out there.
+do speaker.start_boss_fight()
+=> END
+
+~ solider_one_boss_fight_decline
+solider_one: Check back in later then.
 => END

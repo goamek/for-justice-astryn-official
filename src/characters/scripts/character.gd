@@ -4,22 +4,33 @@
 extends CharacterBody3D
 class_name Character
 
-# Free Roam movement variables
 @export var VERTICAL_SPEED = 6
 @export var HORIZONTAL_SPEED = 9
 @export var JUMP_VELOCITY = 4.5
 const LAST_DIRECTION_TOLERANCE = 0.1 # Threshold to prevent floating point errors
+
+const FOOTSTEP_SFX: AudioStream = preload("res://assets/sounds/eaglaxle-generic-footstep-2-530779.mp3")
+const FOOTSTEP_VOLUME_DB: float = 6.0 # +6dB ~= double the perceived loudness of the source file
+# Frame indices (within any "Run ___" animation, all 8 frames/cycle) where a foot plants —
+# driven by the sprite's actual animation frame rather than the movement input, so a
+# scripted cutscene playing the same "Run ___" animation gets footsteps too.
+const FOOTSTEP_FRAMES: Array[int] = [1, 5]
 
 const FREE_ROAM_SCENE = "res://src/level/scenes/free_roam.tscn"
 const TBC_SCENE = "res://src/level/scenes/tbc.tscn"
 const BOSS_FIGHT_SCENE = "res://src/level/scenes/boss_fight_tbc.tscn"
 @onready var camera = $Camera3D
 
-# variables to help transition from Free roam and TBC
 var can_move: bool = false
 var is_talking: bool = false
 var should_move_character: bool = false
 var did_move_character: bool = false
+
+# Set by a scripted cutscene beat (e.g. the final-defeat walk-and-draw) that needs to drive
+# animated_sprite itself — stops the TBC branch below from stomping it back to "Idle Battle"
+# every physics frame. Never reset once set; only used this late in a fight, right before the
+# scene ends anyway.
+var is_in_cutscene_pose: bool = false
 
 @onready var animated_sprite: AnimatedSprite3D = $AnimatedSprite3D
 
@@ -31,7 +42,6 @@ var did_move_character: bool = false
 # Last non-zero movement direction, used to pick the correct idle animation (X/Z plane).
 var last_direction: Vector2 = Vector2(0, 1) # Represents (right/left, down/up)
 
-# variables for TBC
 @export var data: CharacterData
 @onready var health: HealthComponent = $HealthComponent
 @onready var mana: ManaComponent = $ManaComponent
@@ -51,6 +61,7 @@ var base_magic_defense: int
 var is_downed: bool = false
 var heal_flash_tween: Tween
 var stat_flash_tween: Tween
+var turn_highlight_tween: Tween
 
 signal hp_changed(new_hp)
 signal mana_changed(new_mp)
@@ -59,15 +70,14 @@ signal mana_changed(new_mp)
 func _ready():
 	if animated_sprite != null:
 		animated_sprite.play(initial_idle_animation)
+		animated_sprite.frame_changed.connect(_on_animated_sprite_frame_changed)
 	else:
 		print("ERROR: AnimatedSprite3D node not found at the specified path!")
 
-	# Connect to dialogue signals
 	InteractionManager.player = self
 	DialogueManager.dialogue_started.connect(_on_dialogue_started)
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 
-	# load in character data for TBC
 	if data:
 		character_name = data.character_name
 		health.setup(data.base_max_hp)
@@ -78,6 +88,15 @@ func _ready():
 		base_magic_defense = data.base_magic_defense
 	else:
 		push_error("Character data resource is missing")
+
+# Fires on every frame change of whatever animation is currently playing — filters down to
+# just the footfall frames of a "Run ___" animation, so this plays the same whether she's
+# being moved by player input or by a scripted cutscene animating her the same way.
+func _on_animated_sprite_frame_changed() -> void:
+	if not animated_sprite.animation.begins_with("Run"):
+		return
+	if animated_sprite.frame in FOOTSTEP_FRAMES:
+		AudioController.play_sfx(FOOTSTEP_SFX, FOOTSTEP_VOLUME_DB)
 
 # Freezes movement while a dialogue balloon is open.
 func _on_dialogue_started(_resource: DialogueResource):
@@ -103,6 +122,9 @@ func take_damage(damage: float) -> float:
 func spend_mana(cost: float) -> void:
 	mana.apply_cost(cost)
 	mana_changed.emit(current_mp)
+
+func can_afford(cost: float) -> bool:
+	return mana.can_afford(cost)
 
 func heal(amount: float) -> float:
 	var actual_heal: float = health.apply_heal(amount)
@@ -138,7 +160,7 @@ func flash_stat_change_tint(is_buff: bool) -> void:
 	stat_flash_tween.tween_property(animated_sprite, "modulate", flash_color, 0.15)
 	stat_flash_tween.tween_property(animated_sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.15)
 
-## Blinks the sprite's opacity for a field-reset move (e.g. Haze) wiping every stat stage —
+## Blinks the sprite's opacity for a field-reset move (e.g. Smoke) wiping every stat stage —
 ## same mechanism as the buff/debuff flash, but fading alpha since modulate is already white at rest.
 func flash_stat_reset_tint() -> void:
 	if animated_sprite == null:
@@ -150,6 +172,21 @@ func flash_stat_reset_tint() -> void:
 	stat_flash_tween.tween_property(animated_sprite, "modulate:a", 0.2, 0.15)
 	stat_flash_tween.tween_property(animated_sprite, "modulate:a", 1.0, 0.15)
 
+## Loops a warm gold pulse on the sprite while it's this character's turn (or it's the
+## currently cycled target), same mechanism as flash_stat_change_tint() but a persistent loop.
+func set_turn_highlight(active: bool) -> void:
+	if animated_sprite == null:
+		return
+	if turn_highlight_tween and turn_highlight_tween.is_valid():
+		turn_highlight_tween.kill()
+		turn_highlight_tween = null
+	if not active:
+		animated_sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		return
+	turn_highlight_tween = create_tween().set_loops()
+	turn_highlight_tween.tween_property(animated_sprite, "modulate", Color(1.0, 0.85, 0.3, 1.0), 0.4)
+	turn_highlight_tween.tween_property(animated_sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.4)
+
 func _enter_downed_state() -> void:
 	is_downed = true
 	_clear_statuses_and_stat_stages()
@@ -157,6 +194,9 @@ func _enter_downed_state() -> void:
 		heal_flash_tween.kill()
 	if stat_flash_tween and stat_flash_tween.is_valid():
 		stat_flash_tween.kill()
+	if turn_highlight_tween and turn_highlight_tween.is_valid():
+		turn_highlight_tween.kill()
+		turn_highlight_tween = null
 	if animated_sprite != null:
 		animated_sprite.modulate = Color(0.3, 0.3, 0.3, 1.0)
 
@@ -199,11 +239,12 @@ func _physics_process(delta: float) -> void:
 			can_move = true
 			should_move_character = false
 			did_move_character = false
-	# TBC scene: lock movement, park in battle-idle.
+	# TBC scene: lock movement, park in battle-idle — unless a scripted cutscene pose is
+	# currently driving animated_sprite itself.
 	if path == TBC_SCENE or path == BOSS_FIGHT_SCENE:
 		can_move = false
 		should_move_character = true
-		if animated_sprite.animation != "Idle Battle":
+		if not is_in_cutscene_pose and animated_sprite.animation != "Idle Battle":
 			animated_sprite.play("Idle Battle")
 
 	if can_move:

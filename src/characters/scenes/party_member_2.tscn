@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://c3wfp4n01jdvk"]
+[gd_scene load_steps=51 format=3 uid="uid://c3wfp4n01jdvk"]
 
 [ext_resource type="Script" uid="uid://cldkjmaxgdbvu" path="res://src/characters/scripts/PartyMember.gd" id="1_4itvn"]
 [ext_resource type="Resource" uid="uid://cd32pfi7fslsd" path="res://src/characters/resources/test2_character_data.tres" id="2_hkiu3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://br0t863u8yl1u" path="res://assets/Sprites/Novius/48BobBatteAnim.png" id="4_1uwtn"]
 [ext_resource type="Texture2D" uid="uid://ct45reo8ker6k" path="res://assets/Sprites/Novius/48BobFacingIdle.png" id="5_lcr0f"]
 [ext_resource type="Texture2D" uid="uid://db7pwerwjl8y2" path="res://assets/Sprites/Novius/bobUpIdleAnim.png" id="6_1uwtn"]
+[ext_resource type="Texture2D" uid="uid://ci1f80qcrl24n" path="res://assets/Sprites/Novius/bobStabNoWeapon.png" id="6_lcr0f"]
 [ext_resource type="PackedScene" uid="uid://ndfj4s23ilpg" path="res://src/interaction/scenes/interaction_area.tscn" id="6_lt7s8"]
 [ext_resource type="Script" uid="uid://ci082cesig2h1" path="res://src/characters/scripts/HealthComponent.gd" id="7_hlthc"]
 [ext_resource type="Script" uid="uid://di6s58kihd1vo" path="res://src/characters/scripts/ManaComponent.gd" id="mana_comp"]
@@ -105,6 +106,10 @@ region = Rect2(480, 0, 48, 48)
 [sub_resource type="AtlasTexture" id="AtlasTexture_1w6t6"]
 atlas = ExtResource("5_lcr0f")
 region = Rect2(528, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shtjk"]
+atlas = ExtResource("6_lcr0f")
+region = Rect2(0, 0, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lcr0f"]
 atlas = ExtResource("6_1uwtn")
@@ -240,6 +245,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_shtjk")
+}],
+"loop": true,
+"name": &"Stab",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_lcr0f")
 }, {
 "duration": 1.0,
@@ -301,7 +314,7 @@ alpha_cut = 1
 texture_filter = 0
 render_priority = 1
 sprite_frames = SubResource("SpriteFrames_2mg6v")
-animation = &"Up Idle"
+animation = &"Stab"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_fb875")
