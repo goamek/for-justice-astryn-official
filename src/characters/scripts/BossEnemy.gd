@@ -40,7 +40,10 @@ func _on_defeated() -> void:
 var _phase_one_sprite_frames: SpriteFrames
 var _phase_one_sprite_offset: Vector2
 var _phase_one_scale: Vector3
-var _phase_one_position_y: float
+
+# Ground-level height of the enemy spawn markers in boss_fight_tbc.tscn. Phase 2 raises the
+# boss to BossPhaseTwoSpawnPoint's height, so the kneel has to drop him back to this.
+const KNEEL_GLOBAL_Y: float = 1.1
 
 func enter_phase_two() -> void:
 	if phase_two_data == null:
@@ -60,10 +63,9 @@ func enter_phase_two() -> void:
 		animated_sprite.offset = PHASE_TWO_SPRITE_OFFSET
 	# No longer scaling phase 2 up beyond phase 1's base 0.1 (_spawn_enemy() sets that) —
 	# the phase-2 sprite art itself is now sized to look bigger, so an extra scale multiplier
-	# on top would double it again. _phase_one_scale/_phase_one_position_y are still captured
-	# for revert_to_phase_one_appearance() in case scale/position ever diverge here again.
+	# on top would double it again. _phase_one_scale is still captured for
+	# revert_to_phase_one_appearance() in case scale ever diverges here again.
 	_phase_one_scale = scale
-	_phase_one_position_y = position.y
 	phase = 2
 
 ## Reverts phase 2's bigger transformed appearance back to phase 1's human-scale look, then
@@ -76,7 +78,7 @@ func revert_to_phase_one_appearance() -> void:
 		animated_sprite.sprite_frames = _phase_one_sprite_frames
 		animated_sprite.offset = _phase_one_sprite_offset
 	scale = _phase_one_scale
-	position.y = _phase_one_position_y
+	global_position.y = KNEEL_GLOBAL_Y
 	animated_sprite.play("Kneel")
 
 ## Same opacity-dip technique as Enemy.flash_stat_reset_tint(), but without reapplying the

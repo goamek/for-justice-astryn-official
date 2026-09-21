@@ -13,9 +13,9 @@ novius: Hey, Astryn.
 astryn: Nov. What you doing?
 novius: Just scouting the market stalls. Inflation here is insane. Even basic supplies are priced like luxury goods.
 if QuestManager.talked_to_team["Aegrandir"] == true:
-	Astryn: Yeah, Aeg was telling me about that. Vorkoth has the economy completely cooked.
+	astryn: Yeah, Aeg was telling me about that. Vorkoth has the economy completely cooked.
 else:
-	Astryn: Damn, guess I'm stuck with what's already in my bag, then.
+	astryn: Damn, guess I'm stuck with what's already in my bag, then.
 novius: Shit's crazy, caught some news too.
 astryn: Glad you can still read my mind. Spill it.
 novius: Word on the street is that Vorkoth can wield dark magic. Overheard some guys outside a shop, they were talking about our duel. Seems the word has spread.
