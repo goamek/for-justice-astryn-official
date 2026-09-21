@@ -160,6 +160,14 @@ func _next_turn() -> void:
 		return
 	super._next_turn()
 
+# play_cutscene() calls _hide_target_action_ui(), which re-highlights the current turn actor —
+# during the ending that would restart Astryn's gold blink right after the sequence cleared it,
+# so only the clearing call (null) is allowed through once the ending has started.
+func _set_highlighted_combatant(actor: Node3D) -> void:
+	if _vorkoth_ending_started and actor != null:
+		return
+	super._set_highlighted_combatant(actor)
+
 func _handle_potential_defeat(target: Node3D) -> void:
 	if target is BossEnemy and target.phase == 1 and target.current_hp <= 0:
 		await _begin_boss_phase_two(target)
@@ -179,6 +187,10 @@ func _handle_potential_defeat(target: Node3D) -> void:
 func _play_vorkoth_ending_sequence(boss: BossEnemy) -> void:
 	_vorkoth_ending_started = true
 	set_process(false)
+
+	# Nothing is acting or being targeted anymore — stops whichever combatant's gold blink was
+	# still running so it doesn't keep pulsing through the cutscenes below.
+	_set_highlighted_combatant(null)
 
 	# The fight is over — wipe the battle HUD for the rest of this sequence (walk/shoot,
 	# both dialogue segments) instead of leaving it hanging over the cutscene. Never shown

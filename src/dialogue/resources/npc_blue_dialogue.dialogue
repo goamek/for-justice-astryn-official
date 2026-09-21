@@ -15,7 +15,7 @@ npcblue: Third time this year.
 astryn: ...That's Vorkoth's doing.
 npcblue: Everything here's Vorkoth's doing.
 if QuestManager.talked_to_team["Novius"] == true:
-	Astryn: (Novius said something like this happens all over. Guess now I'm seeing it firsthand.)
+	astryn: (Novius said something like this happens all over. Guess now I'm seeing it firsthand.)
 astryn: We're gonna do something about him. Tonight.
 npcblue: ...Yeah? Well. Good luck to you, then.
 do QuestManager.mark_npc_talked_to("NPCBlue")

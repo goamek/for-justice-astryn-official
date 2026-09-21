@@ -11,13 +11,13 @@ npcgreen: Who are you?
 astryn: We're trying to find out who's been squeezing this city dry.
 npcgreen: *laughs* Everything here's overpriced if you can even find it. Blame the General for that.
 if QuestManager.talked_to_team["Novius"] == true or QuestManager.talked_to_team["Aegrandir"] == true:
-	Astryn: Yeah, I've heard. Thank you.
-	NPCGreen: Them bastards won't let us have shit.
+	astryn: Yeah, I've heard. Thank you.
+	npcgreen: Them bastards won't let us have shit.
 else:
-	Astryn: Why so?
-	NPCGreen: Them greedy, rich-ass bastards won't let us have shit.
-	Astryn: Who?
-	NPCGreen: The military; they run this town.
+	astryn: Why so?
+	npcgreen: Them greedy, rich-ass bastards won't let us have shit.
+	astryn: Who?
+	npcgreen: The military; they run this town.
 npcgreen: Leader's name is Vorkoth.
 npcgreen: All we can afford is food, and we can't afford to get out of this place either.
 astryn: Don't worry, that'll change soon.
