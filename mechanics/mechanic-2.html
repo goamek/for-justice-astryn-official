@@ -23,9 +23,9 @@
         <a href="mechanic-4.html">Writing &amp; Story</a>
         <a href="mechanic-5.html">Character Art</a>
         <a href="../future-development.html">Future Development</a>
-        <a>Source Code (coming soon)</a>
+        <a href="https://github.com/goamek/for-justice-astryn-official/tree/main/src" target="_blank" rel="noopener">Source Code</a>
         <a href="../contact.html">Contact</a>
-        <a href="https://garrettoamek.itch.io/for-justice-astryn" class="nav__cta" target="_blank" rel="noopener">Play the Demo (coming soon)</a>
+        <a href="https://garrettoamek.itch.io/for-justice-astryn" class="nav__cta" target="_blank" rel="noopener">Play the Demo</a>
       </nav>
     </div>
   </header>
@@ -62,7 +62,10 @@
         <div class="detail__section">
           <h2>Weighing Its Options</h2>
           <p>
-            Every turn opens with a weighted coin flip between two move pools: attacking moves (65% weight) and status moves (35% weight), so the boss doesn't only ever swing for damage. If the chosen pool has no valid moves that turn, it falls back to the other one instead of doing nothing.
+            Every turn opens with a weighted coin flip between two move pools: attacking moves (60% weight) and status moves (40% weight), so the boss doesn't only ever swing for damage. If the chosen pool has no valid moves that turn, it falls back to the other one instead of doing nothing.
+          </p>
+          <p>
+            Those weights don't stay fixed. Once the boss drops below half of its max HP, its bucketing priority shifts to 80% attacking moves and only 20% status moves, so the second half of the fight is far more aggressive than the first. The boss stops setting up and starts trying to finish the party off.
           </p>
           <p>
             Attacking moves are scored on four factors: Attack Desire (how much damage the move is likely to deal relative to the target's max HP), Threat (how dangerous that target's own stats look next to the boss's remaining HP), Health Desire (a curve that makes the boss lean more cautious the lower its own HP drops), and Defensive Desire (a similar pull toward safer options under pressure). These combine into a weighted score, with Attack Desire counting most, then get scaled by the move's accuracy. Status moves use a lighter model of their own: baseline credit for actually applying a status or hitting the whole field, a bonus if the target isn't already affected by anything, and a bonus if the target is below 35% HP. A stat-resetting move like Haze gets weighted heavily the instant a party member is sitting on a buff, so the boss reliably punishes stacked buffs instead of ignoring them.
@@ -104,7 +107,7 @@
       <p class="footer__brand">For Justice: <span>Astryn</span></p>
       <ul class="footer__links">
         <li><a href="https://garrettoamek.itch.io/for-justice-astryn" target="_blank" rel="noopener">itch.io</a></li>
-        <li><a>Source Code (coming soon)</a></li>
+        <li><a href="https://github.com/goamek/for-justice-astryn-official/tree/main/src" target="_blank" rel="noopener">Source Code</a></li>
         <li><a href="../contact.html">Contact</a></li>
       </ul>
       <p class="footer__copy">&copy; 2026 For Justice: Astryn. Built with Godot.</p>

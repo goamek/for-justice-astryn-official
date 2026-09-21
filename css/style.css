@@ -366,6 +366,18 @@ ul { list-style: none; margin: 0; padding: 0; }
   margin-top: 1rem;
 }
 
+.bullet-list {
+  list-style: disc;
+  margin: 1rem 0 0;
+  padding-left: 1.5rem;
+}
+
+.bullet-list li {
+  color: var(--text-dim);
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
 .detail__section p a {
   color: var(--text);
   border-bottom: 1px solid var(--text-dim);
@@ -604,51 +616,6 @@ ul { list-style: none; margin: 0; padding: 0; }
   border-bottom: 1px solid var(--text-dim);
 }
 
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-}
-
-.gallery__item {
-  padding: 0;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-  margin: 0;
-  aspect-ratio: 16 / 10;
-}
-
-.gallery__item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.gallery__placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  background: var(--surface);
-  color: var(--text-dim);
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  text-align: center;
-}
-
-.gallery__placeholder span {
-  color: var(--text-dim);
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
 .footer {
   border-top: 1px solid var(--border);
   padding: 3rem 1.5rem;
@@ -693,10 +660,8 @@ ul { list-style: none; margin: 0; padding: 0; }
   .overview__grid { grid-template-columns: 1fr; }
   .overview__stats { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 1.5rem; }
   .mechanics { grid-template-columns: 1fr; }
-  .gallery { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 640px) {
   .nav__links { gap: 1rem 1.25rem; }
-  .gallery { grid-template-columns: 1fr; }
 }
