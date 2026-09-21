@@ -4,7 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Turn-Based Combat &amp; Party System | For Justice: Astryn</title>
-  <meta name="description" content="How turn-based combat and the party system work in For Justice: Astryn (to be written).">
+  <meta name="description" content="How turn-based combat and the party system work in For Justice: Astryn.">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="For Justice: Astryn">
+  <meta property="og:title" content="Turn-Based Combat &amp; Party System | For Justice: Astryn">
+  <meta property="og:description" content="How turn-based combat and the party system work in For Justice: Astryn.">
+  <meta property="og:url" content="https://goamek.github.io/for-justice-astryn-official/mechanics/mechanic-1.html">
+  <meta property="og:image" content="https://goamek.github.io/for-justice-astryn-official/assets/game/hero-bg.png">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -23,9 +31,9 @@
         <a href="mechanic-4.html">Writing &amp; Story</a>
         <a href="mechanic-5.html">Character Art</a>
         <a href="../future-development.html">Future Development</a>
-        <a>Source Code (coming soon)</a>
+        <a href="https://github.com/goamek/for-justice-astryn-official/tree/main/src" target="_blank" rel="noopener">Source Code</a>
         <a href="../contact.html">Contact</a>
-        <a href="https://garrettoamek.itch.io/for-justice-astryn" class="nav__cta" target="_blank" rel="noopener">Play the Demo (coming soon)</a>
+        <a href="https://garrettoamek.itch.io/for-justice-astryn" class="nav__cta" target="_blank" rel="noopener">Play the Demo</a>
       </nav>
     </div>
   </header>
@@ -52,7 +60,7 @@
             Combat is built on the turn-based fundamentals players already know: speed-ordered turns, physical and magic move categories, accuracy and evasion, stat buffs and debuffs, and critical hits. That familiar foundation is what makes the party's signature system land: a coating-and-proc mechanic layered on top to make the party feel connected. One move applies a coating status effect to a target, and a different move (often from a different party member) procs that coating for a bonus payoff.
           </p>
           <p>
-            Downpour drenches every combatant on the field in a water coating, and a follow-up Ice-type move like Crystal Needle procs that coating into a full Freeze. The same pattern applies to oil coatings, where a Fire-type move ignites the coating for bonus damage. Building a party is as much about pairing setup moves with the right follow-ups as it is about raw stats.
+            Downpour drenches every combatant on the field in a water coating, and a follow-up move with the Ice subtype, like Crystal Needle, procs that coating into a full Freeze. The same pattern applies to oil coatings, where a Fire-type move ignites the coating for bonus damage. Building a party is as much about pairing setup moves with the right follow-ups as it is about raw stats.
           </p>
         </div>
 
@@ -62,8 +70,47 @@
             Stat buffs and debuffs run on stages from -4 to +4, and each stage isn't a flat percentage: the effective multiplier ranges from 0.4x at -4 up to 2.5x at +4 on a curve, so stacking stages further keeps mattering rather than flattening out. Critical hits deal 1.5x damage and also ignore the attacker's own negative attack stage and the defender's positive defense stage, so a crit reliably punches through a stat-debuffed attacker or a buffed-up defender. A move that shares a type with its user gets a same-type attack bonus of 1.5x, and every hit rolls a flat 0.85 to 1.0 damage variance on top of all of that. Provoke is a double-edged status: it boosts damage dealt by 50% and damage taken by 50% at the same time.
           </p>
           <p>
-            Mana is party-only. Enemies don't use it at all, and physical moves are always free for everyone; only magic and status moves cost MP. If a party member can't afford anything in their move set, combat force-picks a free move for them with the message "is out of mana and acts on instinct!" rather than letting them stall. Downed party members can be brought back by a revive move, but a defeated enemy is gone for the rest of the fight.
+            Mana is party-only. Enemies don't use it at all, and physical moves are always free for everyone; only magic and status moves cost MP. If a party member can't afford anything in their move set, combat force-picks a free move for them with the message "is out of mana and acts on instinct!" rather than letting them stall. Reaching 0 HP downs a party member instead of removing them: their statuses and stat stages are cleared, and a revive move (33% of max HP, 4 MP) brings them back with a clean slate. A defeated enemy, on the other hand, is gone for the rest of the fight.
           </p>
+        </div>
+
+        <div class="detail__section">
+          <h2>Turn Order &amp; Status Duration</h2>
+          <p>
+            The turn queue is built once at the start of each round from every combatant's base speed multiplied by its speed stage, so a speed change made mid-round only takes effect next round. Ties are broken randomly and re-rolled every round. Statuses last 3 turns by default (Taunt lasts 2), counting down on the afflicted combatant's own turn, and reapplying a status resets its duration.
+          </p>
+        </div>
+
+        <div class="detail__section">
+          <h2>Hit Chance &amp; Damage</h2>
+          <p>
+            Hit chance is the move's accuracy scaled by the attacker's accuracy against the target's evasion, each adjusted by stat stages, and capped at 100%. Moves aimed at yourself or an ally, revives, and moves flagged as never missing skip the roll entirely. Damage starts from the move's power multiplied by the attacker's attack stat over the defender's defense, then layers on the type matchup (multiplied across both types for a dual-typed defender), the same-type bonus, Oil Coating, Provoke, critical hits, and variance. The result is rounded up and always deals at least 1. Critical hit chance defaults to 5%, and status moves can't crit.
+          </p>
+        </div>
+
+        <div class="detail__section">
+          <h2>The Party</h2>
+          <p>
+            Four characters make up the party, each with a four-move set built around the coating system and a mana pool that limits their magic and status moves.
+          </p>
+          <dl class="status-list">
+            <div class="status-list__item">
+              <dt>Astryn (Basic, 40 MP)</dt>
+              <dd>Swift Slash, Dead Calm, Para Strike, Flash Step.</dd>
+            </div>
+            <div class="status-list__item">
+              <dt>Novius (Fire, 50 MP)</dt>
+              <dd>Cauterize, Crystal Needle, Ignite Slash, Seal Scorch.</dd>
+            </div>
+            <div class="status-list__item">
+              <dt>Spero (Water, 80 MP)</dt>
+              <dd>Aqua Blast, Primer, Downpour, Revive.</dd>
+            </div>
+            <div class="status-list__item">
+              <dt>Aegrandir (Plant, 50 MP)</dt>
+              <dd>Timber Swing, Nature's Blessing, Ironwood Stance, Farmer's Taunt.</dd>
+            </div>
+          </dl>
         </div>
 
         <div class="detail__section">
@@ -187,11 +234,11 @@
             </div>
             <div class="status-list__item">
               <dt>Freeze</dt>
-              <dd>Locks the target out of acting at their next turn, and halves their evasion while frozen.</dd>
+              <dd>The target skips their next turn, and their evasion is halved for as long as the freeze lasts.</dd>
             </div>
             <div class="status-list__item">
               <dt>Poison</dt>
-              <dd>Deals damage at the start of the target's turn, scaled by the inflicting character's magic power against the target's magic defense.</dd>
+              <dd>Deals damage at the start of the target's turn. The damage scales with the inflicting character's magic power (saved when the status is applied) against the target's base magic defense, so stat stages don't affect it, and it always deals at least 1.</dd>
             </div>
             <div class="status-list__item">
               <dt>Burn</dt>
@@ -203,23 +250,23 @@
             </div>
             <div class="status-list__item">
               <dt>Taunt</dt>
-              <dd>Forces the opposing side's offensive moves to target the taunting combatant.</dd>
+              <dd>Forces the opposing side's offensive moves to target the taunting combatant. Healing moves are exempt on the player's side.</dd>
             </div>
             <div class="status-list__item">
               <dt>Oil Coating</dt>
-              <dd>Fire-type moves against a coated target deal 1.5x damage and ignite the coating away.</dd>
+              <dd>Damaging Fire-type moves against a coated target deal 1.5x damage and ignite the coating away. The flames also spread: every other enemy on the target's side takes the same move at 0.33x damage.</dd>
             </div>
             <div class="status-list__item">
               <dt>Water Coating</dt>
-              <dd>Ice-type moves against a coated target trigger Freeze, consuming the coating.</dd>
+              <dd>Damaging moves with the Ice subtype against a coated target trigger Freeze, consuming the coating. A target that is already Frozen can't be frozen again.</dd>
             </div>
             <div class="status-list__item">
-              <dt>Tar Coating</dt>
-              <dd>Halves the coated combatant's effective speed for turn order.</dd>
+              <dt>Tar Coating (planned)</dt>
+              <dd>Not in the current build yet. Will halve the coated combatant's effective speed for turn order.</dd>
             </div>
             <div class="status-list__item">
-              <dt>Rooted Coating</dt>
-              <dd>Halves the coated combatant's effective speed for turn order.</dd>
+              <dt>Rooted Coating (planned)</dt>
+              <dd>Not in the current build yet. Will halve the coated combatant's effective speed for turn order.</dd>
             </div>
           </dl>
         </div>
@@ -245,7 +292,7 @@
       <p class="footer__brand">For Justice: <span>Astryn</span></p>
       <ul class="footer__links">
         <li><a href="https://garrettoamek.itch.io/for-justice-astryn" target="_blank" rel="noopener">itch.io</a></li>
-        <li><a>Source Code (coming soon)</a></li>
+        <li><a href="https://github.com/goamek/for-justice-astryn-official/tree/main/src" target="_blank" rel="noopener">Source Code</a></li>
         <li><a href="../contact.html">Contact</a></li>
       </ul>
       <p class="footer__copy">&copy; 2026 For Justice: Astryn. Built with Godot.</p>

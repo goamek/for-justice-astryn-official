@@ -4,7 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UI/UX | For Justice: Astryn</title>
-  <meta name="description" content="How the interface supports readability and immersion in For Justice: Astryn (to be written).">
+  <meta name="description" content="How the interface supports readability and immersion in For Justice: Astryn.">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="For Justice: Astryn">
+  <meta property="og:title" content="UI/UX | For Justice: Astryn">
+  <meta property="og:description" content="How the interface supports readability and immersion in For Justice: Astryn.">
+  <meta property="og:url" content="https://goamek.github.io/for-justice-astryn-official/mechanics/mechanic-3.html">
+  <meta property="og:image" content="https://goamek.github.io/for-justice-astryn-official/assets/game/hero-bg.png">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -23,9 +31,9 @@
         <a href="mechanic-4.html">Writing &amp; Story</a>
         <a href="mechanic-5.html">Character Art</a>
         <a href="../future-development.html">Future Development</a>
-        <a>Source Code (coming soon)</a>
+        <a href="https://github.com/goamek/for-justice-astryn-official/tree/main/src" target="_blank" rel="noopener">Source Code</a>
         <a href="../contact.html">Contact</a>
-        <a href="https://garrettoamek.itch.io/for-justice-astryn" class="nav__cta" target="_blank" rel="noopener">Play the Demo (coming soon)</a>
+        <a href="https://garrettoamek.itch.io/for-justice-astryn" class="nav__cta" target="_blank" rel="noopener">Play the Demo</a>
       </nav>
     </div>
   </header>
@@ -48,7 +56,7 @@
             <img class="detail__image" src="../assets/game/camerapositioningimage.png" alt="Battle camera framing a target in For Justice: Astryn">
           </div>
           <p>
-            Instead of a sprite arrow or highlight ring, the battle camera itself does the highlighting. It dollies in on whoever's turn it is the moment that turn starts, then reframes again on whoever's selected as you cycle through targets: cycling left or right during targeting pans the camera onto the new target using a fixed offset from their position, so anyone gets framed the same way no matter where they spawn on the field. Camera rotation never changes, only its position eases smoothly toward the target over about half a second. Confirming or canceling a target, or ending a turn, glides the camera back to its authored overview shot rather than cutting instantly, so the framing never feels jarring.
+            Instead of a sprite arrow or highlight ring, the battle camera itself does the highlighting. It dollies in on whoever's turn it is the moment that turn starts, then reframes again on whoever's selected as you cycle through targets: cycling left or right during targeting pans the camera onto the new target using a fixed offset from their position, so anyone gets framed the same way no matter where they spawn on the field. Camera rotation never changes, only its position eases smoothly toward the target over about half a second. Confirming a target glides the camera back to its authored overview shot rather than cutting instantly, so the framing never feels jarring, while canceling sends it back onto whoever is acting.
           </p>
           <p>
             Individual encounters can also override that default framing offset per target, so an unusually large boss doesn't end up cropped by the same offset used for a human-sized party member.
@@ -62,10 +70,10 @@
             <img class="detail__image" src="../assets/game/characterstatusimage.png" alt="Character status UI in For Justice: Astryn">
           </div>
           <p>
-            Two dedicated popups, both triggered by the same info input, let the player pull up more detail without leaving the flow of picking an action. While selecting a move, opening it brings up the Move Info popup: the move's name, a compact stat line (its type and category, plus power, accuracy, and crit chance for damaging moves, and MP cost for anything that isn't purely physical), a line of secondary effects, such as status chance, heal percentage, stat changes, cured statuses, or a note that it hits every combatant, that only appears when there's actually something to say, and its flavor text description. Closing the popup returns keyboard/gamepad focus to the exact move button that was open when it was opened, so navigating the move list never loses your place.
+            Two dedicated popups, each on its own input, let the player pull up more detail without leaving the flow of picking an action. While selecting a move, the info input (E, or Y on a gamepad) brings up the Move Info popup: the move's name, a compact stat line (its type and category, plus power, accuracy, and crit chance for damaging moves, and MP cost for anything that isn't purely physical), a line of secondary effects, such as status chance, heal percentage, stat changes, cured statuses, or a note that it hits every combatant, that only appears when there's actually something to say, and its flavor text description. Closing the popup returns keyboard/gamepad focus to the exact move button that was open when it was opened, so navigating the move list never loses your place.
           </p>
           <p>
-            While selecting a target, the same info input opens a different popup instead: the Target Info popup, showing that combatant's name, every stat stage currently buffed or debuffed (or a note that there are none), and every active status effect with its remaining turn count (or a note that none are active). This lets the player scout a target's current condition, such as whether they're already coated in water or buffed on defense, before committing to a move against them.
+            The character info input (C, or X on a gamepad) opens the Target Info popup instead, either for the acting party member during move selection or for whoever is being targeted. It shows the combatant's name, their type (party members only), every stat stage currently buffed or debuffed (or a note that there are none), and every active status effect with its remaining turns, such as "2 turns left" (or a note that none are active). This lets the player scout a target's current condition, such as whether they're already coated in water or buffed on defense, before committing to a move against them.
           </p>
         </div>
 
@@ -76,7 +84,7 @@
             <img class="detail__image" src="../assets/game/novdialogue2.png" alt="A branching dialogue choice with Novius in For Justice: Astryn">
           </div>
           <p>
-            Talking to someone in the open world starts with the interaction system. Any interactable NPC or object carries an invisible area that registers itself with a global interaction manager the moment the player's body enters it, and unregisters when they leave. Every frame, if the player is standing in one or more of those areas, the manager sorts them by distance and floats a "[E] to..." prompt above the closest one, with the verb read straight off that specific area, so the prompt always matches what's actually about to happen.
+            Talking to someone in the open world starts with the interaction system. Any interactable NPC or object carries an invisible area that registers itself with a global interaction manager the moment the player's body enters it, and unregisters when they leave. Every frame, if the player is standing in one or more of those areas, the manager sorts them by distance and floats an "[E / Gamepad A] to..." prompt above the closest one, with the verb read straight off that specific area, so the prompt always matches what's actually about to happen.
           </p>
           <p>
             Pressing interact hands off to that area's own interact function, locking out further interaction until it resolves, then unlocking again once any dialogue it kicked off has finished, tracked through Dialogue Manager's own start and end signals. The prompt only exists in free-roam, too: it explicitly hides itself during battle scenes, since party members reuse the same interaction-capable script even inside a fight, and it clears its own state on a scene change so a prompt someone was standing under when a scene swap fired, such as walking straight into a boss fight's trigger, doesn't linger into the next scene.
@@ -92,6 +100,37 @@
           </p>
           <p>
             Branching is handled by Dialogue Manager's own scripting: a line can read live game state, such as a quest-progress flag, to change what a character says, and player-facing choices route through a response menu that jumps to a different line depending on what's picked. Individual lines can also be tagged to auto-play a voice clip and advance once it finishes, or to auto-advance after a timed delay instead of waiting on player input.
+          </p>
+        </div>
+
+        <div class="detail__section">
+          <h2>Battle Interface</h2>
+          <div class="detail__image-row">
+            <img class="detail__image" src="../assets/game/damageimage.png" alt="The battle screen showing party HP and MP bars, the turn queue, a floating damage number, and the message box">
+          </div>
+          <p>
+            The battle screen keeps the player informed without crowding the camera. A turn queue display shows who acts next, with the current actor highlighted. Every party member gets a portrait with HP and MP bars and status badges, and the boss gets its own health bar once phase 2 begins. A battle message box queues combat text and waits on an advance prompt, and damage appears as floating numbers with MISS and CRIT! callouts. Short tutorial popups explain HP and MP, type matchups, status moves, and coatings the first time each one matters, once per session.
+          </p>
+        </div>
+
+        <div class="detail__section">
+          <h2>Controls</h2>
+          <ul class="bullet-list">
+            <li>Move: WASD or arrow keys</li>
+            <li>Interact: E or Gamepad A</li>
+            <li>Confirm: Enter, Space, or Gamepad A</li>
+            <li>Cancel: F or Gamepad B</li>
+            <li>Cycle targets: Left/Right or A/D</li>
+            <li>Move Info: E or Gamepad Y</li>
+            <li>Character Info: C or Gamepad X</li>
+            <li>Pause: Esc or Gamepad Start</li>
+          </ul>
+        </div>
+
+        <div class="detail__section">
+          <h2>Pause Menu &amp; Objectives</h2>
+          <p>
+            Pausing freezes the game and offers Resume, Controls, Objectives, and Main Menu, plus Quit Battle during practice fights. It isn't available on the main menu. In free roam, an objectives HUD tracks the current goal, from talking to people around the city and trying a practice battle, to talking to the team and finally the guards to start the duel. The duel itself only unlocks after the player has talked to all three teammates, and the HUD tucks itself away whenever the cinematic bars are up.
           </p>
         </div>
       </div>
@@ -116,7 +155,7 @@
       <p class="footer__brand">For Justice: <span>Astryn</span></p>
       <ul class="footer__links">
         <li><a href="https://garrettoamek.itch.io/for-justice-astryn" target="_blank" rel="noopener">itch.io</a></li>
-        <li><a>Source Code (coming soon)</a></li>
+        <li><a href="https://github.com/goamek/for-justice-astryn-official/tree/main/src" target="_blank" rel="noopener">Source Code</a></li>
         <li><a href="../contact.html">Contact</a></li>
       </ul>
       <p class="footer__copy">&copy; 2026 For Justice: Astryn. Built with Godot.</p>

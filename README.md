@@ -2,7 +2,7 @@
 
 This repo hosts the GitHub Page for For Justice Astryn and the source code.
 
-For Justice: Astryn has released version 1.0!
+The For Justice: Astryn demo is out now (version 1.0)!
 
 https://garrettoamek.itch.io/for-justice-astryn
 
