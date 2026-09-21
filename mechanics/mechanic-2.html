@@ -4,7 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enemy AI | For Justice: Astryn</title>
-  <meta name="description" content="How enemies think and react in combat in For Justice: Astryn (to be written).">
+  <meta name="description" content="How enemies think and react in combat in For Justice: Astryn.">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="For Justice: Astryn">
+  <meta property="og:title" content="Enemy AI | For Justice: Astryn">
+  <meta property="og:description" content="How enemies think and react in combat in For Justice: Astryn.">
+  <meta property="og:url" content="https://goamek.github.io/for-justice-astryn-official/mechanics/mechanic-2.html">
+  <meta property="og:image" content="https://goamek.github.io/for-justice-astryn-official/assets/game/hero-bg.png">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -48,14 +56,14 @@
         <div class="detail__section">
           <h2>How It Works</h2>
           <p>
-            Bosses don't run off a fixed script. Every turn, the AI scores its full move list against every valid target and picks from the strongest options rather than following a scripted rotation. It's a utility AI: each move/target pairing is rated across several weighted factors, combined into a single score, and then scaled by that move's accuracy, so a powerful move that's unlikely to land is worth less than a reliable one. This utility system is boss-specific; everything below describes how a boss thinks, not every enemy on the field.
+            Bosses don't run off a fixed script. Vorkoth's fight has two phases: in phase 1 (100 HP) he behaves like a normal enemy, and once he transforms, phase 2 (300 HP) hands control to the boss AI. On his first phase 2 turn he is forced to open with Smoke, and from then on, every turn, the AI scores its full move list against every valid target and picks from the strongest options rather than following a scripted rotation. It's a utility AI: each move/target pairing is rated across several weighted factors, combined into a single score, and then scaled by that move's accuracy, so a powerful move that's unlikely to land is worth less than a reliable one. This utility system is boss-specific; everything below describes how a boss thinks, not every enemy on the field.
           </p>
         </div>
 
         <div class="detail__section">
           <h2>Regular Enemies</h2>
           <p>
-            Boss encounters are the exception, not the rule. Every other enemy skips the scoring above entirely: it picks a uniformly random living party member to attack, with a uniformly random move from its own move list, no threat, health, or type awareness involved. It's a simple, currently placeholder system, marked as such in the code itself for now. The one rule it still shares with the boss AI is Taunt: if a party member is Taunting, targeting is forced onto them the same way it is for a boss.
+            Boss encounters are the exception, not the rule. Every other enemy, and Vorkoth himself during phase 1, skips the scoring above entirely: it picks a uniformly random living party member to attack, with a uniformly random move from its own move list, no threat, health, or type awareness involved. The one rule it still shares with the boss AI is Taunt: if a party member is Taunting, targeting is forced onto them the same way it is for a boss (with several taunters, a regular enemy picks one at random, while the boss picks by score).
           </p>
         </div>
 
@@ -68,21 +76,21 @@
             Those weights don't stay fixed. Once the boss drops below half of its max HP, its bucketing priority shifts to 80% attacking moves and only 20% status moves, so the second half of the fight is far more aggressive than the first. The boss stops setting up and starts trying to finish the party off.
           </p>
           <p>
-            Attacking moves are scored on four factors: Attack Desire (how much damage the move is likely to deal relative to the target's max HP), Threat (how dangerous that target's own stats look next to the boss's remaining HP), Health Desire (a curve that makes the boss lean more cautious the lower its own HP drops), and Defensive Desire (a similar pull toward safer options under pressure). These combine into a weighted score, with Attack Desire counting most, then get scaled by the move's accuracy. Status moves use a lighter model of their own: baseline credit for actually applying a status or hitting the whole field, a bonus if the target isn't already affected by anything, and a bonus if the target is below 35% HP. A stat-resetting move like Haze gets weighted heavily the instant a party member is sitting on a buff, so the boss reliably punishes stacked buffs instead of ignoring them.
+            Attacking moves are scored on four factors: Attack Desire (how much damage the move is likely to deal relative to the target's max HP), Threat (how dangerous that target's own stats look next to the boss's remaining HP), Health Desire (a curve that makes the boss lean more cautious the lower its own HP drops), and Defensive Desire (a similar pull toward safer options under pressure). These combine into a weighted score, with Attack Desire counting most, then get scaled by the move's accuracy. Status moves use a lighter model of their own: baseline credit for actually applying a status or hitting the whole field, a bonus if the target isn't already affected by anything, and a bonus if the target is at or below 35% HP, and a small penalty if the move's accuracy is low. A stat-resetting move like Smoke, which never misses, gets weighted heavily the instant a party member is sitting on a buff, so the boss reliably punishes stacked buffs instead of ignoring them.
           </p>
         </div>
 
         <div class="detail__section">
           <h2>Learning As It Fights</h2>
           <p>
-            The boss doesn't start a fight already knowing what a party member is weak or resistant to. It finds out the same way a player would: by landing hits and watching what happens. Every successful damaging attack feeds a per-target, per-type memory of whether that matchup came back weak, resisted, immune, or neutral, and anything unproven is treated as neutral until it's been tested. That memory is scoped to the current fight, so if the boss changes partway through an encounter, its learned matchups reset.
+            The boss isn't told anyone's typing up front, so it doesn't start a fight already knowing what a party member is weak or resistant to. It finds out the same way a player would: by landing hits and watching what happens. Every successful damaging attack feeds a per-target, per-type memory of whether that matchup came back weak, resisted, immune, or neutral, and anything unproven is treated as neutral until it's been tested. That memory is scoped to the current fight and carries through the phase transition. Since only phase 2 feeds it, the learning effectively begins once the boss AI takes over.
           </p>
         </div>
 
         <div class="detail__section">
           <h2>Staying Unpredictable</h2>
           <p>
-            Rather than always taking the single highest-scoring play, the boss ranks its top three move/target combinations and makes a weighted random pick among them, favoring the strongest option without being fully deterministic. There's one hard override to all of it: if a party member is Taunting, the boss is locked into targeting them, regardless of how any other target scores.
+            Rather than always taking the single highest-scoring play, the boss ranks its top three attack combinations (top two when it picks a status move) and makes a weighted random pick among them, favoring the strongest option without being fully deterministic. There's one hard override to all of it: if a party member is Taunting, the boss is locked into targeting them, regardless of how any other target scores.
           </p>
         </div>
       </div>
